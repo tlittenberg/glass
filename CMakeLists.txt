@@ -1,4 +1,4 @@
-# ldasoft
+# glass
 
 # This minimum version is mostly set in order to get a newer version
 # of the FindMPI check.  Note that you can easily install a newer cmake version
@@ -18,7 +18,7 @@ endforeach()
 # Set compiler
 set(CMAKE_C_COMPILER mpicc)
 
-project(ldasoft VERSION 1.0.0 LANGUAGES C)
+project(glass VERSION 2.0.0 LANGUAGES C)
 
 # External packages
 find_package(LAPACK REQUIRED)
