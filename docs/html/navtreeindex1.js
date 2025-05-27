@@ -1,6 +1,5 @@
 var NAVTREEINDEX1 =
 {
-"glass__ucb__catalog_8h.html#a01aee5f5a290122a3b6d745f7c35ec01":[3,0,3,0,2,7],
 "glass__ucb__catalog_8h.html#a2a143534fd0acd7c73cdf5195900e809":[3,0,3,0,2,2],
 "glass__ucb__catalog_8h.html#a3bbe6b39ae5f206d71241de63d5b073a":[3,0,3,0,2,5],
 "glass__ucb__catalog_8h.html#a625ab322f0f877b3c7fe7da8bb99618e":[3,0,3,0,2,6],
@@ -128,13 +127,13 @@ var NAVTREEINDEX1 =
 "glass__ucb__wrapper_8h.html#adcd6d3a28d27c6566bd9add6ddec281a":[3,0,1,0,1,2],
 "glass__ucb__wrapper_8h.html#ae2c8372b11cc8892a54862d1c8399c4a":[3,0,1,0,1,6],
 "glass__ucb__wrapper_8h_source.html":[3,0,1,0,1],
-"glass__utils_8h.html":[3,0,4,0,6],
-"glass__utils_8h.html#a229427ce20568d5e89d628d476f29e82":[3,0,4,0,6,1],
-"glass__utils_8h.html#ad1abf4fea56b32b722df998b187c70d2":[3,0,4,0,6,0],
-"glass__utils_8h_source.html":[3,0,4,0,6],
+"glass__utils_8h.html":[3,0,4,0,7],
+"glass__utils_8h.html#a229427ce20568d5e89d628d476f29e82":[3,0,4,0,7,1],
+"glass__utils_8h.html#ad1abf4fea56b32b722df998b187c70d2":[3,0,4,0,7,0],
+"glass__utils_8h_source.html":[3,0,4,0,7],
 "glass__vgb__wrapper_8h.html":[3,0,1,0,2],
 "glass__vgb__wrapper_8h_source.html":[3,0,1,0,2],
-"glass__wavelet_8h_source.html":[3,0,4,0,7],
+"glass__wavelet_8h_source.html":[3,0,4,0,8],
 "globalfit_8c.html":[3,0,1,0,3],
 "globals.html":[3,1,0],
 "globals.html":[3,1,0,0],
@@ -191,7 +190,7 @@ var NAVTREEINDEX1 =
 "noise__mcmc_8c.html":[3,0,0,0,1],
 "noise__spline__mcmc_8c.html":[3,0,0,0,2],
 "pages.html":[],
-"pix2ang_8h_source.html":[3,0,4,0,8],
+"pix2ang_8h_source.html":[3,0,4,0,9],
 "structCalibration.html":[2,0,0],
 "structCatalog.html":[2,0,1],
 "structCatalog.html#ac876761879da72eea5ddea2db7592f46":[2,0,1,1],
@@ -249,5 +248,6 @@ var NAVTREEINDEX1 =
 "structData.html#ab634a9fe8447ceeb5175886e5bc8d6fa":[2,0,4,16],
 "structData.html#abd3208e22c3348f0356e4c2f13f4ffc1":[2,0,4,4],
 "structData.html#ac4db839b05312ebbaf3a611c0fab1482":[2,0,4,32],
-"structData.html#ac91c45dac949a9be16be5751f1eb3695":[2,0,4,8]
+"structData.html#ac91c45dac949a9be16be5751f1eb3695":[2,0,4,8],
+"structData.html#ad3d0769680658f8358958bd6c3d58a54":[2,0,4,31]
 };

@@ -1,6 +1,5 @@
 var NAVTREEINDEX3 =
 {
-"structWavelets.html#a94e5b690fe5c1568da00d83dd8fafb18":[2,0,28,12],
 "structWavelets.html#aaa4dffad49137dce48f5afb43d858cd3":[2,0,28,1],
 "structWavelets.html#aaad4481d4054e5b4b5d2fc105d110197":[2,0,28,8],
 "structWavelets.html#abba46f3be55cb343fea83cf4bda580f2":[2,0,28,3],
@@ -10,12 +9,14 @@ var NAVTREEINDEX3 =
 "structWavelets.html#aea9e9ccf7e0961b552f3922094c5471a":[2,0,28,5],
 "structfreq__data.html":[2,0,9],
 "todo.html":[1],
+"ucb_2src_2gitversion_8h_source.html":[3,0,3,0,0],
 "ucb__catalog_8c.html":[3,0,0,0,3],
 "ucb__match_8c.html":[3,0,0,0,4],
 "ucb__mcmc_8c.html":[3,0,0,0,5],
 "ucb__mcmc_8c.html#a0ddf1224851353fc92bfbff6f499fa97":[3,0,0,0,5,0],
 "ucb__wavelet__mcmc_8c.html":[3,0,0,0,6],
 "ucb__wavelet__mcmc_8c.html#a0ddf1224851353fc92bfbff6f499fa97":[3,0,0,0,6,0],
+"utils_2src_2gitversion_8h_source.html":[3,0,4,0,0],
 "vgb__mcmc_8c.html":[3,0,0,0,7],
 "vgb__mcmc_8c.html#a0ddf1224851353fc92bfbff6f499fa97":[3,0,0,0,7,0]
 };

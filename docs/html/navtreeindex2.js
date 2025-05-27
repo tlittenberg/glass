@@ -1,6 +1,5 @@
 var NAVTREEINDEX2 =
 {
-"structData.html#ad3d0769680658f8358958bd6c3d58a54":[2,0,4,31],
 "structData.html#ad44b894b08062090b76441d16570bca3":[2,0,4,34],
 "structData.html#ad89c9b316266fa46dfd5b5b3897fcf6e":[2,0,4,9],
 "structData.html#ae0b4921e57b971170ecb83c234e3f0a8":[2,0,4,7],
@@ -249,5 +248,6 @@ var NAVTREEINDEX2 =
 "structWavelets.html#a20be7319d599fff001f27993511cce75":[2,0,28,0],
 "structWavelets.html#a85cb3cf91823ed21640556aa3c601f86":[2,0,28,2],
 "structWavelets.html#a8719fc34297a2818dd79531f5a9d83fb":[2,0,28,6],
-"structWavelets.html#a943607391889bde4e732faea611fe660":[2,0,28,4]
+"structWavelets.html#a943607391889bde4e732faea611fe660":[2,0,28,4],
+"structWavelets.html#a94e5b690fe5c1568da00d83dd8fafb18":[2,0,28,12]
 };
