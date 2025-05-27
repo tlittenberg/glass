@@ -46,7 +46,7 @@ tdir/src/*.png
 tdi/src/run.sh
 
 #documentation building
-docs/html
+#docs/html
 docs/latex
 
 
