@@ -23,6 +23,7 @@ var searchData=
   ['annealing_20',['annealing',['../structChain.html#a28f1eacb5d5ec1d2cb7a812400b50880',1,'Chain']]],
   ['append_5fsample_5fto_5fentry_21',['append_sample_to_entry',['../glass__ucb__catalog_8h.html#a677469f3320676d4b9675b551ae5d391',1,'glass_ucb_catalog.c']]],
   ['apply_5fcalibration_5fmodel_22',['apply_calibration_model',['../glass__ucb__model_8h.html#a0ea5f768d5e2549c7d915fb39d4983ac',1,'glass_ucb_model.c']]],
-  ['au_23',['AU',['../glass__constants_8h.html#ae992e5b7e1e6bc540e74aa4d3f63a269',1,'glass_constants.h']]],
-  ['avglogl_24',['avgLogL',['../structChain.html#a9210fc4b64295b2b14230f6c3891e32d',1,'Chain']]]
+  ['astropy_5fpix2ang_5fring_23',['astropy_pix2ang_ring',['../glass__utils_8h.html#a3ff72e2b2a99048f7cd4b1095274fa22',1,'glass_utils.c']]],
+  ['au_24',['AU',['../glass__constants_8h.html#ae992e5b7e1e6bc540e74aa4d3f63a269',1,'glass_constants.h']]],
+  ['avglogl_25',['avgLogL',['../structChain.html#a9210fc4b64295b2b14230f6c3891e32d',1,'Chain']]]
 ];

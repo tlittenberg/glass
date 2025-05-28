@@ -19,17 +19,6 @@
  \brief Main function for stand-alone Noise spline model sampler 
  */
 
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <math.h>
-#include <time.h>
-
-#include <sys/stat.h>
-
-#include <omp.h>
-
 #include <glass_utils.h>
 #include <glass_noise.h>
 

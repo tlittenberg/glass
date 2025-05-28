@@ -122,7 +122,6 @@ $(function(){initNavTree('glass__utils_8h.html',''); initResizable(true); });
 <code>#include &lt;hdf5.h&gt;</code><br />
 <code>#include &lt;omp.h&gt;</code><br />
 <code>#include &lt;lapacke.h&gt;</code><br />
-<code>#include &lt;kiss_fftr.h&gt;</code><br />
 <code>#include &lt;sys/stat.h&gt;</code><br />
 <code>#include &quot;<a class="el" href="glass__constants_8h_source.html">glass_constants.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="glass__lisa_8h_source.html">glass_lisa.h</a>&quot;</code><br />
@@ -130,13 +129,17 @@ $(function(){initNavTree('glass__utils_8h.html',''); initResizable(true); });
 <code>#include &quot;<a class="el" href="glass__data_8h_source.html">glass_data.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="glass__math_8h_source.html">glass_math.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="glass__gmm_8h_source.html">glass_gmm.h</a>&quot;</code><br />
-<code>#include &quot;pix2ang.h&quot;</code><br />
 <code>#include &quot;glass_galaxy.h&quot;</code><br />
+<code>#include &quot;../../external/kissfft/kiss_fftr.h&quot;</code><br />
+<code>#include &quot;../../external/astrometry/astrometry.h&quot;</code><br />
 </div>
 <p><a href="glass__utils_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:a3ff72e2b2a99048f7cd4b1095274fa22" id="r_a3ff72e2b2a99048f7cd4b1095274fa22"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3ff72e2b2a99048f7cd4b1095274fa22">astropy_pix2ang_ring</a> (int nside, long ipix, double *theta, double *phi)</td></tr>
+<tr class="memdesc:a3ff72e2b2a99048f7cd4b1095274fa22"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wrapper around the astrometry.net functions to match healpix's conventions.  <br /></td></tr>
+<tr class="separator:a3ff72e2b2a99048f7cd4b1095274fa22"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a229427ce20568d5e89d628d476f29e82" id="r_a229427ce20568d5e89d628d476f29e82"><td class="memItemLeft" align="right" valign="top"><a id="a229427ce20568d5e89d628d476f29e82" name="a229427ce20568d5e89d628d476f29e82"></a>
 double&#160;</td><td class="memItemRight" valign="bottom"><b>rand_r_U_0_1</b> (unsigned int *seed)</td></tr>
 <tr class="memdesc:a229427ce20568d5e89d628d476f29e82"><td class="mdescLeft">&#160;</td><td class="mdescRight">wrapper for rand_r() &ndash; threadsafe RNG for U[0,1] <br /></td></tr>
@@ -145,6 +148,7 @@ double&#160;</td><td class="memItemRight" valign="bottom"><b>rand_r_U_0_1</b> (u
 double&#160;</td><td class="memItemRight" valign="bottom"><b>rand_r_N_0_1</b> (unsigned int *seed)</td></tr>
 <tr class="memdesc:ad1abf4fea56b32b722df998b187c70d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Threadsafe RNG for N[0,1] using Marsaglia polar method. <br /></td></tr>
 <tr class="separator:ad1abf4fea56b32b722df998b187c70d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">basic memory handling</div></td></tr>
 <tr class="memitem:a942c2e09fe29362fc8d0f1d97a8898a0" id="r_a942c2e09fe29362fc8d0f1d97a8898a0"><td class="memItemLeft" align="right" valign="top"><a id="a942c2e09fe29362fc8d0f1d97a8898a0" name="a942c2e09fe29362fc8d0f1d97a8898a0"></a>
 int *&#160;</td><td class="memItemRight" valign="bottom"><b>int_vector</b> (int N)</td></tr>
 <tr class="separator:a942c2e09fe29362fc8d0f1d97a8898a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -184,7 +188,51 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>free_double_tensor</b
 <li>LISA constellation</li>
 <li>common math functions </li>
 </ul>
-</div></div><!-- contents -->
+</div><h2 class="groupheader">Function Documentation</h2>
+<a id="a3ff72e2b2a99048f7cd4b1095274fa22" name="a3ff72e2b2a99048f7cd4b1095274fa22"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3ff72e2b2a99048f7cd4b1095274fa22">&#9670;&#160;</a></span>astropy_pix2ang_ring()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void astropy_pix2ang_ring </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>nside</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">long</td>          <td class="paramname"><span class="paramname"><em>ipix</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double *</td>          <td class="paramname"><span class="paramname"><em>theta</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double *</td>          <td class="paramname"><span class="paramname"><em>phi</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Wrapper around the astrometry.net functions to match healpix's conventions. </p>
+<p>Based on astrometry.net and astropy-healpix <a href="https://github.com/astropy/astropy-healpix/tree/main">https://github.com/astropy/astropy-healpix/tree/main</a></p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">nside</td><td>size of healpix grid </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">ipix</td><td>index of pixel </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">theta</td><td>latitude of pixel </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">phi</td><td>longitude of pixel </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->

@@ -9,7 +9,6 @@ var annotated_dup =
     [ "Filter", "structFilter.html", null ],
     [ "Flags", "structFlags.html", "structFlags" ],
     [ "ForegroundModel", "structForegroundModel.html", "structForegroundModel" ],
-    [ "freq_data", "structfreq__data.html", null ],
     [ "GalaxyModulation", "structGalaxyModulation.html", null ],
     [ "GlobalFitData", "structGlobalFitData.html", null ],
     [ "GMM", "structGMM.html", null ],

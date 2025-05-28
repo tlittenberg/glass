@@ -24,8 +24,7 @@ var searchData=
   ['free_5forbit_21',['free_orbit',['../glass__lisa_8h.html#aa924cff641b421b8b8f2dc60c4ed4f31',1,'glass_lisa.c']]],
   ['free_5fspline_5fmodel_22',['free_spline_model',['../glass__noise__model_8h.html#af7f3384ab8c7443782bae5f08e99b969',1,'glass_noise_model.c']]],
   ['free_5ftdi_23',['free_tdi',['../glass__lisa_8h.html#aa4e5f3c8ba29dc1ab3589f9839c3fa5d',1,'glass_lisa.c']]],
-  ['freq_5fdata_24',['freq_data',['../structfreq__data.html',1,'']]],
-  ['frequency_5fsteps_25',['frequency_steps',['../structWavelets.html#aea9e9ccf7e0961b552f3922094c5471a',1,'Wavelets']]],
-  ['fstar_26',['fstar',['../structOrbit.html#aadd8dd23be8be3426db5736258fb4631',1,'Orbit']]],
-  ['function_27',['function',['../structProposal.html#ab8f80e0ea509dcf531feeb9d9bc5de63',1,'Proposal']]]
+  ['frequency_5fsteps_24',['frequency_steps',['../structWavelets.html#aea9e9ccf7e0961b552f3922094c5471a',1,'Wavelets']]],
+  ['fstar_25',['fstar',['../structOrbit.html#aadd8dd23be8be3426db5736258fb4631',1,'Orbit']]],
+  ['function_26',['function',['../structProposal.html#ab8f80e0ea509dcf531feeb9d9bc5de63',1,'Proposal']]]
 ];

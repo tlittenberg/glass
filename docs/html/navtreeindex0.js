@@ -67,6 +67,7 @@ var NAVTREEINDEX0 =
 "functions_z.html":[2,2,0,24],
 "gaussian__mixture__model_8c.html":[3,0,0,0,0],
 "gaussian__mixture__model_8c.html#a0ddf1224851353fc92bfbff6f499fa97":[3,0,0,0,0,0],
+"gitversion_8h_source.html":[3,0,4,0,0],
 "glass__constants_8h.html":[3,0,4,0,1],
 "glass__constants_8h.html#a2750dfdda752269a036f487a4a34b849":[3,0,4,0,1,7],
 "glass__constants_8h.html#a32a6b190d4d681e2af4c6ce998031557":[3,0,4,0,1,5],
@@ -246,8 +247,7 @@ var NAVTREEINDEX0 =
 "glass__noise__sampler_8h_source.html":[3,0,2,0,3],
 "glass__noise__wrapper_8h.html":[3,0,1,0,0],
 "glass__noise__wrapper_8h_source.html":[3,0,1,0,0],
-"glass__ucb_8h.html":[3,0,3,0,1],
-"glass__ucb_8h_source.html":[3,0,3,0,1],
-"glass__ucb__catalog_8h.html":[3,0,3,0,2],
-"glass__ucb__catalog_8h.html#a01aee5f5a290122a3b6d745f7c35ec01":[3,0,3,0,2,7]
+"glass__ucb_8h.html":[3,0,3,0,0],
+"glass__ucb_8h_source.html":[3,0,3,0,0],
+"glass__ucb__catalog_8h.html":[3,0,3,0,1]
 };

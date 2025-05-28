@@ -14,11 +14,6 @@
  * limitations under the License.
  */
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <math.h>
-#include <time.h>
-#include <string.h>
 #include <glass_utils.h>
 
 #define UCB_PER_SEGMENT 15

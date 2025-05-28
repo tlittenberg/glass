@@ -14,9 +14,6 @@
  * limitations under the License.
  */
 
-#include <stdio.h>
-#include <time.h>
-
 #include <glass_utils.h>
 #include <glass_ucb.h>
 #include <glass_noise.h>

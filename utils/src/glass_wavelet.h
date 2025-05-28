@@ -17,14 +17,6 @@
 #ifndef glass_wavelet_h
 #define glass_wavelet_h
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <time.h>
-#include <math.h>
-
-#include "glass_constants.h"
-
 #define WAVELET_FILTER_CONSTANT 4  // filter steepness in frequency
 #define REAL(z,i) ((z)[2*(i)])
 #define IMAG(z,i) ((z)[2*(i)+1])

@@ -21,17 +21,6 @@
 
 /*  REQUIRED LIBRARIES  */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <math.h>
-#include <time.h>
-#include <getopt.h>
-
-#include <sys/stat.h>
-
-#include <omp.h>
-
 #include <glass_utils.h>
 #include <glass_noise.h>
 #include <glass_ucb.h>

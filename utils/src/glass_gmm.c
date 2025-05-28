@@ -14,14 +14,6 @@
  * limitations under the License.
  */
 
-
-#include <stdlib.h>
-#include <stdio.h>
-#include <math.h>
-#include <time.h>
-#include <string.h>
-#include <getopt.h>
-
 #include "glass_utils.h"
 
 /*

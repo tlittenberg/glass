@@ -22,8 +22,6 @@
  \brief App for computing matches between UCB catalogs
  */
 
-#include <omp.h>
-
 #include <glass_utils.h>
 #include <glass_ucb.h>
 

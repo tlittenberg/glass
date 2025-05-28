@@ -15,7 +15,6 @@
  */
 
 #include "glass_utils.h"
-#include "../../external/astrometry/astrometry.h"
 
 double rand_r_U_0_1(unsigned int *seed)
 {

@@ -15,12 +15,6 @@
  */
 
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <math.h>
-#include <time.h>
-#include <string.h>
-
 #include <glass_utils.h>
 
 #define RAD2ARCMIN 3437.75

@@ -14,5 +14,6 @@ var searchData=
   ['analytic_5forbits_11',['analytic_orbits',['../glass__lisa_8h.html#ac1edd2c2913eb00c98fe9f12e7369ecb',1,'glass_lisa.c']]],
   ['analytic_5fsnr_12',['analytic_snr',['../glass__ucb__waveform_8h.html#a062f3109773fd2491fe4898a2df34562',1,'glass_ucb_waveform.c']]],
   ['append_5fsample_5fto_5fentry_13',['append_sample_to_entry',['../glass__ucb__catalog_8h.html#a677469f3320676d4b9675b551ae5d391',1,'glass_ucb_catalog.c']]],
-  ['apply_5fcalibration_5fmodel_14',['apply_calibration_model',['../glass__ucb__model_8h.html#a0ea5f768d5e2549c7d915fb39d4983ac',1,'glass_ucb_model.c']]]
+  ['apply_5fcalibration_5fmodel_14',['apply_calibration_model',['../glass__ucb__model_8h.html#a0ea5f768d5e2549c7d915fb39d4983ac',1,'glass_ucb_model.c']]],
+  ['astropy_5fpix2ang_5fring_15',['astropy_pix2ang_ring',['../glass__utils_8h.html#a3ff72e2b2a99048f7cd4b1095274fa22',1,'glass_utils.c']]]
 ];

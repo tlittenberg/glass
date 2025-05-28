@@ -109,7 +109,7 @@ $(function(){initNavTree('glass__utils_8h_source.html',''); initResizable(true);
 </div><!--header-->
 <div class="contents">
 <a href="glass__utils_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">/*</span></div>
-<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="comment"> * Copyright 2023 Tyson B. Littenberg</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="comment"> * Copyright 2023 Tyson B. Littenberg &amp; Robert Rosati</span></div>
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="comment"> *</span></div>
 <div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="comment"> * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span></div>
 <div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="comment"> * you may not use this file except in compliance with the License.</span></div>
@@ -138,47 +138,49 @@ $(function(){initNavTree('glass__utils_8h_source.html',''); initResizable(true);
 <div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span><span class="preprocessor">#include &lt;hdf5.h&gt;</span></div>
 <div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span><span class="preprocessor">#include &lt;omp.h&gt;</span></div>
 <div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span><span class="preprocessor">#include &lt;lapacke.h&gt;</span></div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span><span class="preprocessor">#include &lt;kiss_fftr.h&gt;</span></div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span> </div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span><span class="preprocessor">#include &lt;sys/stat.h&gt;</span></div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span> </div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span><span class="preprocessor">#include &quot;<a class="code" href="glass__constants_8h.html">glass_constants.h</a>&quot;</span></div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span><span class="preprocessor">#include &quot;<a class="code" href="glass__lisa_8h.html">glass_lisa.h</a>&quot;</span></div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span><span class="preprocessor">#include &quot;glass_wavelet.h&quot;</span></div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span><span class="preprocessor">#include &quot;<a class="code" href="glass__data_8h.html">glass_data.h</a>&quot;</span></div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span><span class="preprocessor">#include &quot;<a class="code" href="glass__math_8h.html">glass_math.h</a>&quot;</span></div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span><span class="preprocessor">#include &quot;<a class="code" href="glass__gmm_8h.html">glass_gmm.h</a>&quot;</span></div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span><span class="preprocessor">#include &quot;pix2ang.h&quot;</span></div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span><span class="preprocessor">#include &quot;glass_galaxy.h&quot;</span></div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span> </div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span><span class="keywordtype">double</span> <a class="code hl_function" href="glass__utils_8h.html#a229427ce20568d5e89d628d476f29e82">rand_r_U_0_1</a>(<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> *seed);</div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span> </div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span><span class="keywordtype">double</span> <a class="code hl_function" href="glass__utils_8h.html#ad1abf4fea56b32b722df998b187c70d2">rand_r_N_0_1</a>(<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> *seed);</div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span> </div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span> </div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span> </div>
-<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span><span class="keywordtype">int</span> *int_vector(<span class="keywordtype">int</span> N);</div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span><span class="keywordtype">void</span> free_int_vector(<span class="keywordtype">int</span> *v);</div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span> </div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span><span class="keywordtype">int</span> **int_matrix(<span class="keywordtype">int</span> N, <span class="keywordtype">int</span> M);</div>
-<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span><span class="keywordtype">void</span> free_int_matrix(<span class="keywordtype">int</span> **m, <span class="keywordtype">int</span> N);</div>
-<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span> </div>
-<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span><span class="keywordtype">double</span> *double_vector(<span class="keywordtype">int</span> N);</div>
-<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span><span class="keywordtype">void</span> free_double_vector(<span class="keywordtype">double</span> *v);</div>
-<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span> </div>
-<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span><span class="keywordtype">double</span> **double_matrix(<span class="keywordtype">int</span> N, <span class="keywordtype">int</span> M);</div>
-<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span><span class="keywordtype">void</span> free_double_matrix(<span class="keywordtype">double</span> **m, <span class="keywordtype">int</span> N);</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span> </div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span><span class="preprocessor">#include &lt;sys/stat.h&gt;</span></div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span> </div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span><span class="preprocessor">#include &quot;<a class="code" href="glass__constants_8h.html">glass_constants.h</a>&quot;</span></div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span><span class="preprocessor">#include &quot;<a class="code" href="glass__lisa_8h.html">glass_lisa.h</a>&quot;</span></div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span><span class="preprocessor">#include &quot;glass_wavelet.h&quot;</span></div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span><span class="preprocessor">#include &quot;<a class="code" href="glass__data_8h.html">glass_data.h</a>&quot;</span></div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span><span class="preprocessor">#include &quot;<a class="code" href="glass__math_8h.html">glass_math.h</a>&quot;</span></div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span><span class="preprocessor">#include &quot;<a class="code" href="glass__gmm_8h.html">glass_gmm.h</a>&quot;</span></div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span><span class="preprocessor">#include &quot;glass_galaxy.h&quot;</span></div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span> </div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span><span class="preprocessor">#include &quot;../../external/kissfft/kiss_fftr.h&quot;</span></div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span><span class="preprocessor">#include &quot;../../external/astrometry/astrometry.h&quot;</span></div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span> </div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span><span class="keywordtype">void</span> <a class="code hl_function" href="glass__utils_8h.html#a3ff72e2b2a99048f7cd4b1095274fa22">astropy_pix2ang_ring</a>(<span class="keywordtype">int</span> nside, <span class="keywordtype">long</span> ipix, <span class="keywordtype">double</span> *theta, <span class="keywordtype">double</span> *phi);</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span> </div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span><span class="keywordtype">double</span> <a class="code hl_function" href="glass__utils_8h.html#a229427ce20568d5e89d628d476f29e82">rand_r_U_0_1</a>(<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> *seed);</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span> </div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span><span class="keywordtype">double</span> <a class="code hl_function" href="glass__utils_8h.html#ad1abf4fea56b32b722df998b187c70d2">rand_r_N_0_1</a>(<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> *seed);</div>
 <div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span> </div>
-<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span><span class="keywordtype">double</span> ***double_tensor(<span class="keywordtype">int</span> N, <span class="keywordtype">int</span> M, <span class="keywordtype">int</span> L);</div>
-<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span><span class="keywordtype">void</span> free_double_tensor(<span class="keywordtype">double</span> ***t, <span class="keywordtype">int</span> N, <span class="keywordtype">int</span> M);</div>
-<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span> </div>
-<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span><span class="preprocessor">#endif </span><span class="comment">/* utils_h */</span><span class="preprocessor"></span></div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span><span class="keywordtype">int</span> *int_vector(<span class="keywordtype">int</span> N); </div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span><span class="keywordtype">void</span> free_int_vector(<span class="keywordtype">int</span> *v);</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span> </div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span><span class="keywordtype">int</span> **int_matrix(<span class="keywordtype">int</span> N, <span class="keywordtype">int</span> M);</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span><span class="keywordtype">void</span> free_int_matrix(<span class="keywordtype">int</span> **m, <span class="keywordtype">int</span> N);</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span> </div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span><span class="keywordtype">double</span> *double_vector(<span class="keywordtype">int</span> N);</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span><span class="keywordtype">void</span> free_double_vector(<span class="keywordtype">double</span> *v);</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span> </div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span><span class="keywordtype">double</span> **double_matrix(<span class="keywordtype">int</span> N, <span class="keywordtype">int</span> M);</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span><span class="keywordtype">void</span> free_double_matrix(<span class="keywordtype">double</span> **m, <span class="keywordtype">int</span> N);</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span> </div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span><span class="keywordtype">double</span> ***double_tensor(<span class="keywordtype">int</span> N, <span class="keywordtype">int</span> M, <span class="keywordtype">int</span> L);</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span><span class="keywordtype">void</span> free_double_tensor(<span class="keywordtype">double</span> ***t, <span class="keywordtype">int</span> N, <span class="keywordtype">int</span> M);</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span> </div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span><span class="preprocessor">#endif </span><span class="comment">/* utils_h */</span><span class="preprocessor"></span></div>
 <div class="ttc" id="aglass__constants_8h_html"><div class="ttname"><a href="glass__constants_8h.html">glass_constants.h</a></div><div class="ttdoc">Mathematical and physical constants.</div></div>
 <div class="ttc" id="aglass__data_8h_html"><div class="ttname"><a href="glass__data_8h.html">glass_data.h</a></div><div class="ttdoc">Definition of GLASS data structures.</div></div>
 <div class="ttc" id="aglass__gmm_8h_html"><div class="ttname"><a href="glass__gmm_8h.html">glass_gmm.h</a></div><div class="ttdoc">Library of functions for Gaussian Mixture Model fit to input data samples using Expectation-Maximizat...</div></div>
 <div class="ttc" id="aglass__lisa_8h_html"><div class="ttname"><a href="glass__lisa_8h.html">glass_lisa.h</a></div><div class="ttdoc">Codes defining LISA instrument model.</div></div>
 <div class="ttc" id="aglass__math_8h_html"><div class="ttname"><a href="glass__math_8h.html">glass_math.h</a></div><div class="ttdoc">Common math functions used throughout GLASS library.</div></div>
 <div class="ttc" id="aglass__utils_8h_html_a229427ce20568d5e89d628d476f29e82"><div class="ttname"><a href="glass__utils_8h.html#a229427ce20568d5e89d628d476f29e82">rand_r_U_0_1</a></div><div class="ttdeci">double rand_r_U_0_1(unsigned int *seed)</div><div class="ttdoc">wrapper for rand_r() – threadsafe RNG for U[0,1]</div><div class="ttdef"><b>Definition</b> glass_utils.c:19</div></div>
+<div class="ttc" id="aglass__utils_8h_html_a3ff72e2b2a99048f7cd4b1095274fa22"><div class="ttname"><a href="glass__utils_8h.html#a3ff72e2b2a99048f7cd4b1095274fa22">astropy_pix2ang_ring</a></div><div class="ttdeci">void astropy_pix2ang_ring(int nside, long ipix, double *theta, double *phi)</div><div class="ttdoc">Wrapper around the astrometry.net functions to match healpix's conventions.</div><div class="ttdef"><b>Definition</b> glass_utils.c:98</div></div>
 <div class="ttc" id="aglass__utils_8h_html_ad1abf4fea56b32b722df998b187c70d2"><div class="ttname"><a href="glass__utils_8h.html#ad1abf4fea56b32b722df998b187c70d2">rand_r_N_0_1</a></div><div class="ttdeci">double rand_r_N_0_1(unsigned int *seed)</div><div class="ttdoc">Threadsafe RNG for N[0,1] using Marsaglia polar method.</div><div class="ttdef"><b>Definition</b> glass_utils.c:24</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->

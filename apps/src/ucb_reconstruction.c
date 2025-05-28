@@ -19,14 +19,6 @@
 
 //gcc ucb_reconstruction.c -lm -lgsl -lgslcblas -lhdf5 -lomp -L/Users/tlittenb/ldasoft/master/lib -I/Users/tlittenb/ldasoft/master/include -lglass_utils -lglass_ucb -lglass_noise -o ucb_reconstruction
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <math.h>
-#include <time.h>
-#include <sys/stat.h>
-#include <getopt.h>
-
 #include <glass_utils.h>
 #include <glass_ucb.h>
 
