@@ -26,7 +26,6 @@ find_package(OpenBLAS REQUIRED)
 find_package(OpenMP REQUIRED)
 find_package(HDF5 REQUIRED)
 find_package(MPI REQUIRED)
-find_package(KISSFFT REQUIRED)
 
 # set cflags
 if(APPLE)
@@ -70,7 +69,6 @@ message(STATUS "Resolving GIT Version")
 set (GITVERSION "\"${_build_version}\"")
 
 # Internal products
-
 
 add_subdirectory(utils)
 add_subdirectory(ucb)

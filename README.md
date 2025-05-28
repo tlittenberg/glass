@@ -23,7 +23,6 @@ mpi
 hdf5
 openblas
 lapack
-kissfft
 ```
 # Installation
 

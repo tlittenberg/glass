@@ -22,6 +22,8 @@
 #ifndef math_h
 #define math_h
 
+#include "../../external/kissfft/kiss_fftr.h"
+
 struct CubicSpline
 {
     int N;       //!<Number of grid points to be interpolated

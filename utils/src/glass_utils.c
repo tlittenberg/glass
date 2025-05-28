@@ -15,6 +15,7 @@
  */
 
 #include "glass_utils.h"
+#include "../../external/astrometry/astrometry.h"
 
 double rand_r_U_0_1(unsigned int *seed)
 {
@@ -93,4 +94,11 @@ void free_double_tensor(double ***t, int N, int M)
 {
     for(int i=0; i<N; i++) free_double_matrix(t[i],M);
     free(t);
+}
+
+void astropy_pix2ang_ring(int nside, long ipix, double *theta, double *phi)
+{
+    int64_t xy = healpixl_ring_to_xy(ipix,nside);
+    healpixl_to_radec(xy,nside,0.5,0.5,phi,theta);
+    *theta = M_PI/2.0 - *theta;
 }

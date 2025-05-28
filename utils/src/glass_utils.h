@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 Tyson B. Littenberg
+ * Copyright 2023 Tyson B. Littenberg & Robert Rosati
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,7 +39,6 @@
 #include <hdf5.h>
 #include <omp.h>
 #include <lapacke.h>
-#include <kiss_fftr.h>
 
 #include <sys/stat.h>
 
@@ -49,8 +48,20 @@
 #include "glass_data.h"
 #include "glass_math.h"
 #include "glass_gmm.h"
-#include "pix2ang.h"
 #include "glass_galaxy.h"
+
+/**
+ \brief Wrapper around the astrometry.net functions to match healpix's conventions.
+ 
+ Based on astrometry.net and astropy-healpix
+ https://github.com/astropy/astropy-healpix/tree/main
+ 
+ \param[in] nside size of healpix grid
+ \param[in] ipix index of pixel
+ \param[out] theta latitude of pixel
+ \param[out] phi longitude of pixel
+ */
+void astropy_pix2ang_ring(int nside, long ipix, double *theta, double *phi);
 
 /**
 \brief wrapper for rand\_r() -- threadsafe RNG for U[0,1]
@@ -62,9 +73,9 @@ double rand_r_U_0_1(unsigned int *seed);
 */
 double rand_r_N_0_1(unsigned int *seed);
 
-
-
-int *int_vector(int N);
+/** @name basic memory handling */
+ ///@{
+int *int_vector(int N); 
 void free_int_vector(int *v);
 
 int **int_matrix(int N, int M);
@@ -78,5 +89,6 @@ void free_double_matrix(double **m, int N);
 
 double ***double_tensor(int N, int M, int L);
 void free_double_tensor(double ***t, int N, int M);
+///@]
 
 #endif /* utils_h */
