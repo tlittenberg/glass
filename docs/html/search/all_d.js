@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['n_0',['N',['../structData.html#a3be03de44986fc55905076acc5cdae2e',1,'Data::N'],['../structNoise.html#a5c9458b7311d279fff2261cc1aa37787',1,'Noise::N'],['../structTDI.html#a31100d0f3e6c6e4fb99e5c021ad0c60b',1,'TDI::N'],['../structCubicSpline.html#a1ae8b76ecfc16c37b3e2af676b8a98c8',1,'CubicSpline::N'],['../structCatalog.html#ac876761879da72eea5ddea2db7592f46',1,'Catalog::N']]],
+  ['n_0',['N',['../structData.html#a3be03de44986fc55905076acc5cdae2e',1,'Data::N'],['../structNoise.html#a5c9458b7311d279fff2261cc1aa37787',1,'Noise::N'],['../structGalaxyModulation.html#a9669fc01698e6da0c7c58202aac4f60b',1,'GalaxyModulation::N'],['../structTDI.html#a31100d0f3e6c6e4fb99e5c021ad0c60b',1,'TDI::N'],['../structCubicSpline.html#a1ae8b76ecfc16c37b3e2af676b8a98c8',1,'CubicSpline::N'],['../structCatalog.html#ac876761879da72eea5ddea2db7592f46',1,'Catalog::N']]],
   ['n_5ftable_1',['n_table',['../structWavelets.html#aaad4481d4054e5b4b5d2fc105d110197',1,'Wavelets']]],
   ['name_2',['name',['../structEntry.html#ab6f13dbd0968f87871ef2d33ba0a9458',1,'Entry::name'],['../structProposal.html#a51c23d0e80247b1e38f1c1470860e234',1,'Proposal::name']]],
   ['nburn_3',['NBURN',['../structFlags.html#a9e2550661ab2f8d07f622fac880b4647',1,'Flags']]],
@@ -42,9 +42,11 @@ var searchData=
   ['norm_39',['norm',['../structProposal.html#a91c51efbd6006aa8484de086ebca34ef',1,'Proposal']]],
   ['nparams_40',['Nparams',['../structForegroundModel.html#ad1074b0cbd2fffcfa11e0852940f213b',1,'ForegroundModel']]],
   ['nphi_41',['nphi',['../structPrior.html#a2b8b7ade7f208e199c4a94a0033cfb1f',1,'Prior']]],
-  ['nproc_42',['nProc',['../structNoiseData.html#acd98d3fd85d018040eefdd74212b2e03',1,'NoiseData::nProc'],['../structVGBData.html#aa82ea8ad4a0be2c352d165076ebc530d',1,'VGBData::nProc']]],
-  ['nseed_43',['nseed',['../structData.html#a243200d5af7b2ab0fb279301e2cf92d2',1,'Data']]],
-  ['nt_44',['NT',['../structWavelets.html#aea98c2c35640405502d7853977699b05',1,'Wavelets']]],
-  ['nvb_45',['NVB',['../structFlags.html#a737850ee891bda62d77b006096122eb1',1,'Flags']]],
-  ['nwave_46',['Nwave',['../structData.html#a2928c4204fcb0f5213ae9afb88d7ece1',1,'Data']]]
+  ['npix_42',['Npix',['../structGalaxyModulation.html#a367cd3e39bf5063e9b3bb2823da7e186',1,'GalaxyModulation']]],
+  ['nproc_43',['nProc',['../structNoiseData.html#acd98d3fd85d018040eefdd74212b2e03',1,'NoiseData::nProc'],['../structVGBData.html#aa82ea8ad4a0be2c352d165076ebc530d',1,'VGBData::nProc']]],
+  ['nseed_44',['nseed',['../structData.html#a243200d5af7b2ab0fb279301e2cf92d2',1,'Data']]],
+  ['nside_45',['NSIDE',['../glass__galaxy_8h.html#a3d77c69326672a5b98ff804d033846f1',1,'glass_galaxy.h']]],
+  ['nt_46',['NT',['../structWavelets.html#aea98c2c35640405502d7853977699b05',1,'Wavelets']]],
+  ['nvb_47',['NVB',['../structFlags.html#a737850ee891bda62d77b006096122eb1',1,'Flags']]],
+  ['nwave_48',['Nwave',['../structData.html#a2928c4204fcb0f5213ae9afb88d7ece1',1,'Data']]]
 ];

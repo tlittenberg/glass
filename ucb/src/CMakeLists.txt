@@ -6,12 +6,11 @@ add_library(glass_ucb STATIC glass_ucb_fstatistic.c glass_ucb_prior.c glass_ucb_
             glass_ucb_data.h glass_ucb_prior.h glass_ucb_proposal.h
             glass_ucb_fstatistic.h glass_ucb_catalog.h glass_ucb.h)
 
+include_directories ("${PROJECT_SOURCE_DIR}/external/")
 include_directories ("${PROJECT_SOURCE_DIR}/utils/src/")
 include_directories ("${PROJECT_SOURCE_DIR}/noise/src/")
 include_directories ("${PROJECT_SOURCE_DIR}/ucb/src/")
 include_directories(SYSTEM ${HDF5_INCLUDE_DIRS})
-target_link_libraries(glass_ucb m ${HDF5_LIBRARIES})
 
-install(TARGETS glass_ucb DESTINATION lib)
-install(DIRECTORY "./" DESTINATION include FILES_MATCHING PATTERN "*.h")
+install(DIRECTORY "./" DESTINATION include/glass FILES_MATCHING PATTERN "*.h")
 

@@ -1,7 +1,7 @@
 var searchData=
 [
   ['t_0',['T',['../structData.html#ae837768c48b47d8df3cd22dd53d383f3',1,'Data::T'],['../structTDI.html#a2ebd1424cb8b6aeaeb025214b8619d6b',1,'TDI::T']]],
-  ['t_1',['t',['../structOrbit.html#a66613255851cf4f4631f1fde59ea6cc3',1,'Orbit']]],
+  ['t_1',['t',['../structGalaxyModulation.html#ae62a055e7a1a9e862f47ef5761239382',1,'GalaxyModulation::t'],['../structOrbit.html#a66613255851cf4f4631f1fde59ea6cc3',1,'Orbit::t']]],
   ['t0_2',['t0',['../structData.html#a0bca9f778266aa455156ba1ced78f06c',1,'Data::t0'],['../structModel.html#a6eccafd1cf9860a5daf91a83a71e0bba',1,'Model::t0']]],
   ['table_3',['table',['../structWavelets.html#a94e5b690fe5c1568da00d83dd8fafb18',1,'Wavelets']]],
   ['tdi_4',['TDI',['../structTDI.html',1,'']]],

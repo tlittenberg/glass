@@ -3,7 +3,7 @@
 # This minimum version is mostly set in order to get a newer version
 # of the FindMPI check.  Note that you can easily install a newer cmake version
 # using conda or pip.
-cmake_minimum_required(VERSION 3.0.0 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.10.0 FATAL_ERROR)
 
 foreach(policy
     CMP0048
@@ -60,8 +60,7 @@ configure_file (
   "${PROJECT_SOURCE_DIR}/utils/src/gitversion.h"
   )
 
-install (FILES "${PROJECT_SOURCE_DIR}/utils/src/gitversion.h"
-         DESTINATION include)
+install (FILES "${PROJECT_SOURCE_DIR}/utils/src/gitversion.h" DESTINATION include/glass)
 
 message(STATUS "Resolving GIT Version")
 
@@ -69,9 +68,20 @@ message(STATUS "Resolving GIT Version")
 set (GITVERSION "\"${_build_version}\"")
 
 # Internal products
-
+add_subdirectory(external)
 add_subdirectory(utils)
 add_subdirectory(ucb)
 add_subdirectory(noise)
+
+# Merge into a single library
+add_library(glass
+        $<TARGET_OBJECTS:glass_external>
+        $<TARGET_OBJECTS:glass_utils>
+        $<TARGET_OBJECTS:glass_ucb>
+        $<TARGET_OBJECTS:glass_noise>
+)
+install(TARGETS glass DESTINATION lib)
+
+# Applications
 add_subdirectory(apps)
 add_subdirectory(globalfit)

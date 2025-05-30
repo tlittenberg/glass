@@ -111,12 +111,22 @@ $(function(){initNavTree('structGalaxyModulation.html',''); initResizable(true);
   <div class="headertitle"><div class="title">GalaxyModulation Struct Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Metadata for constructing modulated foreground noise.= *.  
+ <a href="#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="glass__galaxy_8h_source.html">glass_galaxy.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
 <tr class="memitem:a9669fc01698e6da0c7c58202aac4f60b" id="r_a9669fc01698e6da0c7c58202aac4f60b"><td class="memItemLeft" align="right" valign="top"><a id="a9669fc01698e6da0c7c58202aac4f60b" name="a9669fc01698e6da0c7c58202aac4f60b"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>N</b></td></tr>
+<tr class="memdesc:a9669fc01698e6da0c7c58202aac4f60b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Number of time samples of orbit. <br /></td></tr>
 <tr class="separator:a9669fc01698e6da0c7c58202aac4f60b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae62a055e7a1a9e862f47ef5761239382" id="r_ae62a055e7a1a9e862f47ef5761239382"><td class="memItemLeft" align="right" valign="top"><a id="ae62a055e7a1a9e862f47ef5761239382" name="ae62a055e7a1a9e862f47ef5761239382"></a>
+double *&#160;</td><td class="memItemRight" valign="bottom"><b>t</b></td></tr>
+<tr class="memdesc:ae62a055e7a1a9e862f47ef5761239382"><td class="mdescLeft">&#160;</td><td class="mdescRight">Time grid of orbit samples. <br /></td></tr>
+<tr class="separator:ae62a055e7a1a9e862f47ef5761239382"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaa9124d387de0388c6a53851b9d69c28" id="r_aaa9124d387de0388c6a53851b9d69c28"><td class="memItemLeft" align="right" valign="top"><a id="aaa9124d387de0388c6a53851b9d69c28" name="aaa9124d387de0388c6a53851b9d69c28"></a>
 double&#160;</td><td class="memItemRight" valign="bottom"><b>alpha_0</b></td></tr>
 <tr class="separator:aaa9124d387de0388c6a53851b9d69c28"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -162,38 +172,46 @@ double ***&#160;</td><td class="memItemRight" valign="bottom"><b>XZR</b></td></t
 <tr class="memitem:ac3bfe64230d93e849ebcf957c74e2f39" id="r_ac3bfe64230d93e849ebcf957c74e2f39"><td class="memItemLeft" align="right" valign="top"><a id="ac3bfe64230d93e849ebcf957c74e2f39" name="ac3bfe64230d93e849ebcf957c74e2f39"></a>
 double ***&#160;</td><td class="memItemRight" valign="bottom"><b>XZI</b></td></tr>
 <tr class="separator:ac3bfe64230d93e849ebcf957c74e2f39"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae62a055e7a1a9e862f47ef5761239382" id="r_ae62a055e7a1a9e862f47ef5761239382"><td class="memItemLeft" align="right" valign="top"><a id="ae62a055e7a1a9e862f47ef5761239382" name="ae62a055e7a1a9e862f47ef5761239382"></a>
-double *&#160;</td><td class="memItemRight" valign="bottom"><b>t</b></td></tr>
-<tr class="separator:ae62a055e7a1a9e862f47ef5761239382"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a09002c11b69813c8350beb89f2e8d77e" id="r_a09002c11b69813c8350beb89f2e8d77e"><td class="memItemLeft" align="right" valign="top"><a id="a09002c11b69813c8350beb89f2e8d77e" name="a09002c11b69813c8350beb89f2e8d77e"></a>
 struct <a class="el" href="structCubicSpline.html">CubicSpline</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>XX_spline</b></td></tr>
+<tr class="memdesc:a09002c11b69813c8350beb89f2e8d77e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Modulation in PSD of X channel. <br /></td></tr>
 <tr class="separator:a09002c11b69813c8350beb89f2e8d77e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a88aebb69175895ff7f006bcb91052f95" id="r_a88aebb69175895ff7f006bcb91052f95"><td class="memItemLeft" align="right" valign="top"><a id="a88aebb69175895ff7f006bcb91052f95" name="a88aebb69175895ff7f006bcb91052f95"></a>
 struct <a class="el" href="structCubicSpline.html">CubicSpline</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>YY_spline</b></td></tr>
+<tr class="memdesc:a88aebb69175895ff7f006bcb91052f95"><td class="mdescLeft">&#160;</td><td class="mdescRight">Modulation in PSD of Y channel. <br /></td></tr>
 <tr class="separator:a88aebb69175895ff7f006bcb91052f95"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a41bf8acdba9e53361196169d6db5808c" id="r_a41bf8acdba9e53361196169d6db5808c"><td class="memItemLeft" align="right" valign="top"><a id="a41bf8acdba9e53361196169d6db5808c" name="a41bf8acdba9e53361196169d6db5808c"></a>
 struct <a class="el" href="structCubicSpline.html">CubicSpline</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>ZZ_spline</b></td></tr>
+<tr class="memdesc:a41bf8acdba9e53361196169d6db5808c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Modulation in PSD of X channel. <br /></td></tr>
 <tr class="separator:a41bf8acdba9e53361196169d6db5808c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8509b7e880ec3ce9b2d22d8d58de20d1" id="r_a8509b7e880ec3ce9b2d22d8d58de20d1"><td class="memItemLeft" align="right" valign="top"><a id="a8509b7e880ec3ce9b2d22d8d58de20d1" name="a8509b7e880ec3ce9b2d22d8d58de20d1"></a>
 struct <a class="el" href="structCubicSpline.html">CubicSpline</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>XY_spline</b></td></tr>
+<tr class="memdesc:a8509b7e880ec3ce9b2d22d8d58de20d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Modulation in CSD of XY channels. <br /></td></tr>
 <tr class="separator:a8509b7e880ec3ce9b2d22d8d58de20d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af7b17d6d6712526484fcee25d381247e" id="r_af7b17d6d6712526484fcee25d381247e"><td class="memItemLeft" align="right" valign="top"><a id="af7b17d6d6712526484fcee25d381247e" name="af7b17d6d6712526484fcee25d381247e"></a>
 struct <a class="el" href="structCubicSpline.html">CubicSpline</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>XZ_spline</b></td></tr>
+<tr class="memdesc:af7b17d6d6712526484fcee25d381247e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Modulation in PSD of XZ channels. <br /></td></tr>
 <tr class="separator:af7b17d6d6712526484fcee25d381247e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a077904f85b9611e0d7dd80ff22d16450" id="r_a077904f85b9611e0d7dd80ff22d16450"><td class="memItemLeft" align="right" valign="top"><a id="a077904f85b9611e0d7dd80ff22d16450" name="a077904f85b9611e0d7dd80ff22d16450"></a>
 struct <a class="el" href="structCubicSpline.html">CubicSpline</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>YZ_spline</b></td></tr>
+<tr class="memdesc:a077904f85b9611e0d7dd80ff22d16450"><td class="mdescLeft">&#160;</td><td class="mdescRight">Modulation in PSD of YZ channels. <br /></td></tr>
 <tr class="separator:a077904f85b9611e0d7dd80ff22d16450"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a367cd3e39bf5063e9b3bb2823da7e186" id="r_a367cd3e39bf5063e9b3bb2823da7e186"><td class="memItemLeft" align="right" valign="top"><a id="a367cd3e39bf5063e9b3bb2823da7e186" name="a367cd3e39bf5063e9b3bb2823da7e186"></a>
 long&#160;</td><td class="memItemRight" valign="bottom"><b>Npix</b></td></tr>
+<tr class="memdesc:a367cd3e39bf5063e9b3bb2823da7e186"><td class="mdescLeft">&#160;</td><td class="mdescRight">Number of pixels on the healpix grid. <br /></td></tr>
 <tr class="separator:a367cd3e39bf5063e9b3bb2823da7e186"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4db79c52f355b3621c6962d8b1ad3a99" id="r_a4db79c52f355b3621c6962d8b1ad3a99"><td class="memItemLeft" align="right" valign="top"><a id="a4db79c52f355b3621c6962d8b1ad3a99" name="a4db79c52f355b3621c6962d8b1ad3a99"></a>
 double *&#160;</td><td class="memItemRight" valign="bottom"><b>skytheta</b></td></tr>
+<tr class="memdesc:a4db79c52f355b3621c6962d8b1ad3a99"><td class="mdescLeft">&#160;</td><td class="mdescRight">Latitude value of healpix grid pixels. <br /></td></tr>
 <tr class="separator:a4db79c52f355b3621c6962d8b1ad3a99"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab25e08bf36ccebccf1072d7dad5d88cb" id="r_ab25e08bf36ccebccf1072d7dad5d88cb"><td class="memItemLeft" align="right" valign="top"><a id="ab25e08bf36ccebccf1072d7dad5d88cb" name="ab25e08bf36ccebccf1072d7dad5d88cb"></a>
 double *&#160;</td><td class="memItemRight" valign="bottom"><b>skyphi</b></td></tr>
+<tr class="memdesc:ab25e08bf36ccebccf1072d7dad5d88cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Longitude value of healpix grid pixels. <br /></td></tr>
 <tr class="separator:ab25e08bf36ccebccf1072d7dad5d88cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<hr/>The documentation for this struct was generated from the following file:<ul>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Metadata for constructing modulated foreground noise.= *. </p>
+</div><hr/>The documentation for this struct was generated from the following file:<ul>
 <li>utils/src/<a class="el" href="glass__galaxy_8h_source.html">glass_galaxy.h</a></li>
 </ul>
 </div><!-- contents -->

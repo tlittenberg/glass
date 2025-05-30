@@ -16,12 +16,13 @@ var searchData=
   ['lisa_5ftdi_5fsangria_13',['LISA_tdi_Sangria',['../glass__lisa_8h.html#ae996f2ce8f625fbd3c15e554d70a5196',1,'glass_lisa.c']]],
   ['list_14',['Todo List',['../todo.html',1,'']]],
   ['list_15',['list',['../structModel.html#a67915e9b3146a49240f39e6f4b2014f2',1,'Model::list'],['../structSource.html#aa5264e300f278596b342a1720bda4554',1,'Source::list']]],
-  ['lmax_16',['lmax',['../structData.html#a3aca1b552bbcc5d31c013bdb22e8a076',1,'Data']]],
-  ['lmin_17',['lmin',['../structData.html#a5d16c23f8fffd30c6ba7539de0e5273d',1,'Data']]],
-  ['log_5flikelihood_18',['log_likelihood',['../glass__gmm_8h.html#a82096549b707d4e96c9442b1708dd8b0',1,'glass_gmm.c']]],
-  ['logl_19',['logL',['../structModel.html#aabf6d3b2b5933ce823b10d6dfcd93fd2',1,'Model::logL'],['../structSplineModel.html#a2fa3fd9668afe109d557ba0185c2e7e6',1,'SplineModel::logL'],['../structInstrumentModel.html#a7dce5305b586851254d5e2d031a1cc89',1,'InstrumentModel::logL'],['../structForegroundModel.html#aa9d242e3615e22c3f5e8f544db8f41da',1,'ForegroundModel::logL']]],
-  ['loglmax_20',['logLmax',['../structChain.html#a3a82adf15d17b2f06fb4d6bebbde667f',1,'Chain']]],
-  ['loglnorm_21',['logLnorm',['../structModel.html#ab8faeefe5487ef4ce6a25b6b597991ad',1,'Model']]],
-  ['logn_22',['logN',['../structData.html#ab634a9fe8447ceeb5175886e5bc8d6fa',1,'Data']]],
-  ['logpriorvolume_23',['logPriorVolume',['../structModel.html#a337d32ac51cef7213df1107d352c4c4b',1,'Model::logPriorVolume'],['../structPrior.html#ae12d3d2e05569e071324958d794bb2a7',1,'Prior::logPriorVolume']]]
+  ['lmax_16',['LMAX',['../glass__galaxy_8h.html#a5b086514f6963b35ee29bc954fc9b0f3',1,'glass_galaxy.h']]],
+  ['lmax_17',['lmax',['../structData.html#a3aca1b552bbcc5d31c013bdb22e8a076',1,'Data']]],
+  ['lmin_18',['lmin',['../structData.html#a5d16c23f8fffd30c6ba7539de0e5273d',1,'Data']]],
+  ['log_5flikelihood_19',['log_likelihood',['../glass__gmm_8h.html#a82096549b707d4e96c9442b1708dd8b0',1,'glass_gmm.c']]],
+  ['logl_20',['logL',['../structModel.html#aabf6d3b2b5933ce823b10d6dfcd93fd2',1,'Model::logL'],['../structSplineModel.html#a2fa3fd9668afe109d557ba0185c2e7e6',1,'SplineModel::logL'],['../structInstrumentModel.html#a7dce5305b586851254d5e2d031a1cc89',1,'InstrumentModel::logL'],['../structForegroundModel.html#aa9d242e3615e22c3f5e8f544db8f41da',1,'ForegroundModel::logL']]],
+  ['loglmax_21',['logLmax',['../structChain.html#a3a82adf15d17b2f06fb4d6bebbde667f',1,'Chain']]],
+  ['loglnorm_22',['logLnorm',['../structModel.html#ab8faeefe5487ef4ce6a25b6b597991ad',1,'Model']]],
+  ['logn_23',['logN',['../structData.html#ab634a9fe8447ceeb5175886e5bc8d6fa',1,'Data']]],
+  ['logpriorvolume_24',['logPriorVolume',['../structModel.html#a337d32ac51cef7213df1107d352c4c4b',1,'Model::logPriorVolume'],['../structPrior.html#ae12d3d2e05569e071324958d794bb2a7',1,'Prior::logPriorVolume']]]
 ];

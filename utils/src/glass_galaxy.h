@@ -14,6 +14,10 @@
  * limitations under the License.
  */
 
+/**
+@file glass_galaxy.h
+\brief Modulated astrophysical foreground noise from unresolved galactic binaries.
+*/
 
 ///@name Galaxy Parameters
 ///@{
@@ -26,9 +30,14 @@
 
 #define NSIDE 16 //!< Healpix resolution for galaxy modulation calculations
 #define LMAX 4   //!< Maximum l for spherical harmonic decomposition of galaxy modulation
+
+/*!
+ * \brief Metadata for constructing modulated foreground noise.= *
+ */
 struct GalaxyModulation
 {
-    int N;
+    int N;           //!<Number of time samples of orbit
+    double *t;       //!<Time grid of orbit samples
     double alpha_0;
     double alphamax;
     double ***Plm;
@@ -44,18 +53,17 @@ struct GalaxyModulation
     double ***YZI;
     double ***XZR;
     double ***XZI;
-    double *t;
 
-    struct CubicSpline *XX_spline;
-    struct CubicSpline *YY_spline;
-    struct CubicSpline *ZZ_spline;
-    struct CubicSpline *XY_spline;
-    struct CubicSpline *XZ_spline;
-    struct CubicSpline *YZ_spline;
+    struct CubicSpline *XX_spline; //!<Modulation in PSD of X channel
+    struct CubicSpline *YY_spline; //!<Modulation in PSD of Y channel
+    struct CubicSpline *ZZ_spline; //!<Modulation in PSD of X channel
+    struct CubicSpline *XY_spline; //!<Modulation in CSD of XY channels
+    struct CubicSpline *XZ_spline; //!<Modulation in PSD of XZ channels
+    struct CubicSpline *YZ_spline; //!<Modulation in PSD of YZ channels
 
-    long Npix;
-    double *skytheta;
-    double *skyphi;
+    long Npix;        //!<Number of pixels on the healpix grid
+    double *skytheta; //!<Latitude value of healpix grid pixels
+    double *skyphi;   //!<Longitude value of healpix grid pixels
 };
 
 double galaxy_distribution(double *x, double bulge_to_disk, double bulge_radius, double disk_radius, double disk_height);

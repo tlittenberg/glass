@@ -42,6 +42,9 @@
 
 #include <sys/stat.h>
 
+#include <astrometry/astrometry.h>
+#include <kissfft/kiss_fftr.h>
+
 #include "glass_constants.h"
 #include "glass_lisa.h"
 #include "glass_wavelet.h"
@@ -50,8 +53,6 @@
 #include "glass_gmm.h"
 #include "glass_galaxy.h"
 
-#include "../../external/kissfft/kiss_fftr.h"
-#include "../../external/astrometry/astrometry.h"
 
 /**
  \brief Wrapper around the astrometry.net functions to match healpix's conventions.
