@@ -57,7 +57,7 @@
 #define MSUN 1.98848e30
 
 //! Mass of the Sun \f$M_\odot G c^{-3}\f$ [s]
-#define TSUN  4.9255e-6
+#define TSUN  4.92569043916e-6
 
 //! Radius of the Sun \f$_\odot c^{-1}\f$ [s]
 #define RSUN 2.32060541029

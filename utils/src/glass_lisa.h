@@ -242,25 +242,28 @@ void LISA_tdi(double L, double fstar, double T, double ***d, double f0, long q, 
 void LISA_tdi_FF(double L, double fstar, double T, double ***d, double f0, long q, double *X, double *Y, double *Z, double *A, double *E, int BW, int NI);
 /// LISA TDI (LDC Sangria data)
 void LISA_tdi_Sangria(double L, double fstar, double T, double ***d, double f0, long q, double *X, double *Y, double *Z, double *A, double *E, int BW, int NI);
-void LISA_TDI_spline(double *M, double *Mf, int a, int b, int c, double* tarray, int n, struct CubicSpline *amp_spline, struct CubicSpline *phase_spline, double Aplus, double Across, double cos2psi, double sin2psi, double *App, double *Apm, double *Acp, double *Acm, double *kr, double *Larm);
 ///@}
 void LISA_polarization_tensor_njc(double costh, double phi, double eplus[4][4], double ecross[4][4], double k[4]);
 
 
 /**
- \brief Generic LISA response using interpolated signal phase and amplitude
+ \brief Generic LISA response using interpolated signal frequency or phase and amplitude
  
  @param[in] Orbit structure
  @param[in] tarray time array for response
  @param[in] N size of tarray
- @param[in] params signal parameters (need extrinsic for response)
+ @param[in] costheta cosine ecliptic co-latitude
+ @param[in] psi ecliptic longitude
+ @param[in] cosi cosine inclination
+ @param[in] psi polarization angle
  @param[in] amp_spline signal amplitude interpolant
+ @param[in] freq_spline signal frequency interpolant
  @param[in] phase_spline signal phase interpolant
- @param[in] acc interpolation acceleration
- @param[out] R TDI structure of Response
- @param[out] Rf TDI structure of Response with phase flipped
+ @param[in] phase_ref reference phase (i.e. fast part of waveform)
+ @param[out] amp TDI structure of amplitude response
+ @param[out] phase TDI structure of phase response
  */
-void LISA_spline_response(struct Orbit *orbit, double *tarray, int N, double *params,  struct CubicSpline *amp_spline, struct CubicSpline *phase_spline, struct TDI *R, struct TDI *Rf);
+void LISA_spline_response(struct Orbit *orbit, double *tarray, int N, double costh, double phi, double cosi, double psi, struct CubicSpline *amp_spline, struct CubicSpline *freq_spline, struct CubicSpline *phase_spline, double *phase_ref, struct TDI *tdi_amp, struct TDI *tdi_phase);
 
 
 /** @name  LISA Noise Model for equal arm, TDI1.5 configuration */
@@ -354,6 +357,8 @@ void LISA_detector_tensor(double L, double eplus[4][4], double ecross[4][4], dou
  @param[out] k unit vector to source location \f$\hat{k}\f$
  */
 void LISA_polarization_tensor(double costh, double phi, double eplus[4][4], double ecross[4][4], double k[4]);
+
+void LISA_detector_time(struct Orbit *orbit, double costh, double phi, double *time, int N,  double *time_sc);
 
 /**
  \brief Convert noise-orthogonal AET channels from Michelson-like XYZ channels

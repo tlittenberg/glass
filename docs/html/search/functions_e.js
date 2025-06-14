@@ -20,5 +20,6 @@ var searchData=
   ['spline_5fcoefficients_17',['spline_coefficients',['../glass__math_8h.html#a4bd6610ef8e1a58a6de67fb414c49e38',1,'glass_math.c']]],
   ['spline_5finterpolation_18',['spline_interpolation',['../glass__math_8h.html#a4bb2d6e5f88d4eaa515af8fbc9228ba9',1,'glass_math.c']]],
   ['spline_5fptmcmc_19',['spline_ptmcmc',['../glass__noise__sampler_8h.html#a4b437dfcc2bbb8aae74471fbe36c5d08',1,'glass_noise_sampler.c']]],
-  ['symmetric_5fdensity_20',['symmetric_density',['../glass__ucb__proposal_8h.html#a6411d0cd1ce0b0862365fa63ee9cd28f',1,'glass_ucb_proposal.c']]]
+  ['symmetric_5fdensity_20',['symmetric_density',['../glass__ucb__proposal_8h.html#a6411d0cd1ce0b0862365fa63ee9cd28f',1,'glass_ucb_proposal.c']]],
+  ['symmetric_5fmass_5fratio_21',['symmetric_mass_ratio',['../glass__math_8h.html#a3a22b5cf047831bcb6050b4278ef575d',1,'glass_math.c']]]
 ];

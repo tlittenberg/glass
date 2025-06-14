@@ -77,6 +77,7 @@ void spline_coefficients(struct CubicSpline *spline);
 double spline_interpolation(struct CubicSpline *spline, double x);
 double spline_interpolation_deriv(struct CubicSpline *spline, double x);
 double spline_interpolation_deriv2(struct CubicSpline *spline, double x);
+double spline_integration(struct CubicSpline *spline, double xi, double xf);
 
 /**
  \brief Analytic in-place inversion of noise covariance matrix
@@ -84,7 +85,6 @@ double spline_interpolation_deriv2(struct CubicSpline *spline, double x);
  Substitutes contents of noise->Cij[n] with inverse, and sets deteriminent noise->detC[n]
  */
 void invert_noise_covariance_matrix(struct Noise *noise);
-
 
 /**
 \brief Compute chirp mass from component masses
@@ -96,7 +96,29 @@ void invert_noise_covariance_matrix(struct Noise *noise);
 double chirpmass(double m1, double m2);
 
 /**
- \brief Compute GW amplitude from intrinsic parameters
+\brief Compute symmetric mass ratio of binary
+
+ @param Mchirp chirp mass \f$\mathcal{M}\f$ ( \f$ {\rm M}_\odot \f$ )
+ @param Mtotal total mass \f$ M \f$( \f$ {\rm M}_\odot \f$ )
+ @return \f$ \eta = \left( \frac{\mathcal{M}}{M} \right)^{5/3} \f$
+ */
+double symmetric_mass_ratio(double Mchirp, double Mtotal);
+
+/**
+\brief Compute component masses of binary
+ 
+ Uses symmetric mass ratio \f$ \eta \f$ to compute mass difference
+ \f$ \delta m = \sqrt{1-4\eta} \f$ such that \f$ m_{1,2}=M(1 \pm \delta m)/2\f$
+
+ @param[in] Mchirp chirp mass \f$\mathcal{M}\f$ ( \f$ {\rm M}_\odot \f$ )
+ @param[in] Mtotal total mass \f$ M \f$( \f$ {\rm M}_\odot \f$ )
+ @param[out] m1 primary mass \f$ m_1 \f$ ( \f$ {\rm M}_\odot \f$ )
+ @param[out] m2 secondary mass \f$ m_2 \f$( \f$ {\rm M}_\odot \f$ )
+ */
+void component_masses(double Mchirp, double Mtotal, double *m1, double *m2);
+
+/**
+\brief Compute GW amplitude from intrinsic parameters
  
  @param Mc chirp mass: \f$\mathcal{M}\ [{\rm M}_\odot]\f$
  @param f0 initial GW frequency: \f$ f_0\ [{\rm Hz}]\f$
@@ -105,8 +127,29 @@ double chirpmass(double m1, double m2);
  */
 double amplitude(double Mc, double f0, double D);
 
+/** 
+\brief Low PN approximation of current time given the frequency
+
+ @param Mchirp chirp mass \f$\mathcal{M}\f$ ( \f$ {\rm M}_\odot \f$ )
+ @param Mtotal total mass \f$ M \f$( \f$ {\rm M}_\odot \f$ )
+ @param tc coalesence time (s)
+ @param f gravitational wave frequency (Hz)
+ @return t current time (s)
+*/
+double post_newtonian_time(double Mchirp, double Mtotal, double tc, double f);
+
+/** 
+\brief Low PN approximation of gravitational wave frequency given time until coalesence
+
+ @param Mchirp chirp mass \f$\mathcal{M}\f$ ( \f$ {\rm M}_\odot \f$ )
+ @param tc coalesence time (s)
+ @param t current time (s)
+ @return f gravitational wave frequency (Hz)
+*/
+double post_newtonian_frequency(double Mchirp, double tc, double t);
+
 /**
-\brief Compute integer powers of by brute force multiplication
+\brief Compute integer powers of x by brute force multiplication
  
  Faster than pow() for small integers
   
@@ -351,6 +394,8 @@ void get_min_max(double *data, int N, double *min, double *max);
  @return \f$ I_x(a,b) \f$
  */
 double incomplete_beta_function(double a, double b, double x);
+
+void extract_amplitude_and_phase(int Ns, double *As, double *Dphi, double *M, double *Mf, double *phiR);
 
 #endif /* math_h */
 

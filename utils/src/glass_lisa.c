@@ -709,12 +709,40 @@ void LISA_tdi_Sangria(double L, double fstar, double T, double ***d, double f0, 
     }
 }
 
-
-static void interpolated_amplitude_phase(double t,  struct CubicSpline *amp_spline, struct CubicSpline *phase_spline, double Aplus, double Across, double cos2psi, double sin2psi,  double *hp, double *hc, double *hpf, double *hcf)
+void LISA_detector_time(struct Orbit *orbit, double costh, double phi, double *time, int N,  double *time_sc)
 {
-    double phase = spline_interpolation(phase_spline, t);
-    double amp   = spline_interpolation(amp_spline, t);
+    // sky location of source
+    double sinth, cosph, sinph;
     
+    // location of spacecraft 0
+    double r[3];
+    
+    //Calculate cos and sin of sky position
+    sinth = sqrt(1.0-costh*costh);
+    cosph = cos(phi);
+    sinph = sin(phi);
+    
+    //source propogation vector
+    double k[3] = {-sinth*cosph,-sinth*sinph,-costh};
+    
+    for(int n=0; n<N; n++)
+    {
+        
+        r[0] = spline_interpolation(orbit->dx[0],time[n])/CLIGHT;
+        r[1] = spline_interpolation(orbit->dy[0],time[n])/CLIGHT;
+        r[2] = spline_interpolation(orbit->dz[0],time[n])/CLIGHT;
+        
+        // k dot r_0
+        double kdotr = 0.0;
+        for(int i=0; i<3; i++) kdotr += k[i]*r[i];
+        
+        // shift time reference to spacecraft 0
+        time_sc[n] = time[n] - kdotr;
+    }
+}
+
+static void hplus_and_hcross(double t, double phase, double amp,  double Aplus, double Across, double cos2psi, double sin2psi,  double *hp, double *hc, double *hpf, double *hcf)
+{
     double cp = cos(phase);
     double sp = sin(phase);
 
@@ -725,66 +753,119 @@ static void interpolated_amplitude_phase(double t,  struct CubicSpline *amp_spli
     *hcf = amp * ( Across*cos2psi*cp + Aplus*sin2psi*sp  );              
 }
 
-void LISA_TDI_spline(double *M, double *Mf, int a, int b, int c, double* tarray, int n, struct CubicSpline *amp_spline, struct CubicSpline *phase_spline, double Aplus, double Across, double cos2psi, double sin2psi, double *App, double *Apm, double *Acp, double *Acm, double *kr, double *Larm)
+static void LISA_TDI_spline(double *M, double *Mf, int a, int b, int c, double* tarray, int n, struct CubicSpline *amp_spline, struct CubicSpline *freq_spline, struct CubicSpline *phase_spline, double Aplus, double Across, double cos2psi, double sin2psi, double *App, double *Apm, double *Acp, double *Acm, double *kr, double *Larm)
 {
-    double t, hp, hc, hpf, hcf;
+    double t, f, amp, phase;
+    double hp, hc, hpf, hcf;
 
     M[n] = 0.0;
     Mf[n] = 0.0;
     
-    //Larm[a] = Larm[b] = Larm[c] = LARM/CLIGHT;
-    
+    if(freq_spline) /* mbh */
+    {
+        amp = spline_interpolation(amp_spline,  tarray[n]);
+        f   = spline_interpolation(freq_spline, tarray[n]);
+    }
+
     t = tarray[n] - kr[a]-2.0*Larm[c]-2.0*Larm[b];
-    interpolated_amplitude_phase(t, amp_spline, phase_spline, Aplus, Across, cos2psi, sin2psi, &hp, &hc, &hpf, &hcf);
+    if(phase_spline) /* ucb */
+    {
+        amp   = spline_interpolation(amp_spline,   t);
+        phase = spline_interpolation(phase_spline, t);
+    }
+    if(freq_spline) phase = PI2*f*t; /* mbh */
+    hplus_and_hcross(t, phase, amp, Aplus, Across, cos2psi, sin2psi, &hp, &hc, &hpf, &hcf);
     M[n] += hp*Apm[b]+hc*Acm[b];
     M[n] -= hp*App[c]+hc*Acp[c];
     Mf[n] += hpf*Apm[b]+hcf*Acm[b];
     Mf[n] -= hpf*App[c]+hcf*Acp[c];
     
     t = tarray[n] - kr[b]-Larm[c]-2.0*Larm[b];
-    interpolated_amplitude_phase(t, amp_spline, phase_spline, Aplus, Across, cos2psi, sin2psi, &hp, &hc, &hpf, &hcf);
+    if(phase_spline) /* ucb */
+    {
+        amp   = spline_interpolation(amp_spline,   t);
+        phase = spline_interpolation(phase_spline, t);
+    }
+    if(freq_spline) phase = PI2*f*t; /* mbh */
+    hplus_and_hcross(t, phase, amp, Aplus, Across, cos2psi, sin2psi, &hp, &hc, &hpf, &hcf);
     M[n] -= hp*Apm[c]+hc*Acm[c];
     M[n] += hp*App[c]+hc*Acp[c];
     Mf[n] -= hpf*Apm[c]+hcf*Acm[c];
     Mf[n] += hpf*App[c]+hcf*Acp[c];
     
     t = tarray[n] - kr[c]-Larm[b]-2.0*Larm[c];
-    interpolated_amplitude_phase(t, amp_spline, phase_spline, Aplus, Across, cos2psi, sin2psi, &hp, &hc, &hpf, &hcf);
+    if(phase_spline) /* ucb */
+    {
+        amp   = spline_interpolation(amp_spline,   t);
+        phase = spline_interpolation(phase_spline, t);
+    }
+    if(freq_spline) phase = PI2*f*t; /* mbh */
+    hplus_and_hcross(t, phase, amp, Aplus, Across, cos2psi, sin2psi, &hp, &hc, &hpf, &hcf);
     M[n] += hp*App[b]+hc*Acp[b];
     M[n] -= hp*Apm[b]+hc*Acm[b];
     Mf[n] += hpf*App[b]+hcf*Acp[b];
     Mf[n] -= hpf*Apm[b]+hcf*Acm[b];
     
     t = tarray[n] - kr[a]-2.0*Larm[b];
-    interpolated_amplitude_phase(t, amp_spline, phase_spline, Aplus, Across, cos2psi, sin2psi, &hp, &hc, &hpf, &hcf);
+    if(phase_spline) /* ucb */
+    {
+        amp   = spline_interpolation(amp_spline,   t);
+        phase = spline_interpolation(phase_spline, t);
+    }
+    if(freq_spline) phase = PI2*f*t; /* mbh */
+    hplus_and_hcross(t, phase, amp, Aplus, Across, cos2psi, sin2psi, &hp, &hc, &hpf, &hcf);
     M[n] -= hp*Apm[b]+hc*Acm[b];
     M[n] += hp*Apm[c]+hc*Acm[c];
     Mf[n] -= hpf*Apm[b]+hcf*Acm[b];
     Mf[n] += hpf*Apm[c]+hcf*Acm[c];
     
     t = tarray[n] - kr[a]-2.0*Larm[c];
-    interpolated_amplitude_phase(t, amp_spline, phase_spline, Aplus, Across, cos2psi, sin2psi, &hp, &hc, &hpf, &hcf);
+    if(phase_spline) /* ucb */
+    {
+        amp   = spline_interpolation(amp_spline,   t);
+        phase = spline_interpolation(phase_spline, t);
+    }
+    if(freq_spline) phase = PI2*f*t; /* mbh */
+    hplus_and_hcross(t, phase, amp, Aplus, Across, cos2psi, sin2psi, &hp, &hc, &hpf, &hcf);
     M[n] += hp*App[c]+hc*Acp[c];
     M[n] -= hp*App[b]+hc*Acp[b];
     Mf[n] += hpf*App[c]+hcf*Acp[c];
     Mf[n] -= hpf*App[b]+hcf*Acp[b];
     
     t = tarray[n] - kr[c]- Larm[b];
-    interpolated_amplitude_phase(t, amp_spline, phase_spline, Aplus, Across, cos2psi, sin2psi, &hp, &hc, &hpf, &hcf);
+    if(phase_spline) /* ucb */
+    {
+        amp   = spline_interpolation(amp_spline,   t);
+        phase = spline_interpolation(phase_spline, t);
+    }
+    if(freq_spline) phase = PI2*f*t; /* mbh */
+    hplus_and_hcross(t, phase, amp, Aplus, Across, cos2psi, sin2psi, &hp, &hc, &hpf, &hcf);
     M[n] -= hp*App[b]+hc*Acp[b];
     M[n] += hp*Apm[b]+hc*Acm[b];
     Mf[n] -= hpf*App[b]+hcf*Acp[b];
     Mf[n] += hpf*Apm[b]+hcf*Acm[b];
     
     t = tarray[n] - kr[b]- Larm[c];
-    interpolated_amplitude_phase(t, amp_spline, phase_spline, Aplus, Across, cos2psi, sin2psi, &hp, &hc, &hpf, &hcf);
+    if(phase_spline) /* ucb */
+    {
+        amp   = spline_interpolation(amp_spline,   t);
+        phase = spline_interpolation(phase_spline, t);
+    }
+    if(freq_spline) phase = PI2*f*t; /* mbh */
+    hplus_and_hcross(t, phase, amp, Aplus, Across, cos2psi, sin2psi, &hp, &hc, &hpf, &hcf);
     M[n] += hp*Apm[c]+hc*Acm[c];
     M[n] -= hp*App[c]+hc*Acp[c];
     Mf[n] += hpf*Apm[c]+hcf*Acm[c];
     Mf[n] -= hpf*App[c]+hcf*Acp[c];
     
     t = tarray[n] - kr[a];
-    interpolated_amplitude_phase(t, amp_spline, phase_spline, Aplus, Across, cos2psi, sin2psi, &hp, &hc, &hpf, &hcf);
+    if(phase_spline) /* ucb */
+    {
+        amp   = spline_interpolation(amp_spline,   t);
+        phase = spline_interpolation(phase_spline, t);
+    }
+    if(freq_spline) phase = PI2*f*t; /* mbh */
+    hplus_and_hcross(t, phase, amp, Aplus, Across, cos2psi, sin2psi, &hp, &hc, &hpf, &hcf);
     M[n] -= hp*Apm[c]+hc*Acm[c];
     M[n] += hp*App[b]+hc*Acp[b];
     Mf[n] -= hpf*Apm[c]+hcf*Acm[c];
@@ -822,9 +903,15 @@ void LISA_polarization_tensor_njc(double costh, double phi, double eplus[4][4], 
 
 }
 
-void LISA_spline_response(struct Orbit *orbit, double *tarray, int N, double *params,  struct CubicSpline *amp_spline, struct CubicSpline *phase_spline, struct TDI *R, struct TDI *Rf)
+void LISA_spline_response(struct Orbit *orbit, double *tarray, int N, double costh, double phi, double cosi, double psi, struct CubicSpline *amp_spline, struct CubicSpline *freq_spline, struct CubicSpline *phase_spline, double *phase_ref, struct TDI *tdi_amp, struct TDI *tdi_phase)
 {
-    /* Unpack structures */
+    /* work space for TDI response */
+    struct TDI *R = malloc(sizeof(struct TDI));
+    struct TDI *Rf = malloc(sizeof(struct TDI)); //_f has a phase flip for building up the full response later?
+    alloc_tdi(R,N,3);
+    alloc_tdi(Rf,N,3);
+
+    /* aliases for TDI response */
     double *X = R->X;
     double *Y = R->Y;
     double *Z = R->Z;
@@ -842,8 +929,6 @@ void LISA_spline_response(struct Orbit *orbit, double *tarray, int N, double *pa
     /*   Polarization basis tensors   */
     double eplus[4][4], ecross[4][4];
     
-    double phi, cosi, psi;
-    double costh;
     double cos2psi, sin2psi;
     double t;
     double Aplus, Across;
@@ -855,11 +940,6 @@ void LISA_spline_response(struct Orbit *orbit, double *tarray, int N, double *pa
     Apm = malloc(sizeof(double)*3);
     Acp = malloc(sizeof(double)*3);
     Acm = malloc(sizeof(double)*3);
-
-    costh = params[1]; // costh
-    phi   = params[2]; // phi
-    cosi  = params[4]; // cosi
-    psi   = params[5]; // psi
     
     cos2psi = cos(2.*psi);  
     sin2psi = sin(2.*psi);
@@ -951,18 +1031,34 @@ void LISA_spline_response(struct Orbit *orbit, double *tarray, int N, double *pa
         }
         
         // build X, Y, Z responses
-        LISA_TDI_spline(X, Xf, 0, 1, 2, tarray, m, amp_spline, phase_spline, Aplus, Across, cos2psi, sin2psi, App, Apm, Acp, Acm, kdotr, L);
-        LISA_TDI_spline(Y, Yf, 1, 2, 0, tarray, m, amp_spline, phase_spline, Aplus, Across, cos2psi, sin2psi, App, Apm, Acp, Acm, kdotr, L);
-        LISA_TDI_spline(Z, Zf, 2, 0, 1, tarray, m, amp_spline, phase_spline, Aplus, Across, cos2psi, sin2psi, App, Apm, Acp, Acm, kdotr, L);
+        LISA_TDI_spline(X, Xf, 0, 1, 2, tarray, m, amp_spline, freq_spline, phase_spline, Aplus, Across, cos2psi, sin2psi, App, Apm, Acp, Acm, kdotr, L);
+        LISA_TDI_spline(Y, Yf, 1, 2, 0, tarray, m, amp_spline, freq_spline, phase_spline, Aplus, Across, cos2psi, sin2psi, App, Apm, Acp, Acm, kdotr, L);
+        LISA_TDI_spline(Z, Zf, 2, 0, 1, tarray, m, amp_spline, freq_spline, phase_spline, Aplus, Across, cos2psi, sin2psi, App, Apm, Acp, Acm, kdotr, L);
 
     }
     
-    free(App); 
+    /*
+    Separate TDI responses back into terms of phase and amplitude
+    */
+
+    //extract_amplitude_and_phase() is removing the carrier phase
+    extract_amplitude_and_phase(N, tdi_amp->X, tdi_phase->X, R->X, Rf->X, phase_ref);
+    extract_amplitude_and_phase(N, tdi_amp->Y, tdi_phase->Y, R->Y, Rf->Y, phase_ref);
+    extract_amplitude_and_phase(N, tdi_amp->Z, tdi_phase->Z, R->Z, Rf->Z, phase_ref);
+    
+    // remove any phase wraps
+    unwrap_phase(N, tdi_phase->X);
+    unwrap_phase(N, tdi_phase->Y);
+    unwrap_phase(N, tdi_phase->Z);
+    
+    free(App);
     free(Apm);
     free(Acp); 
     free(Acm);
+    
+    free_tdi(R);
+    free_tdi(Rf);
 
-    return;
 }
 
 /*

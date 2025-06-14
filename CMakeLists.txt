@@ -71,6 +71,7 @@ set (GITVERSION "\"${_build_version}\"")
 add_subdirectory(external)
 add_subdirectory(utils)
 add_subdirectory(ucb)
+add_subdirectory(mbh)
 add_subdirectory(noise)
 
 # Merge into a single library
@@ -78,6 +79,7 @@ add_library(glass
         $<TARGET_OBJECTS:glass_external>
         $<TARGET_OBJECTS:glass_utils>
         $<TARGET_OBJECTS:glass_ucb>
+        $<TARGET_OBJECTS:glass_mbh>
         $<TARGET_OBJECTS:glass_noise>
 )
 install(TARGETS glass DESTINATION lib)

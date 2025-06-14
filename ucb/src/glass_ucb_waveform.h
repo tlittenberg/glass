@@ -16,7 +16,7 @@
 
 /**
  @file glass_ucb_waveform.h
- \brief Functions for UCB waveform generation. 
+ \brief Ultra Compact Binary waveform generator. 
  */
 
 #ifndef ucb_waveform_h
@@ -109,9 +109,9 @@ double ucb_chirpmass(double f0, double dfdt);
  */
 double ucb_distance(double f0, double dfdt, double A);
 
-double ucb_phase(double t, double *params);
-double ucb_amplitude(double t, double *params);
-void ucb_barycenter_waveform(double *params, int N, double *times, double *phase, double *amp);
+double ucb_phase(double t, double *params, double T);
+double ucb_amplitude(double t, double *params, double T);
+void ucb_barycenter_waveform(double *params, int N, double *times, double *phase, double *amp, double T);
 
 /**
  \brief computes Fisher Information Matrix for UCB waveform parameters Source::params

@@ -154,6 +154,16 @@ double spline_interpolation_deriv2(struct CubicSpline *spline, double x)
     return 0.0;
 }
 
+double spline_integration(struct CubicSpline *spline, double xi, double xf)
+{
+    double xm = 0.5*(xf + xi);
+    double yi = spline_interpolation(spline, xi);
+    double ym = spline_interpolation(spline, xm);
+    double yf = spline_interpolation(spline, xf);
+    double dx = xf-xm;
+    return 2.0*simpson_integration_3(yi,ym,yf,dx); //TODO: check this factor of two w.r.t. simpson integration in other places
+}
+
 void invert_noise_covariance_matrix(struct Noise *noise)
 {
     int X,Y,Z,A,E;
@@ -209,6 +219,25 @@ double chirpmass(double m1, double m2)
     return pow(m1*m2,3./5.)/pow(m1+m2,1./5.);
 }
 
+double symmetric_mass_ratio(double Mchirp, double Mtotal)
+{
+    return pow((Mchirp/Mtotal), (5.0/3.0));
+}
+
+void component_masses(double Mchirp, double Mtotal, double *m1, double *m2)
+{
+    // reduced mass ratio
+    double eta = symmetric_mass_ratio(Mchirp, Mtotal);
+
+    // protect against pathological mass ratios
+    double dm;
+    if(eta > 0.25) dm = 0.0;
+    else dm = sqrt(1 - 4*eta);
+    
+    *m1 = Mtotal * (1 + dm)/2;
+    *m2 = Mtotal * (1 - dm)/2;
+}
+
 double amplitude(double Mc, double f0, double D)
 {
     double f = f0;;
@@ -216,6 +245,24 @@ double amplitude(double Mc, double f0, double D)
     double dL= D*PC/CLIGHT;
     
     return 2.*pow(pow(M,5)*pow(M_PI*f,2),1./3.)/dL;
+}
+
+
+double post_newtonian_frequency(double Mchirp, double tc, double t)
+{
+    return 0.9 * pow( (pow(Mchirp*TSUN,5./3.)*(tc-t)/5.0),-3./8.)/(8*M_PI);
+}
+
+double post_newtonian_time(double Mchirp, double Mtotal, double tc, double f)
+{
+    // low order PN estimate for t(f)    
+    double eta = symmetric_mass_ratio(Mchirp, Mtotal);
+    double v = pow((M_PI*Mtotal*TSUN*f),1.0/3.0);
+    double v2 = v*v;
+    double v4 = v2*v2;
+    double v8 = v4*v4;
+    
+    return tc - 5.0*Mtotal*TSUN/(256.0*eta*v8)*(1.0+(743.0/252.0+11.0*eta/3.0)*v2);
 }
 
 double power_spectrum(double *data, int n)
@@ -1007,4 +1054,70 @@ double incomplete_beta_function(double a, double b, double x)
     double F = hypergeometric_function(a, 1-b, a+1, x);
     double B = beta_function(a,b);
     return pow(x,a) * F / B / a;
+}
+
+void extract_amplitude_and_phase(int Ns, double *As, double *Dphi, double *M, double *Mf, double *phiR)
+{
+
+    int i;
+    double v;
+    double dA1, dA2, dA3;
+        
+    double *flip  = double_vector(Ns);
+    double *pjump = double_vector(Ns);
+    
+    
+    for(i=0; i<Ns ;i++)
+    {
+        As[i] = sqrt(M[i]*M[i]+Mf[i]*Mf[i]);
+    }
+    
+    // This catches sign flips in the amplitude. Can't catch flips at either end of array
+    flip[0]  = 1.0;
+    pjump[0] = 0.0;
+
+    i = 1;
+    do
+    {
+        flip[i] = flip[i-1];
+        pjump[i] = pjump[i-1];
+        
+        //local min
+        if((As[i] < As[i-1]) && (As[i] < As[i+1]))
+        {
+            dA1 =  As[i+1] + As[i-1] - 2.0*As[i];  // regular second derivative
+            dA2 = -As[i+1] + As[i-1] - 2.0*As[i];  // second derivative if i+1 first negative value
+            dA3 = -As[i+1] + As[i-1] + 2.0*As[i];  // second derivative if i first negative value
+
+            if(fabs(dA2/dA1) < 0.1)
+            {
+                flip[i+1]  = -1.0*flip[i];
+                pjump[i+1] = pjump[i]+M_PI;
+                i++; // skip an extra place since i+1 already dealt with
+            }
+            if(fabs(dA3/dA1) < 0.1)
+            {
+                flip[i]  = -1.0*flip[i-1];
+                pjump[i] = pjump[i-1]+M_PI;
+            }
+        }
+        
+        i++;
+        
+    }while(i < Ns-1);
+    
+    flip[Ns-1]  = flip[Ns-2];
+    pjump[Ns-1] = pjump[Ns-2];
+    
+    
+    for(i=0; i<Ns ;i++)
+    {
+        As[i] = flip[i]*As[i];
+        v = remainder(phiR[i], PI2);
+        Dphi[i] = -atan2(Mf[i],M[i])+pjump[i]-v;
+    }
+    
+    free_double_vector(flip);
+    free_double_vector(pjump);
+    
 }

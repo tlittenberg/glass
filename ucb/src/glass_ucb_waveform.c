@@ -284,11 +284,11 @@ double ucb_distance(double f0, double dfdt, double A)
     return ((5./48.)*(fd/(M_PI*M_PI*f*f*f*amp))*CLIGHT/PC); //seconds  !check notes on 02/28!
 }
 
-double ucb_phase(double t, double *params)
-{    
-    double f0    = params[0];
+double ucb_phase(double t, double *params, double T)
+{
+    double f0    = params[0]/T;
     double phi0  = params[6];
-    double fdot  = params[7];
+    double fdot  = params[7]/T/T;
     double fddot = 0.0;
     
     /*
@@ -298,21 +298,21 @@ double ucb_phase(double t, double *params)
     return -phi0 + PI2*( f0*t + 0.5*fdot*t*t + 1.0/6.0*fddot*t*t*t );
 }
 
-double ucb_amplitude(double t, double *params)
+double ucb_amplitude(double t, double *params, double T)
 {
-    double f0    = params[0];
-    double A0    = params[3];
-    double fdot  = params[7];
+    double f0    = params[0]/T;
+    double A0    = exp(params[3]);
+    double fdot  = params[7]/T/T;
 
     return A0 * ( 1.0 + 2.0/3.0*fdot/f0*t );
 }
 
-void ucb_barycenter_waveform(double *params, int N, double *times, double *phase, double *amp)
-{    
+void ucb_barycenter_waveform(double *params, int N, double *times, double *phase, double *amp, double T)
+{
     for(int n=0; n<N; n++)
     {
-        phase[n] = ucb_phase(times[n],params);
-        amp[n]   = ucb_amplitude(times[n],params);
+        phase[n] = ucb_phase(times[n],params, T);
+        amp[n]   = ucb_amplitude(times[n],params, T);
     }
 }
 
@@ -893,109 +893,6 @@ void ucb_waveform(struct Orbit *orbit, char *format, double T, double t0, double
     return;
 }
 
-static void extract_amplitude_and_phase(int Ns, double *As, double *Dphi, double *M, double *Mf, double *phiR)
-{
-
-    int i;
-    double v;
-    double dA1, dA2, dA3;
-        
-    double *flip  = double_vector(Ns);
-    double *pjump = double_vector(Ns);
-    
-    
-    for(i=0; i<Ns ;i++)
-    {
-        As[i] = sqrt(M[i]*M[i]+Mf[i]*Mf[i]);
-    }
-    
-    // This catches sign flips in the amplitude. Can't catch flips at either end of array
-    flip[0]  = 1.0;
-    pjump[0] = 0.0;
-
-    i = 1;
-    do
-    {
-        flip[i] = flip[i-1];
-        pjump[i] = pjump[i-1];
-        
-        //local min
-        if((As[i] < As[i-1]) && (As[i] < As[i+1]))
-        {
-            dA1 =  As[i+1] + As[i-1] - 2.0*As[i];  // regular second derivative
-            dA2 = -As[i+1] + As[i-1] - 2.0*As[i];  // second derivative if i+1 first negative value
-            dA3 = -As[i+1] + As[i-1] + 2.0*As[i];  // second derivative if i first negative value
-
-            if(fabs(dA2/dA1) < 0.1)
-            {
-                flip[i+1]  = -1.0*flip[i];
-                pjump[i+1] = pjump[i]+M_PI;
-                i++; // skip an extra place since i+1 already dealt with
-            }
-            if(fabs(dA3/dA1) < 0.1)
-            {
-                flip[i]  = -1.0*flip[i-1];
-                pjump[i] = pjump[i-1]+M_PI;
-            }
-        }
-        
-        i++;
-        
-    }while(i < Ns-1);
-    
-    flip[Ns-1]  = flip[Ns-2];
-    pjump[Ns-1] = pjump[Ns-2];
-    
-    
-    for(i=0; i<Ns ;i++)
-    {
-        As[i] = flip[i]*As[i];
-        v = remainder(phiR[i], 2.0*M_PI);
-        Dphi[i] = -atan2(Mf[i],M[i])+pjump[i]-v;
-    }
-    
-    free_double_vector(flip);
-    free_double_vector(pjump);
-    
-}
-
-
-static void detector_time(struct Orbit *orbit, double *params, double *time, int N,  double *time_sc)
-{
-    // sky location of source
-    double costh, phi, sinth, cosph, sinph;
-    
-    // location of spacecraft 0
-    double r[3];
-    
-    
-    costh = params[1]; // costh
-    phi   = params[2]; // phi
-    
-    //Calculate cos and sin of sky position
-    sinth = sqrt(1.0-costh*costh);
-    cosph = cos(phi);
-    sinph = sin(phi);
-    
-    //source propogation vector
-    double k[3] = {-sinth*cosph,-sinth*sinph,-costh};
-    
-    for(int n=0; n<N; n++)
-    {
-        
-        r[0] = spline_interpolation(orbit->dx[0],time[n])/CLIGHT;
-        r[1] = spline_interpolation(orbit->dy[0],time[n])/CLIGHT;
-        r[2] = spline_interpolation(orbit->dz[0],time[n])/CLIGHT;
-        
-        // k dot r_0
-        double kdotr = 0.0;
-        for(int i=0; i<3; i++) kdotr += k[i]*r[i];
-        
-        // shift time reference to spacecraft 0
-        time_sc[n] = time[n] - kdotr;
-    }
-}
-
 static void ucb_wavelet_layers(double Tobs, double *params, struct Wavelets *wdm, int *jstart, int *jwidth)
 {
     double fmin, fmax;
@@ -1050,26 +947,14 @@ void ucb_waveform_wavelet(struct Orbit *orbit, struct Wavelets *wdm, double Tobs
     
     // store time array for full data on orbit cadence
     for(int i=0; i< Nspline; i++) time_ssb[i] = t0 + i*dt;
-
-    // convert parameters
-    params[0] = params[0]/Tobs;
-    params[3] = exp(params[3]);
-    params[7] = params[7]/(Tobs*Tobs);
-    //params[8] = params[8]/(Tobs*Tobs*Tobs);
     
     //get ucb waveform on orbit grid
-    ucb_barycenter_waveform(params, Nspline, orbit->t, phase_ssb, amp_ssb);
+    ucb_barycenter_waveform(params, Nspline, orbit->t, phase_ssb, amp_ssb, Tobs);
     
     // get frequency layers containing signal
     int min_layer; //bottom layer
     int Nlayers;   //number of layers
     ucb_wavelet_layers(Tobs, params, wdm, &min_layer, &Nlayers);
-
-    // convert back
-    params[0] = params[0]*Tobs;
-    params[3] = log(params[3]);
-    params[7] = params[7]*(Tobs*Tobs);
-    //params[8] = params[8]*(Tobs*Tobs*Tobs);
     
     /*
     Get spline interpolant for SSB phase and amplitude
@@ -1087,7 +972,9 @@ void ucb_waveform_wavelet(struct Orbit *orbit, struct Wavelets *wdm, double Tobs
     double *time_sc  = double_vector(Nspline);
     
     // shift reference times from Barycenter to S/C 1
-    detector_time(orbit, params, time_ssb, Nspline, time_sc);
+    double costh = params[1];
+    double phi   = params[2];
+    LISA_detector_time(orbit, costh, phi, time_ssb, Nspline, time_sc);
     
     // get signal phase at S/C 1
     for(int i=0; i< Nspline; i++)
@@ -1115,7 +1002,7 @@ void ucb_waveform_wavelet(struct Orbit *orbit, struct Wavelets *wdm, double Tobs
     
     // shift reference times from Barycenter to spacecraft 0
     time_sc = double_vector(N_ds);
-    detector_time(orbit, params, time_ds, N_ds, time_sc);
+    LISA_detector_time(orbit, costh, phi, time_ds, N_ds, time_sc);
     
     for(int i=0; i<N_ds; i++)
         phase_ds[i] = spline_interpolation(phase_ssb_spline, time_sc[i]);
@@ -1124,32 +1011,18 @@ void ucb_waveform_wavelet(struct Orbit *orbit, struct Wavelets *wdm, double Tobs
 
     
     /*
-    Get TDI response for signal's SSB phase and amplitude on spline grid
-    */
-    struct TDI *response = malloc(sizeof(struct TDI));
-    struct TDI *response_f = malloc(sizeof(struct TDI)); //_f has a phase flip for building up the full response later?
-    alloc_tdi(response,Nspline,3);
-    alloc_tdi(response_f,Nspline,3);
-    LISA_spline_response(orbit, time_ssb, Nspline, params, amp_ssb_spline, phase_ssb_spline, response, response_f);
-
-    /*
-    Separate TDi responses back into terms of phase and amplitude
+    Get TDI responses back in terms of phase and amplitude
     */
     struct TDI *tdi_phase = malloc(sizeof(struct TDI));
     struct TDI *tdi_amp = malloc(sizeof(struct TDI));
     alloc_tdi(tdi_phase,Nspline,3);
     alloc_tdi(tdi_amp,Nspline,3);
 
-    //extract_amplitude_and_phase() is removing the carrier phase
-    extract_amplitude_and_phase(Nspline, tdi_amp->X, tdi_phase->X, response->X, response_f->X, phase_sc);
-    extract_amplitude_and_phase(Nspline, tdi_amp->Y, tdi_phase->Y, response->Y, response_f->Y, phase_sc);
-    extract_amplitude_and_phase(Nspline, tdi_amp->Z, tdi_phase->Z, response->Z, response_f->Z, phase_sc);
-    
-    // remove any phase wraps
-    unwrap_phase(Nspline, tdi_phase->X);
-    unwrap_phase(Nspline, tdi_phase->Y);
-    unwrap_phase(Nspline, tdi_phase->Z);
+    //extract remaining extrinsic parameters from UCB parameter vector
+    double cosi  = params[4];
+    double psi   = params[5]; 
 
+    LISA_spline_response(orbit, time_ssb, Nspline, costh, phi, cosi, psi, amp_ssb_spline, NULL, phase_ssb_spline, phase_sc, tdi_amp, tdi_phase);
 
     /*
     Interpolate amplitude and phase for instrument response of each TDI channel onto wavelet grid
@@ -1257,9 +1130,6 @@ void ucb_waveform_wavelet(struct Orbit *orbit, struct Wavelets *wdm, double Tobs
     free_double_vector(time_ds);
     free_double_vector(phase_het);
 
-    free_tdi(response);
-    free_tdi(response_f);
-
     free_tdi(tdi_phase);
     free_tdi(tdi_amp);
     free_tdi(wave);
@@ -1294,7 +1164,7 @@ void ucb_waveform_wavelet_tab(struct Orbit *orbit, struct Wavelets *wdm, double 
     params[7] = params[7]/(Tobs*Tobs);
     //params[8] = params[8]/(Tobs*Tobs*Tobs);
     
-    ucb_barycenter_waveform(params, Nspline, orbit->t, phase_ssb, amp_ssb);
+    ucb_barycenter_waveform(params, Nspline, orbit->t, phase_ssb, amp_ssb, Tobs);
     
     // convert back
     params[0] = params[0]*Tobs;
@@ -1339,29 +1209,17 @@ void ucb_waveform_wavelet_tab(struct Orbit *orbit, struct Wavelets *wdm, double 
     /*
     Get TDI response for signal's SSB phase and amplitude on spline grid
     */
-    struct TDI *response = malloc(sizeof(struct TDI));
-    struct TDI *response_f = malloc(sizeof(struct TDI)); //_f has a phase flip for building up the full response later?
-    alloc_tdi(response,Nspline,3);
-    alloc_tdi(response_f,Nspline,3);
-    LISA_spline_response(orbit, t, Nspline, params, amp_ssb_spline, phase_ssb_spline, response, response_f);
-
-    /*
-    Separate TDi responses back into terms of phase and amplitude
-    */
     struct TDI *tdi_phase = malloc(sizeof(struct TDI));
     struct TDI *tdi_amp = malloc(sizeof(struct TDI));
     alloc_tdi(tdi_phase,Nspline,3);
     alloc_tdi(tdi_amp,Nspline,3);
-
-    extract_amplitude_and_phase(Nspline, tdi_amp->X, tdi_phase->X, response->X, response_f->X, phase_ssb);
-    extract_amplitude_and_phase(Nspline, tdi_amp->Y, tdi_phase->Y, response->Y, response_f->Y, phase_ssb);
-    extract_amplitude_and_phase(Nspline, tdi_amp->Z, tdi_phase->Z, response->Z, response_f->Z, phase_ssb);
     
-    // remove any phase wraps
-    unwrap_phase(Nspline, tdi_phase->X);
-    unwrap_phase(Nspline, tdi_phase->Y);
-    unwrap_phase(Nspline, tdi_phase->Z);
+    double costh = params[1]; 
+    double phi   = params[2]; 
+    double cosi  = params[4]; 
+    double psi   = params[5]; 
 
+    LISA_spline_response(orbit, t, Nspline, costh, phi, cosi, psi, amp_ssb_spline, NULL, phase_ssb_spline, phase_ssb, tdi_amp, tdi_phase);
 
     /*
     Interpolate amplitude and phase for instrument response of each TDI channel onto wavelet grid
@@ -1459,9 +1317,6 @@ void ucb_waveform_wavelet_tab(struct Orbit *orbit, struct Wavelets *wdm, double 
     free(phase_wavelet_grid);
     free(freq_wavelet_grid);
     free(fdot_wavelet_grid);
-
-    free_tdi(response);
-    free_tdi(response_f);
 
     free_tdi(tdi_phase);
     free_tdi(tdi_amp);

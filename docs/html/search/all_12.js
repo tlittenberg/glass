@@ -50,5 +50,6 @@ var searchData=
   ['status_47',['status',['../structUCBData.html#abbfcd2abd5e0ce664714043c7fb78113',1,'UCBData']]],
   ['stepflag_48',['stepFlag',['../structEntry.html#a86f87243a6fb48a9169af3ffff0c9d70',1,'Entry']]],
   ['straindata_49',['strainData',['../structFlags.html#a0e7b06500d417cf52b290fecff8dcec7',1,'Flags']]],
-  ['symmetric_5fdensity_50',['symmetric_density',['../glass__ucb__proposal_8h.html#a6411d0cd1ce0b0862365fa63ee9cd28f',1,'glass_ucb_proposal.c']]]
+  ['symmetric_5fdensity_50',['symmetric_density',['../glass__ucb__proposal_8h.html#a6411d0cd1ce0b0862365fa63ee9cd28f',1,'glass_ucb_proposal.c']]],
+  ['symmetric_5fmass_5fratio_51',['symmetric_mass_ratio',['../glass__math_8h.html#a3a22b5cf047831bcb6050b4278ef575d',1,'glass_math.c']]]
 ];
