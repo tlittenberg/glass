@@ -188,9 +188,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>free_orbit</b> (struc
 <tr class="memitem:a052db7c0cb4fd3f8f9560ac65b2bfbef" id="r_a052db7c0cb4fd3f8f9560ac65b2bfbef"><td class="memItemLeft" align="right" valign="top"><a id="a052db7c0cb4fd3f8f9560ac65b2bfbef" name="a052db7c0cb4fd3f8f9560ac65b2bfbef"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>LISA_polarization_tensor_njc</b> (double costh, double phi, double eplus[4][4], double ecross[4][4], double k[4])</td></tr>
 <tr class="separator:a052db7c0cb4fd3f8f9560ac65b2bfbef"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af18c600c925d83bccc9a87157fff9793" id="r_af18c600c925d83bccc9a87157fff9793"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af18c600c925d83bccc9a87157fff9793">LISA_spline_response</a> (struct <a class="el" href="structOrbit.html">Orbit</a> *orbit, double *tarray, int N, double *params, struct <a class="el" href="structCubicSpline.html">CubicSpline</a> *amp_spline, struct <a class="el" href="structCubicSpline.html">CubicSpline</a> *phase_spline, struct <a class="el" href="structTDI.html">TDI</a> *R, struct <a class="el" href="structTDI.html">TDI</a> *Rf)</td></tr>
-<tr class="memdesc:af18c600c925d83bccc9a87157fff9793"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generic LISA response using interpolated signal phase and amplitude.  <br /></td></tr>
-<tr class="separator:af18c600c925d83bccc9a87157fff9793"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a20a3fcf5071fdd694fa893307739dfc1" id="r_a20a3fcf5071fdd694fa893307739dfc1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a20a3fcf5071fdd694fa893307739dfc1">LISA_spline_response</a> (struct <a class="el" href="structOrbit.html">Orbit</a> *orbit, double *tarray, int N, double costh, double phi, double cosi, double psi, struct <a class="el" href="structCubicSpline.html">CubicSpline</a> *amp_spline, struct <a class="el" href="structCubicSpline.html">CubicSpline</a> *freq_spline, struct <a class="el" href="structCubicSpline.html">CubicSpline</a> *phase_spline, double *phase_ref, struct <a class="el" href="structTDI.html">TDI</a> *tdi_amp, struct <a class="el" href="structTDI.html">TDI</a> *tdi_phase)</td></tr>
+<tr class="memdesc:a20a3fcf5071fdd694fa893307739dfc1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generic LISA response using interpolated signal frequency or phase and amplitude.  <br /></td></tr>
+<tr class="separator:a20a3fcf5071fdd694fa893307739dfc1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4f1df82ead428e2c111cd227a4ec7c9f" id="r_a4f1df82ead428e2c111cd227a4ec7c9f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4f1df82ead428e2c111cd227a4ec7c9f">test_noise_model</a> (struct <a class="el" href="structOrbit.html">Orbit</a> *orbit)</td></tr>
 <tr class="memdesc:a4f1df82ead428e2c111cd227a4ec7c9f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print full-spectrum noise model to compare against other models/documents.  <br /></td></tr>
 <tr class="separator:a4f1df82ead428e2c111cd227a4ec7c9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -206,6 +206,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>LISA_polarization_ten
 <tr class="memitem:a0b98294c2246953574561e239ffc221d" id="r_a0b98294c2246953574561e239ffc221d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0b98294c2246953574561e239ffc221d">LISA_polarization_tensor</a> (double costh, double phi, double eplus[4][4], double ecross[4][4], double k[4])</td></tr>
 <tr class="memdesc:a0b98294c2246953574561e239ffc221d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute LISA polarization tensor etc. based on source locations.  <br /></td></tr>
 <tr class="separator:a0b98294c2246953574561e239ffc221d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8503ff824ce37458caba44cabb07ebd8" id="r_a8503ff824ce37458caba44cabb07ebd8"><td class="memItemLeft" align="right" valign="top"><a id="a8503ff824ce37458caba44cabb07ebd8" name="a8503ff824ce37458caba44cabb07ebd8"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>LISA_detector_time</b> (struct <a class="el" href="structOrbit.html">Orbit</a> *orbit, double costh, double phi, double *time, int N, double *time_sc)</td></tr>
+<tr class="separator:a8503ff824ce37458caba44cabb07ebd8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af87c1316025f7a8c6272540f0675b5c4" id="r_af87c1316025f7a8c6272540f0675b5c4"><td class="memItemLeft" align="right" valign="top"><a id="af87c1316025f7a8c6272540f0675b5c4" name="af87c1316025f7a8c6272540f0675b5c4"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>XYZ2AE</b> (double X, double Y, double Z, double *A, double *E)</td></tr>
 <tr class="memdesc:af87c1316025f7a8c6272540f0675b5c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert noise-orthogonal AET channels from Michelson-like XYZ channels. <br /></td></tr>
@@ -244,9 +247,6 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>LISA_tdi_FF</b> (doub
 void&#160;</td><td class="memItemRight" valign="bottom"><b>LISA_tdi_Sangria</b> (double L, double fstar, double T, double ***d, double f0, long q, double *X, double *Y, double *Z, double *A, double *E, int BW, int NI)</td></tr>
 <tr class="memdesc:ae996f2ce8f625fbd3c15e554d70a5196"><td class="mdescLeft">&#160;</td><td class="mdescRight">LISA <a class="el" href="structTDI.html" title="Structure for Time Delay Interferometry data and metadata.">TDI</a> (LDC Sangria data) <br /></td></tr>
 <tr class="separator:ae996f2ce8f625fbd3c15e554d70a5196"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aafc18cc98f0d1040f606c5a952549329" id="r_aafc18cc98f0d1040f606c5a952549329"><td class="memItemLeft" align="right" valign="top"><a id="aafc18cc98f0d1040f606c5a952549329" name="aafc18cc98f0d1040f606c5a952549329"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>LISA_TDI_spline</b> (double *M, double *Mf, int a, int b, int c, double *tarray, int n, struct <a class="el" href="structCubicSpline.html">CubicSpline</a> *amp_spline, struct <a class="el" href="structCubicSpline.html">CubicSpline</a> *phase_spline, double Aplus, double Across, double cos2psi, double sin2psi, double *App, double *Apm, double *Acp, double *Acm, double *kr, double *Larm)</td></tr>
-<tr class="separator:aafc18cc98f0d1040f606c5a952549329"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr><td colspan="2"><div class="groupHeader">LISA Noise Model for equal arm, TDI1.5 configuration</div></td></tr>
 <tr class="memitem:a0e1b0789031fbfc03bb388ba546dfd62" id="r_a0e1b0789031fbfc03bb388ba546dfd62"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0e1b0789031fbfc03bb388ba546dfd62">get_noise_levels</a> (char model[], double f, double *Spm, double *Sop)</td></tr>
 <tr class="separator:a0e1b0789031fbfc03bb388ba546dfd62"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -652,8 +652,8 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>free_tdi</b> (struct 
 
 </div>
 </div>
-<a id="af18c600c925d83bccc9a87157fff9793" name="af18c600c925d83bccc9a87157fff9793"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af18c600c925d83bccc9a87157fff9793">&#9670;&#160;</a></span>LISA_spline_response()</h2>
+<a id="a20a3fcf5071fdd694fa893307739dfc1" name="a20a3fcf5071fdd694fa893307739dfc1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a20a3fcf5071fdd694fa893307739dfc1">&#9670;&#160;</a></span>LISA_spline_response()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -676,7 +676,22 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>free_tdi</b> (struct 
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">double *</td>          <td class="paramname"><span class="paramname"><em>params</em></span>, </td>
+          <td class="paramtype">double</td>          <td class="paramname"><span class="paramname"><em>costh</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double</td>          <td class="paramname"><span class="paramname"><em>phi</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double</td>          <td class="paramname"><span class="paramname"><em>cosi</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double</td>          <td class="paramname"><span class="paramname"><em>psi</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -686,33 +701,47 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>free_tdi</b> (struct 
         <tr>
           <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">struct <a class="el" href="structCubicSpline.html">CubicSpline</a> *</td>          <td class="paramname"><span class="paramname"><em>freq_spline</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype">struct <a class="el" href="structCubicSpline.html">CubicSpline</a> *</td>          <td class="paramname"><span class="paramname"><em>phase_spline</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">struct <a class="el" href="structTDI.html">TDI</a> *</td>          <td class="paramname"><span class="paramname"><em>R</em></span>, </td>
+          <td class="paramtype">double *</td>          <td class="paramname"><span class="paramname"><em>phase_ref</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">struct <a class="el" href="structTDI.html">TDI</a> *</td>          <td class="paramname"><span class="paramname"><em>Rf</em></span>&#160;)</td>
+          <td class="paramtype">struct <a class="el" href="structTDI.html">TDI</a> *</td>          <td class="paramname"><span class="paramname"><em>tdi_amp</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">struct <a class="el" href="structTDI.html">TDI</a> *</td>          <td class="paramname"><span class="paramname"><em>tdi_phase</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Generic LISA response using interpolated signal phase and amplitude. </p>
+<p>Generic LISA response using interpolated signal frequency or phase and amplitude. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname"><a class="el" href="structOrbit.html" title="Ephemerides of individual spacecraft and metadata for using orbits in waveform modeling.">Orbit</a></td><td>structure </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">tarray</td><td>time array for response </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">N</td><td>size of tarray </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">params</td><td>signal parameters (need extrinsic for response) </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">costheta</td><td>cosine ecliptic co-latitude </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">psi</td><td>ecliptic longitude </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">cosi</td><td>cosine inclination </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">psi</td><td>polarization angle </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">amp_spline</td><td>signal amplitude interpolant </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">freq_spline</td><td>signal frequency interpolant </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">phase_spline</td><td>signal phase interpolant </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">acc</td><td>interpolation acceleration </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">R</td><td><a class="el" href="structTDI.html" title="Structure for Time Delay Interferometry data and metadata.">TDI</a> structure of Response </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">Rf</td><td><a class="el" href="structTDI.html" title="Structure for Time Delay Interferometry data and metadata.">TDI</a> structure of Response with phase flipped </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">phase_ref</td><td>reference phase (i.e. fast part of waveform) </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">amp</td><td><a class="el" href="structTDI.html" title="Structure for Time Delay Interferometry data and metadata.">TDI</a> structure of amplitude response </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">phase</td><td><a class="el" href="structTDI.html" title="Structure for Time Delay Interferometry data and metadata.">TDI</a> structure of phase response </td></tr>
   </table>
   </dd>
 </dl>

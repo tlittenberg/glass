@@ -28,7 +28,7 @@ var glass__lisa_8h =
     [ "LISA_polarization_tensor", "glass__lisa_8h.html#a0b98294c2246953574561e239ffc221d", null ],
     [ "LISA_Read_HDF5_LDC_RADLER_TDI", "glass__lisa_8h.html#a7e1c7e0234def09b2f62aa24564f1f5f", null ],
     [ "LISA_Read_HDF5_LDC_TDI", "glass__lisa_8h.html#a03508a2f4a65a8d53f024a21d7d040d5", null ],
-    [ "LISA_spline_response", "glass__lisa_8h.html#af18c600c925d83bccc9a87157fff9793", null ],
+    [ "LISA_spline_response", "glass__lisa_8h.html#a20a3fcf5071fdd694fa893307739dfc1", null ],
     [ "LISA_tdi", "glass__lisa_8h.html#adb39f4927d5ec3f5ebfa9b20681460cf", null ],
     [ "LISA_tdi_FF", "glass__lisa_8h.html#ac29871bf15c692884e0fa34e533fe998", null ],
     [ "LISA_tdi_Sangria", "glass__lisa_8h.html#ae996f2ce8f625fbd3c15e554d70a5196", null ],

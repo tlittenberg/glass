@@ -16,7 +16,7 @@
 
 /**
  @file glass_ucb_waveform.h
- \brief Ultra Compact Binary waveform generator. 
+ \brief Ultra Compact Binary waveform generator.
  */
 
 #ifndef ucb_waveform_h
@@ -25,7 +25,7 @@
 #include <stdio.h>
 
 /**
-\brief Signal to noise ratio
+\brief Signal to noise ratio in frequency domain
   
  Calls nwip() to compute inner product of waveform with itself summed over all frequencies and data channels `I`. If 4-link data, use single TDI channel `I` = `X`. If 6-link, use `I` = {`A`, `E`}
  
@@ -34,6 +34,11 @@
  @return \f$\rho =  \sqrt{\sum_I (h_I|h_I)} \f$
  */
 double snr(struct Source *source, struct Noise *noise);
+
+/**
+ \brief Signal to noise ratio in wavelet domain
+ @see snr()
+ */
 double snr_wavelet(struct Source *source, struct Noise *noise);
 
 /**
@@ -69,6 +74,11 @@ double snr_prior(double SNR);
  @return \f$  M = \frac{(h_a|h_b)}{\sqrt{(h_a|h_a)+(h_b|h_b)}} \f$
  */
 double waveform_match(struct Source *a, struct Source *b, struct Noise *noise);
+
+/**
+\brief Compute match between waveforms in wavelet domain
+ @see waveform_match()
+ */
 double waveform_match_wavelet(struct Source *a, struct Source *b, struct Noise *noise);
 
 /**
@@ -109,8 +119,36 @@ double ucb_chirpmass(double f0, double dfdt);
  */
 double ucb_distance(double f0, double dfdt, double A);
 
+/**
+ \brief Compute UCB phase at given time
+ 
+ @param t time (s)
+ @param params[] source parameters
+ @param T total observation time (s)
+ @return \f$ \Phi = \varphi_0 + 2\pi\left( f_0 t + \frac{1}{2}\dot{f}t^2 + \frac{1}{6} \ddot{f}t^3 \right) \f$
+ */
 double ucb_phase(double t, double *params, double T);
+
+/**
+ \brief Compute UCB amplitude at given time
+ 
+ @param t time (s)
+ @param params[] source parameters
+ @param T total observation time (s)
+ @return \f$ A = A_0\left( 1 + \frac{2}{3}\frac{\dot{f}}{f_0}t \right) \f$
+ */
 double ucb_amplitude(double t, double *params, double T);
+
+/**
+ \brief Compute UCB time-dependent phase and amplitude
+ 
+ @param[in] params[] source parameters
+ @param[in] N number of time samples
+ @param[in] times time grid for phase and amplitude calculation
+ @param[out] phase array of \f$ \Phi(t) \f$
+ @param[out] phase amp of \f$ A(t) \f$
+ @param[in] T total observation time (s)
+ */
 void ucb_barycenter_waveform(double *params, int N, double *times, double *phase, double *amp, double T);
 
 /**
@@ -127,6 +165,11 @@ void ucb_barycenter_waveform(double *params, int N, double *times, double *phase
  @param[out] Source::fisher_evalue
  */
 void ucb_fisher(struct Orbit *orbit, struct Data *data, struct Source *source, struct Noise *noise);
+
+/**
+ \brief computes Fisher Information Matrix for UCB waveform parameters Source::params in wavelet domain
+ @see ucb_fisher()
+ */
 void ucb_fisher_wavelet(struct Orbit *orbit, struct Data *data, struct Source *source, struct Noise *noise);
 
 /**
@@ -161,7 +204,7 @@ int ucb_bandwidth(double L, double fstar, double f, double fdot, double costheta
 /**
  \brief Galactic binary waveform generator using fast-slow decomposition first described in <a href="https://journals.aps.org/prd/abstract/10.1103/PhysRevD.76.083006">Cornish and Littenberg, PRD 76, 083006</a>.
 
- Computes the frequency domain TDI response to a circular, slowly evolving, binary with parameters params.  The detector geometry is defined in Orbit.  The format of the TDI data, either "phase", "frequency", or "sangria", is specified by format.  The TDI response is defined in LISA_tdi() (phase), LISA_tdi_FF() (frequency), or LISA_tdi_Sangria() (frequency circa LDC2.1).
+ Computes the frequency domain TDI response to a circular, slowly evolving, binary with parameters \p params.  The detector geometry is defined in \p Orbit.  The format of the TDI data, either "phase", "frequency", or "sangria", is specified by format.  The TDI response is defined in LISA_tdi() (phase), LISA_tdi_FF() (frequency), or LISA_tdi_Sangria() (frequency circa LDC2.1).
  
  The TDI response is returned for the Michelson-like channels (XYZ), or the two orthogonal channels A and E.  The T channel is practically a noise-only channel at typical UCB frequencies and is therefore neglected.
  
@@ -203,6 +246,11 @@ void ucb_waveform(struct Orbit *orbit, char *format, double T, double t0, double
  @param[out] X,Y,Z wavelet domain TDI channels
  */
 void ucb_waveform_wavelet(struct Orbit *orbit, struct Wavelets *wdm, double Tobs, double t0, double *params, int *wavelet_list, int *Nwavelet, double *X, double *Y, double *Z);
+
+/**
+ * @brief Wavelet domain UCB waveform using lookup table transform.
+ * @see ucb_waveform_wavelet()
+ */
 void ucb_waveform_wavelet_tab(struct Orbit *orbit, struct Wavelets *wdm, double Tobs, double t0, double *params, int *wavelet_list, int *Nwavelet, double *X, double *Y, double *Z);
 
 

@@ -111,7 +111,7 @@ $(function(){initNavTree('glass__ucb__waveform_8h.html',''); initResizable(true)
 </div><!--header-->
 <div class="contents">
 
-<p>Functions for UCB waveform generation.  
+<p>Ultra Compact Binary waveform generator.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;stdio.h&gt;</code><br />
 </div>
@@ -120,10 +120,10 @@ $(function(){initNavTree('glass__ucb__waveform_8h.html',''); initResizable(true)
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:a1db00b5097458e1b94e9b2a5ba28a967" id="r_a1db00b5097458e1b94e9b2a5ba28a967"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1db00b5097458e1b94e9b2a5ba28a967">snr</a> (struct <a class="el" href="structSource.html">Source</a> *source, struct <a class="el" href="structNoise.html">Noise</a> *noise)</td></tr>
-<tr class="memdesc:a1db00b5097458e1b94e9b2a5ba28a967"><td class="mdescLeft">&#160;</td><td class="mdescRight">Signal to noise ratio.  <br /></td></tr>
+<tr class="memdesc:a1db00b5097458e1b94e9b2a5ba28a967"><td class="mdescLeft">&#160;</td><td class="mdescRight">Signal to noise ratio in frequency domain.  <br /></td></tr>
 <tr class="separator:a1db00b5097458e1b94e9b2a5ba28a967"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae88cd2f0ec60f173e95b997daad2ceac" id="r_ae88cd2f0ec60f173e95b997daad2ceac"><td class="memItemLeft" align="right" valign="top"><a id="ae88cd2f0ec60f173e95b997daad2ceac" name="ae88cd2f0ec60f173e95b997daad2ceac"></a>
-double&#160;</td><td class="memItemRight" valign="bottom"><b>snr_wavelet</b> (struct <a class="el" href="structSource.html">Source</a> *source, struct <a class="el" href="structNoise.html">Noise</a> *noise)</td></tr>
+<tr class="memitem:ae88cd2f0ec60f173e95b997daad2ceac" id="r_ae88cd2f0ec60f173e95b997daad2ceac"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae88cd2f0ec60f173e95b997daad2ceac">snr_wavelet</a> (struct <a class="el" href="structSource.html">Source</a> *source, struct <a class="el" href="structNoise.html">Noise</a> *noise)</td></tr>
+<tr class="memdesc:ae88cd2f0ec60f173e95b997daad2ceac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Signal to noise ratio in wavelet domain.  <br /></td></tr>
 <tr class="separator:ae88cd2f0ec60f173e95b997daad2ceac"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a062f3109773fd2491fe4898a2df34562" id="r_a062f3109773fd2491fe4898a2df34562"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a062f3109773fd2491fe4898a2df34562">analytic_snr</a> (double A, double Sn, double Sf, double sqT)</td></tr>
 <tr class="memdesc:a062f3109773fd2491fe4898a2df34562"><td class="mdescLeft">&#160;</td><td class="mdescRight">Analytic approximation to SNR.  <br /></td></tr>
@@ -134,8 +134,8 @@ double&#160;</td><td class="memItemRight" valign="bottom"><b>snr_wavelet</b> (st
 <tr class="memitem:a1d25c44949bcafd9c1a2140b06efc3b3" id="r_a1d25c44949bcafd9c1a2140b06efc3b3"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1d25c44949bcafd9c1a2140b06efc3b3">waveform_match</a> (struct <a class="el" href="structSource.html">Source</a> *a, struct <a class="el" href="structSource.html">Source</a> *b, struct <a class="el" href="structNoise.html">Noise</a> *noise)</td></tr>
 <tr class="memdesc:a1d25c44949bcafd9c1a2140b06efc3b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute match between waveforms.  <br /></td></tr>
 <tr class="separator:a1d25c44949bcafd9c1a2140b06efc3b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaa972fb3f89c0ad2f3832043473f15b5" id="r_aaa972fb3f89c0ad2f3832043473f15b5"><td class="memItemLeft" align="right" valign="top"><a id="aaa972fb3f89c0ad2f3832043473f15b5" name="aaa972fb3f89c0ad2f3832043473f15b5"></a>
-double&#160;</td><td class="memItemRight" valign="bottom"><b>waveform_match_wavelet</b> (struct <a class="el" href="structSource.html">Source</a> *a, struct <a class="el" href="structSource.html">Source</a> *b, struct <a class="el" href="structNoise.html">Noise</a> *noise)</td></tr>
+<tr class="memitem:aaa972fb3f89c0ad2f3832043473f15b5" id="r_aaa972fb3f89c0ad2f3832043473f15b5"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aaa972fb3f89c0ad2f3832043473f15b5">waveform_match_wavelet</a> (struct <a class="el" href="structSource.html">Source</a> *a, struct <a class="el" href="structSource.html">Source</a> *b, struct <a class="el" href="structNoise.html">Noise</a> *noise)</td></tr>
+<tr class="memdesc:aaa972fb3f89c0ad2f3832043473f15b5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute match between waveforms in wavelet domain.  <br /></td></tr>
 <tr class="separator:aaa972fb3f89c0ad2f3832043473f15b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa88289847661abddedbcaff5e232095a" id="r_aa88289847661abddedbcaff5e232095a"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa88289847661abddedbcaff5e232095a">waveform_distance</a> (struct <a class="el" href="structSource.html">Source</a> *a, struct <a class="el" href="structSource.html">Source</a> *b, struct <a class="el" href="structNoise.html">Noise</a> *noise)</td></tr>
 <tr class="memdesc:aa88289847661abddedbcaff5e232095a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute distance between waveforms.  <br /></td></tr>
@@ -149,20 +149,20 @@ double&#160;</td><td class="memItemRight" valign="bottom"><b>waveform_match_wave
 <tr class="memitem:a910303b287906ddad25482c8be03daf0" id="r_a910303b287906ddad25482c8be03daf0"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a910303b287906ddad25482c8be03daf0">ucb_distance</a> (double f0, double dfdt, double A)</td></tr>
 <tr class="memdesc:a910303b287906ddad25482c8be03daf0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute luminosity distance assuming GR-driven orbital evolution.  <br /></td></tr>
 <tr class="separator:a910303b287906ddad25482c8be03daf0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab130f16fed16ab63abe32813b380c59a" id="r_ab130f16fed16ab63abe32813b380c59a"><td class="memItemLeft" align="right" valign="top"><a id="ab130f16fed16ab63abe32813b380c59a" name="ab130f16fed16ab63abe32813b380c59a"></a>
-double&#160;</td><td class="memItemRight" valign="bottom"><b>ucb_phase</b> (double t, double *params)</td></tr>
-<tr class="separator:ab130f16fed16ab63abe32813b380c59a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8996ac7cfbef3fc62fd353230f1455c0" id="r_a8996ac7cfbef3fc62fd353230f1455c0"><td class="memItemLeft" align="right" valign="top"><a id="a8996ac7cfbef3fc62fd353230f1455c0" name="a8996ac7cfbef3fc62fd353230f1455c0"></a>
-double&#160;</td><td class="memItemRight" valign="bottom"><b>ucb_amplitude</b> (double t, double *params)</td></tr>
-<tr class="separator:a8996ac7cfbef3fc62fd353230f1455c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2e7cf83e9030f52a91da60f6bbfa9db4" id="r_a2e7cf83e9030f52a91da60f6bbfa9db4"><td class="memItemLeft" align="right" valign="top"><a id="a2e7cf83e9030f52a91da60f6bbfa9db4" name="a2e7cf83e9030f52a91da60f6bbfa9db4"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>ucb_barycenter_waveform</b> (double *params, int N, double *times, double *phase, double *amp)</td></tr>
-<tr class="separator:a2e7cf83e9030f52a91da60f6bbfa9db4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adc597a7712410a4086d24bcfc72c24a8" id="r_adc597a7712410a4086d24bcfc72c24a8"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adc597a7712410a4086d24bcfc72c24a8">ucb_phase</a> (double t, double *params, double T)</td></tr>
+<tr class="memdesc:adc597a7712410a4086d24bcfc72c24a8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute UCB phase at given time.  <br /></td></tr>
+<tr class="separator:adc597a7712410a4086d24bcfc72c24a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae82c0a9e378543470df4386e0b7bb4d1" id="r_ae82c0a9e378543470df4386e0b7bb4d1"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae82c0a9e378543470df4386e0b7bb4d1">ucb_amplitude</a> (double t, double *params, double T)</td></tr>
+<tr class="memdesc:ae82c0a9e378543470df4386e0b7bb4d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute UCB amplitude at given time.  <br /></td></tr>
+<tr class="separator:ae82c0a9e378543470df4386e0b7bb4d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5d4f9a3fd3b293ed512a1682d6299c73" id="r_a5d4f9a3fd3b293ed512a1682d6299c73"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5d4f9a3fd3b293ed512a1682d6299c73">ucb_barycenter_waveform</a> (double *params, int N, double *times, double *phase, double *amp, double T)</td></tr>
+<tr class="memdesc:a5d4f9a3fd3b293ed512a1682d6299c73"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute UCB time-dependent phase and amplitude.  <br /></td></tr>
+<tr class="separator:a5d4f9a3fd3b293ed512a1682d6299c73"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8215dbcd224931c7cb8f3d1b7fdf87af" id="r_a8215dbcd224931c7cb8f3d1b7fdf87af"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8215dbcd224931c7cb8f3d1b7fdf87af">ucb_fisher</a> (struct <a class="el" href="structOrbit.html">Orbit</a> *orbit, struct <a class="el" href="structData.html">Data</a> *data, struct <a class="el" href="structSource.html">Source</a> *source, struct <a class="el" href="structNoise.html">Noise</a> *noise)</td></tr>
 <tr class="memdesc:a8215dbcd224931c7cb8f3d1b7fdf87af"><td class="mdescLeft">&#160;</td><td class="mdescRight">computes Fisher Information Matrix for UCB waveform parameters <a class="el" href="structSource.html#a830e9cf1e671605a6ed2e0eb45a848b6" title="Array containing parameters to be passed to ucb_waveform()">Source::params</a>  <br /></td></tr>
 <tr class="separator:a8215dbcd224931c7cb8f3d1b7fdf87af"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a50c69a4660f2aae37b3a3dae94187f63" id="r_a50c69a4660f2aae37b3a3dae94187f63"><td class="memItemLeft" align="right" valign="top"><a id="a50c69a4660f2aae37b3a3dae94187f63" name="a50c69a4660f2aae37b3a3dae94187f63"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>ucb_fisher_wavelet</b> (struct <a class="el" href="structOrbit.html">Orbit</a> *orbit, struct <a class="el" href="structData.html">Data</a> *data, struct <a class="el" href="structSource.html">Source</a> *source, struct <a class="el" href="structNoise.html">Noise</a> *noise)</td></tr>
+<tr class="memitem:a50c69a4660f2aae37b3a3dae94187f63" id="r_a50c69a4660f2aae37b3a3dae94187f63"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a50c69a4660f2aae37b3a3dae94187f63">ucb_fisher_wavelet</a> (struct <a class="el" href="structOrbit.html">Orbit</a> *orbit, struct <a class="el" href="structData.html">Data</a> *data, struct <a class="el" href="structSource.html">Source</a> *source, struct <a class="el" href="structNoise.html">Noise</a> *noise)</td></tr>
+<tr class="memdesc:a50c69a4660f2aae37b3a3dae94187f63"><td class="mdescLeft">&#160;</td><td class="mdescRight">computes Fisher Information Matrix for UCB waveform parameters <a class="el" href="structSource.html#a830e9cf1e671605a6ed2e0eb45a848b6" title="Array containing parameters to be passed to ucb_waveform()">Source::params</a> in wavelet domain  <br /></td></tr>
 <tr class="separator:a50c69a4660f2aae37b3a3dae94187f63"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acc664db2eef7bebcdf3f0325195449ac" id="r_acc664db2eef7bebcdf3f0325195449ac"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acc664db2eef7bebcdf3f0325195449ac">ucb_alignment</a> (struct <a class="el" href="structOrbit.html">Orbit</a> *orbit, struct <a class="el" href="structData.html">Data</a> *data, struct <a class="el" href="structSource.html">Source</a> *source)</td></tr>
 <tr class="memdesc:acc664db2eef7bebcdf3f0325195449ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">aligns generated UCB waveform with <a class="el" href="structData.html" title="Analaysis segment and meta data about size of segment, location in full data stream,...">Data</a> array  <br /></td></tr>
@@ -176,12 +176,12 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>ucb_fisher_wavelet</b
 <tr class="memitem:a1ce88793c62bc448345e5e7d4ece6e64" id="r_a1ce88793c62bc448345e5e7d4ece6e64"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1ce88793c62bc448345e5e7d4ece6e64">ucb_waveform_wavelet</a> (struct <a class="el" href="structOrbit.html">Orbit</a> *orbit, struct <a class="el" href="structWavelets.html">Wavelets</a> *wdm, double Tobs, double t0, double *params, int *wavelet_list, int *Nwavelet, double *X, double *Y, double *Z)</td></tr>
 <tr class="memdesc:a1ce88793c62bc448345e5e7d4ece6e64"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wavelet domain ultra compact binary waveform generators as first described in <a href="https://https://journals.aps.org/prd/abstract/10.1103/PhysRevD.102.124038">Cornish, PRD 102, 124038</a>.  <br /></td></tr>
 <tr class="separator:a1ce88793c62bc448345e5e7d4ece6e64"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3601ce5e2fe9501118e330a7ad2e5130" id="r_a3601ce5e2fe9501118e330a7ad2e5130"><td class="memItemLeft" align="right" valign="top"><a id="a3601ce5e2fe9501118e330a7ad2e5130" name="a3601ce5e2fe9501118e330a7ad2e5130"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>ucb_waveform_wavelet_tab</b> (struct <a class="el" href="structOrbit.html">Orbit</a> *orbit, struct <a class="el" href="structWavelets.html">Wavelets</a> *wdm, double Tobs, double t0, double *params, int *wavelet_list, int *Nwavelet, double *X, double *Y, double *Z)</td></tr>
+<tr class="memitem:a3601ce5e2fe9501118e330a7ad2e5130" id="r_a3601ce5e2fe9501118e330a7ad2e5130"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3601ce5e2fe9501118e330a7ad2e5130">ucb_waveform_wavelet_tab</a> (struct <a class="el" href="structOrbit.html">Orbit</a> *orbit, struct <a class="el" href="structWavelets.html">Wavelets</a> *wdm, double Tobs, double t0, double *params, int *wavelet_list, int *Nwavelet, double *X, double *Y, double *Z)</td></tr>
+<tr class="memdesc:a3601ce5e2fe9501118e330a7ad2e5130"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wavelet domain UCB waveform using lookup table transform.  <br /></td></tr>
 <tr class="separator:a3601ce5e2fe9501118e330a7ad2e5130"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Functions for UCB waveform generation. </p>
+<div class="textblock"><p>Ultra Compact Binary waveform generator. </p>
 </div><h2 class="groupheader">Function Documentation</h2>
 <a id="a062f3109773fd2491fe4898a2df34562" name="a062f3109773fd2491fe4898a2df34562"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a062f3109773fd2491fe4898a2df34562">&#9670;&#160;</a></span>analytic_snr()</h2>
@@ -213,7 +213,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>ucb_waveform_wavelet_
 </div><div class="memdoc">
 
 <p>Analytic approximation to SNR. </p>
-<p>Not exactly what is in the paper. Expression has been calibrated against <a class="el" href="#a1db00b5097458e1b94e9b2a5ba28a967" title="Signal to noise ratio.">snr()</a>.</p>
+<p>Not exactly what is in the paper. Expression has been calibrated against <a class="el" href="#a1db00b5097458e1b94e9b2a5ba28a967" title="Signal to noise ratio in frequency domain.">snr()</a>.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">A</td><td>gravitational wave amplitude \(\mathcal{A}\) </td></tr>
@@ -246,7 +246,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>ucb_waveform_wavelet_
       </table>
 </div><div class="memdoc">
 
-<p>Signal to noise ratio. </p>
+<p>Signal to noise ratio in frequency domain. </p>
 <p>Calls nwip() to compute inner product of waveform with itself summed over all frequencies and data channels <code>I</code>. If 4-link data, use single <a class="el" href="structTDI.html" title="Structure for Time Delay Interferometry data and metadata.">TDI</a> channel <code>I</code> = <code>X</code>. If 6-link, use <code>I</code> = {<code>A</code>, <code>E</code>}</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -287,6 +287,30 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>ucb_waveform_wavelet_
 
 </div>
 </div>
+<a id="ae88cd2f0ec60f173e95b997daad2ceac" name="ae88cd2f0ec60f173e95b997daad2ceac"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae88cd2f0ec60f173e95b997daad2ceac">&#9670;&#160;</a></span>snr_wavelet()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double snr_wavelet </td>
+          <td>(</td>
+          <td class="paramtype">struct <a class="el" href="structSource.html">Source</a> *</td>          <td class="paramname"><span class="paramname"><em>source</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">struct <a class="el" href="structNoise.html">Noise</a> *</td>          <td class="paramname"><span class="paramname"><em>noise</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Signal to noise ratio in wavelet domain. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#a1db00b5097458e1b94e9b2a5ba28a967" title="Signal to noise ratio in frequency domain.">snr()</a> </dd></dl>
+
+</div>
+</div>
 <a id="acc664db2eef7bebcdf3f0325195449ac" name="acc664db2eef7bebcdf3f0325195449ac"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#acc664db2eef7bebcdf3f0325195449ac">&#9670;&#160;</a></span>ucb_alignment()</h2>
 
@@ -324,6 +348,43 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>ucb_waveform_wavelet_
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="ae82c0a9e378543470df4386e0b7bb4d1" name="ae82c0a9e378543470df4386e0b7bb4d1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae82c0a9e378543470df4386e0b7bb4d1">&#9670;&#160;</a></span>ucb_amplitude()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double ucb_amplitude </td>
+          <td>(</td>
+          <td class="paramtype">double</td>          <td class="paramname"><span class="paramname"><em>t</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double *</td>          <td class="paramname"><span class="paramname"><em>params</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double</td>          <td class="paramname"><span class="paramname"><em>T</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Compute UCB amplitude at given time. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">t</td><td>time (s) </td></tr>
+    <tr><td class="paramname">params[]</td><td>source parameters </td></tr>
+    <tr><td class="paramname">T</td><td>total observation time (s) </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>\( A = A_0\left( 1 + \frac{2}{3}\frac{\dot{f}}{f_0}t \right) \) </dd></dl>
 
 </div>
 </div>
@@ -391,6 +452,60 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>ucb_waveform_wavelet_
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>BW bandwidth [bins] </dd></dl>
+
+</div>
+</div>
+<a id="a5d4f9a3fd3b293ed512a1682d6299c73" name="a5d4f9a3fd3b293ed512a1682d6299c73"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5d4f9a3fd3b293ed512a1682d6299c73">&#9670;&#160;</a></span>ucb_barycenter_waveform()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ucb_barycenter_waveform </td>
+          <td>(</td>
+          <td class="paramtype">double *</td>          <td class="paramname"><span class="paramname"><em>params</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>N</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double *</td>          <td class="paramname"><span class="paramname"><em>times</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double *</td>          <td class="paramname"><span class="paramname"><em>phase</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double *</td>          <td class="paramname"><span class="paramname"><em>amp</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double</td>          <td class="paramname"><span class="paramname"><em>T</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Compute UCB time-dependent phase and amplitude. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">params[]</td><td>source parameters </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">N</td><td>number of time samples </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">times</td><td>time grid for phase and amplitude calculation </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">phase</td><td>array of \( \Phi(t) \) </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">phase</td><td>amp of \( A(t) \) </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">T</td><td>total observation time (s) </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -536,6 +651,77 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>ucb_waveform_wavelet_
 
 </div>
 </div>
+<a id="a50c69a4660f2aae37b3a3dae94187f63" name="a50c69a4660f2aae37b3a3dae94187f63"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a50c69a4660f2aae37b3a3dae94187f63">&#9670;&#160;</a></span>ucb_fisher_wavelet()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ucb_fisher_wavelet </td>
+          <td>(</td>
+          <td class="paramtype">struct <a class="el" href="structOrbit.html">Orbit</a> *</td>          <td class="paramname"><span class="paramname"><em>orbit</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">struct <a class="el" href="structData.html">Data</a> *</td>          <td class="paramname"><span class="paramname"><em>data</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">struct <a class="el" href="structSource.html">Source</a> *</td>          <td class="paramname"><span class="paramname"><em>source</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">struct <a class="el" href="structNoise.html">Noise</a> *</td>          <td class="paramname"><span class="paramname"><em>noise</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>computes Fisher Information Matrix for UCB waveform parameters <a class="el" href="structSource.html#a830e9cf1e671605a6ed2e0eb45a848b6" title="Array containing parameters to be passed to ucb_waveform()">Source::params</a> in wavelet domain </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#a8215dbcd224931c7cb8f3d1b7fdf87af" title="computes Fisher Information Matrix for UCB waveform parameters Source::params">ucb_fisher()</a> </dd></dl>
+
+</div>
+</div>
+<a id="adc597a7712410a4086d24bcfc72c24a8" name="adc597a7712410a4086d24bcfc72c24a8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adc597a7712410a4086d24bcfc72c24a8">&#9670;&#160;</a></span>ucb_phase()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double ucb_phase </td>
+          <td>(</td>
+          <td class="paramtype">double</td>          <td class="paramname"><span class="paramname"><em>t</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double *</td>          <td class="paramname"><span class="paramname"><em>params</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double</td>          <td class="paramname"><span class="paramname"><em>T</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Compute UCB phase at given time. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">t</td><td>time (s) </td></tr>
+    <tr><td class="paramname">params[]</td><td>source parameters </td></tr>
+    <tr><td class="paramname">T</td><td>total observation time (s) </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>\( \Phi = \varphi_0 + 2\pi\left( f_0 t + \frac{1}{2}\dot{f}t^2 + \frac{1}{6} \ddot{f}t^3 \right) \) </dd></dl>
+
+</div>
+</div>
 <a id="afbad5c7120edc7537858937c98a0848f" name="afbad5c7120edc7537858937c98a0848f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#afbad5c7120edc7537858937c98a0848f">&#9670;&#160;</a></span>ucb_waveform()</h2>
 
@@ -611,7 +797,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>ucb_waveform_wavelet_
 </div><div class="memdoc">
 
 <p>Galactic binary waveform generator using fast-slow decomposition first described in <a href="https://journals.aps.org/prd/abstract/10.1103/PhysRevD.76.083006">Cornish and Littenberg, PRD 76, 083006</a>. </p>
-<p>Computes the frequency domain <a class="el" href="structTDI.html" title="Structure for Time Delay Interferometry data and metadata.">TDI</a> response to a circular, slowly evolving, binary with parameters params. The detector geometry is defined in <a class="el" href="structOrbit.html" title="Ephemerides of individual spacecraft and metadata for using orbits in waveform modeling.">Orbit</a>. The format of the <a class="el" href="structTDI.html" title="Structure for Time Delay Interferometry data and metadata.">TDI</a> data, either "phase", "frequency", or "sangria", is specified by format. The <a class="el" href="structTDI.html" title="Structure for Time Delay Interferometry data and metadata.">TDI</a> response is defined in LISA_tdi() (phase), LISA_tdi_FF() (frequency), or LISA_tdi_Sangria() (frequency circa LDC2.1).</p>
+<p>Computes the frequency domain <a class="el" href="structTDI.html" title="Structure for Time Delay Interferometry data and metadata.">TDI</a> response to a circular, slowly evolving, binary with parameters <code>params</code>. The detector geometry is defined in <code><a class="el" href="structOrbit.html" title="Ephemerides of individual spacecraft and metadata for using orbits in waveform modeling.">Orbit</a></code>. The format of the <a class="el" href="structTDI.html" title="Structure for Time Delay Interferometry data and metadata.">TDI</a> data, either "phase", "frequency", or "sangria", is specified by format. The <a class="el" href="structTDI.html" title="Structure for Time Delay Interferometry data and metadata.">TDI</a> response is defined in LISA_tdi() (phase), LISA_tdi_FF() (frequency), or LISA_tdi_Sangria() (frequency circa LDC2.1).</p>
 <p>The <a class="el" href="structTDI.html" title="Structure for Time Delay Interferometry data and metadata.">TDI</a> response is returned for the Michelson-like channels (XYZ), or the two orthogonal channels A and E. The T channel is practically a noise-only channel at typical UCB frequencies and is therefore neglected.</p>
 <p>The array params[] is required to contain parameters: \( f_0T,\cos\theta,\phi,\log\mathcal{A},\cos\iota,\psi,\varphi_0\), where \(\theta\) is the ecliptic co-latitude and \(\phi\) is the ecliptic longitude. Extra parameters for non-zero frequency evolution are optional: \( \dot{f}T^2, \ddot{f}T^3 \).</p>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -710,6 +896,70 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>ucb_waveform_wavelet_
 
 </div>
 </div>
+<a id="a3601ce5e2fe9501118e330a7ad2e5130" name="a3601ce5e2fe9501118e330a7ad2e5130"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3601ce5e2fe9501118e330a7ad2e5130">&#9670;&#160;</a></span>ucb_waveform_wavelet_tab()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ucb_waveform_wavelet_tab </td>
+          <td>(</td>
+          <td class="paramtype">struct <a class="el" href="structOrbit.html">Orbit</a> *</td>          <td class="paramname"><span class="paramname"><em>orbit</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">struct <a class="el" href="structWavelets.html">Wavelets</a> *</td>          <td class="paramname"><span class="paramname"><em>wdm</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double</td>          <td class="paramname"><span class="paramname"><em>Tobs</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double</td>          <td class="paramname"><span class="paramname"><em>t0</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double *</td>          <td class="paramname"><span class="paramname"><em>params</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int *</td>          <td class="paramname"><span class="paramname"><em>wavelet_list</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int *</td>          <td class="paramname"><span class="paramname"><em>Nwavelet</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double *</td>          <td class="paramname"><span class="paramname"><em>X</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double *</td>          <td class="paramname"><span class="paramname"><em>Y</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double *</td>          <td class="paramname"><span class="paramname"><em>Z</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Wavelet domain UCB waveform using lookup table transform. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#a1ce88793c62bc448345e5e7d4ece6e64" title="Wavelet domain ultra compact binary waveform generators as first described in Cornish,...">ucb_waveform_wavelet()</a> </dd></dl>
+
+</div>
+</div>
 <a id="aa88289847661abddedbcaff5e232095a" name="aa88289847661abddedbcaff5e232095a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa88289847661abddedbcaff5e232095a">&#9670;&#160;</a></span>waveform_distance()</h2>
 
@@ -779,6 +1029,35 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>ucb_waveform_wavelet_
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>\(  M = \frac{(h_a|h_b)}{\sqrt{(h_a|h_a)+(h_b|h_b)}} \) </dd></dl>
+
+</div>
+</div>
+<a id="aaa972fb3f89c0ad2f3832043473f15b5" name="aaa972fb3f89c0ad2f3832043473f15b5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaa972fb3f89c0ad2f3832043473f15b5">&#9670;&#160;</a></span>waveform_match_wavelet()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double waveform_match_wavelet </td>
+          <td>(</td>
+          <td class="paramtype">struct <a class="el" href="structSource.html">Source</a> *</td>          <td class="paramname"><span class="paramname"><em>a</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">struct <a class="el" href="structSource.html">Source</a> *</td>          <td class="paramname"><span class="paramname"><em>b</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">struct <a class="el" href="structNoise.html">Noise</a> *</td>          <td class="paramname"><span class="paramname"><em>noise</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Compute match between waveforms in wavelet domain. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#a1d25c44949bcafd9c1a2140b06efc3b3" title="Compute match between waveforms.">waveform_match()</a> </dd></dl>
 
 </div>
 </div>

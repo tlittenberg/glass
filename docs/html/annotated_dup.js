@@ -12,6 +12,7 @@ var annotated_dup =
     [ "GalaxyModulation", "structGalaxyModulation.html", "structGalaxyModulation" ],
     [ "GlobalFitData", "structGlobalFitData.html", null ],
     [ "GMM", "structGMM.html", null ],
+    [ "IMRPhenomT", "structIMRPhenomT.html", null ],
     [ "IndexedValue", "structIndexedValue.html", null ],
     [ "InstrumentModel", "structInstrumentModel.html", "structInstrumentModel" ],
     [ "Model", "structModel.html", "structModel" ],

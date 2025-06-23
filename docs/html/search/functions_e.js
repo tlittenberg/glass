@@ -17,9 +17,10 @@ var searchData=
   ['simulatedata_14',['SimulateData',['../glass__data_8h.html#a3c85a95796951c918088be8be6cbdf02',1,'glass_data.c']]],
   ['snr_15',['snr',['../glass__ucb__waveform_8h.html#a1db00b5097458e1b94e9b2a5ba28a967',1,'glass_ucb_waveform.c']]],
   ['snr_5fprior_16',['snr_prior',['../glass__ucb__waveform_8h.html#a74665f1529a8a18fb59b419760efd718',1,'glass_ucb_waveform.c']]],
-  ['spline_5fcoefficients_17',['spline_coefficients',['../glass__math_8h.html#a4bd6610ef8e1a58a6de67fb414c49e38',1,'glass_math.c']]],
-  ['spline_5finterpolation_18',['spline_interpolation',['../glass__math_8h.html#a4bb2d6e5f88d4eaa515af8fbc9228ba9',1,'glass_math.c']]],
-  ['spline_5fptmcmc_19',['spline_ptmcmc',['../glass__noise__sampler_8h.html#a4b437dfcc2bbb8aae74471fbe36c5d08',1,'glass_noise_sampler.c']]],
-  ['symmetric_5fdensity_20',['symmetric_density',['../glass__ucb__proposal_8h.html#a6411d0cd1ce0b0862365fa63ee9cd28f',1,'glass_ucb_proposal.c']]],
-  ['symmetric_5fmass_5fratio_21',['symmetric_mass_ratio',['../glass__math_8h.html#a3a22b5cf047831bcb6050b4278ef575d',1,'glass_math.c']]]
+  ['snr_5fwavelet_17',['snr_wavelet',['../glass__ucb__waveform_8h.html#ae88cd2f0ec60f173e95b997daad2ceac',1,'glass_ucb_waveform.c']]],
+  ['spline_5fcoefficients_18',['spline_coefficients',['../glass__math_8h.html#a4bd6610ef8e1a58a6de67fb414c49e38',1,'glass_math.c']]],
+  ['spline_5finterpolation_19',['spline_interpolation',['../glass__math_8h.html#a4bb2d6e5f88d4eaa515af8fbc9228ba9',1,'glass_math.c']]],
+  ['spline_5fptmcmc_20',['spline_ptmcmc',['../glass__noise__sampler_8h.html#a4b437dfcc2bbb8aae74471fbe36c5d08',1,'glass_noise_sampler.c']]],
+  ['symmetric_5fdensity_21',['symmetric_density',['../glass__ucb__proposal_8h.html#a6411d0cd1ce0b0862365fa63ee9cd28f',1,'glass_ucb_proposal.c']]],
+  ['symmetric_5fmass_5fratio_22',['symmetric_mass_ratio',['../glass__math_8h.html#a3a22b5cf047831bcb6050b4278ef575d',1,'glass_math.c']]]
 ];

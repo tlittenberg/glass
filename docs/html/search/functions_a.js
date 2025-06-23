@@ -10,5 +10,10 @@ var searchData=
   ['matrix_5feigenstuff_7',['matrix_eigenstuff',['../glass__math_8h.html#a3fd7b3dc905454c44965aac3d9a71afb',1,'glass_math.c']]],
   ['matrix_5fmultiply_8',['matrix_multiply',['../glass__math_8h.html#acc14e2c155fe0111000033f22a7a3c3b',1,'glass_math.c']]],
   ['maximize_5fsignal_5fmodel_9',['maximize_signal_model',['../glass__ucb__model_8h.html#a1616fa8f0399df0a39768c4ea3e2f776',1,'glass_ucb_model.c']]],
-  ['multivariate_5fgaussian_10',['multivariate_gaussian',['../glass__gmm_8h.html#ac079426970ae4ba3a8ced0bb87fa5656',1,'glass_gmm.c']]]
+  ['mbh_5fbarycenter_5fwaveform_10',['mbh_barycenter_waveform',['../glass__mbh__waveform_8h.html#ad251bb08627e058192d407d9e0db6cc1',1,'glass_mbh_waveform.c']]],
+  ['mbh_5ffd_5fwaveform_11',['mbh_fd_waveform',['../glass__mbh__waveform_8h.html#a1a28c1d2e98b6268ab4f2b2867f83258',1,'glass_mbh_waveform.c']]],
+  ['mbh_5ffinal_5fspin_12',['mbh_final_spin',['../glass__mbh__waveform_8h.html#ac0a4487b3ac4cc97b3687946bff487d1',1,'glass_mbh_waveform.c']]],
+  ['mbh_5fringdown_5ffrequency_13',['mbh_ringdown_frequency',['../glass__mbh__waveform_8h.html#a9ac2c2640aa1d09fca282889eb7599bd',1,'glass_mbh_waveform.c']]],
+  ['mbh_5ftd_5fwaveform_14',['mbh_td_waveform',['../glass__mbh__waveform_8h.html#a28f867396660b4485c23dab49d807b47',1,'glass_mbh_waveform.c']]],
+  ['multivariate_5fgaussian_15',['multivariate_gaussian',['../glass__gmm_8h.html#ac079426970ae4ba3a8ced0bb87fa5656',1,'glass_gmm.c']]]
 ];
