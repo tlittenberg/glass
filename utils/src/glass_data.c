@@ -1286,9 +1286,9 @@ void print_wavelet_fourier_spectra(struct Data *data, struct TDI *tdi, char file
     memcpy(freqData[0],waveData[0],sizeof(double)*N);
     memcpy(freqData[1],waveData[1],sizeof(double)*N);
     memcpy(freqData[2],waveData[2],sizeof(double)*N);
-    wavelet_to_fourier_transform(wdm, freqData[0]);
-    wavelet_to_fourier_transform(wdm, freqData[1]);
-    wavelet_to_fourier_transform(wdm, freqData[2]);
+    wavelet_tansform_inverse_fourier(wdm, freqData[0]);
+    wavelet_tansform_inverse_fourier(wdm, freqData[1]);
+    wavelet_tansform_inverse_fourier(wdm, freqData[2]);
 
     FILE *fptr=fopen(filename,"w");
     for(int n=0; n<N/2; n++) 
@@ -1340,9 +1340,9 @@ void wavelet_layer_to_fourier_transform(struct Data *data)
     memcpy(freqData[2],waveData[2],sizeof(double)*N);
     
     /* in place DWT->DFT transform */
-    wavelet_to_fourier_transform(wdm, freqData[0]);
-    wavelet_to_fourier_transform(wdm, freqData[1]);
-    wavelet_to_fourier_transform(wdm, freqData[2]);
+    wavelet_tansform_inverse_fourier(wdm, freqData[0]);
+    wavelet_tansform_inverse_fourier(wdm, freqData[1]);
+    wavelet_tansform_inverse_fourier(wdm, freqData[2]);
 
     /* copy active frequency bins into DFT struct */
     for(int n=0; n<data->NFFT; n++)

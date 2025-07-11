@@ -60,15 +60,29 @@ struct Wavelets
     double **table; //!< lookup table of wavelet coefficients
 };
 
+struct TimeFrequencyTrack
+{
+    int min_layer;     //!<minimum frequency layer of track
+    int max_layer;     //!<maximum frequency layer of track
+    int *segment_size; //!<size of time segment in layer
+    int *segment_midpt;//!<midpoint pixel of segment
+};
+
+struct TimeFrequencyTrack * malloc_time_frequency_track(struct Wavelets *wdm);
+void free_time_frequency_track(struct TimeFrequencyTrack *track);
+
 void initialize_wavelet(struct Wavelets *wdm, double T);
 void wavelet_window_frequency(struct Wavelets *wdm, double *window, int Nlayers);
-void wavelet_transform(struct Wavelets *wdm, double *data);
-void wavelet_transform_inverse(struct Wavelets *wdm, double *data);
-void wavelet_to_fourier_transform(struct Wavelets *wdm, double *data);
 void wavelet_index_to_pixel(struct Wavelets *wdm, int *i, int *j, int k);
 void wavelet_pixel_to_index(struct Wavelets *wdm, int i, int j, int *k);
+
+void wavelet_transform(struct Wavelets *wdm, double *data);
+void wavelet_transform_inverse_time(struct Wavelets *wdm, double *data);
+void wavelet_tansform_inverse_fourier(struct Wavelets *wdm, double *data);
 void wavelet_transform_by_layers(struct Wavelets *wdm, int jmin, int Nlayers, double *window, double *data);
+void wavelet_transform_segment(struct Wavelets *wdm, int N, int layer, double *data);
 void wavelet_transform_from_table(struct Wavelets *wdm, double *phase, double *freq, double *freqd, double *amp, int *jmin, int *jmax, double *wave, int *list, int *rlist, int Nmax);
+
 void active_wavelet_list(struct Wavelets *wdm, double *freqX, double *freqY, double *freqZ, double *fdotX, double *fdotY, double *fdotZ, int *wavelet_list, int *reverse_list, int *Nwavelet, int *jmin, int *jmax);
 
 #endif /* glass_wavelet_h */

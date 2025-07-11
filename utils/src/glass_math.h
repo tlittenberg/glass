@@ -30,6 +30,10 @@ struct CubicSpline
     double *x;   //!<Independent variable of function to be interpolated
     double *y;   //!<Dependent variable of function to be interpolated
     double *d2y; //!<Second derivitives of function to be interpolated
+    double *y0;   //!<0th order coefficient
+    double *y1;   //!<1st order coefficient
+    double *y2;   //!<2nd order coefficient
+    double *y3;   //!<3rd order coefficient
 };
 
 struct CubicSpline* alloc_cubic_spline(int N);

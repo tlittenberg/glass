@@ -65,3 +65,9 @@ void mbh_IMRPhenomT_wrapper(double Mchirp, double Mtotal, double chi1, double ch
     printf("ERROR: mbh_IMRPhenomT_wrapper() undefined\n");
     abort();
 }
+
+void mbh_IMRPhenomT_wdm_transform_plan(double *params, double *time, double *omega, struct IMRPhenomT *IMRPT, double *setup)
+{
+    printf("ERROR: mbh_IMRPhenomT_wdm_transform_plan() undefined\n");
+    abort();
+}

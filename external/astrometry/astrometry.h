@@ -25,7 +25,7 @@ void healpixl_decompose_xy(int64_t finehp,
                            int Nside);
 void healpixl_to_radec(int64_t ihp, int Nside, double dx, double dy,
                        double* ra, double* dec);
-inline void xyzarr2radec(const double* xyz, double *ra, double *dec);
-inline const double xy2ra(double x, double y);
-inline const double z2dec(double z);
+void xyzarr2radec(const double* xyz, double *ra, double *dec);
+const double xy2ra(double x, double y);
+const double z2dec(double z);
 #endif // ASTROMETRY_H

@@ -974,8 +974,8 @@ void ucb_waveform_wavelet(struct Orbit *orbit, struct Wavelets *wdm, double Tobs
     // shift reference times from Barycenter to S/C 1
     double costh = params[1];
     double phi   = params[2];
-    LISA_detector_time(orbit, costh, phi, time_ssb, Nspline, time_sc);
-    
+    LISA_spacecraft_to_barycenter_time(orbit, costh, phi, time_ssb, time_sc, Nspline, -1);
+
     // get signal phase at S/C 1
     for(int i=0; i< Nspline; i++)
         phase_sc[i] = spline_interpolation(phase_ssb_spline, time_sc[i]);
@@ -1002,7 +1002,7 @@ void ucb_waveform_wavelet(struct Orbit *orbit, struct Wavelets *wdm, double Tobs
     
     // shift reference times from Barycenter to spacecraft 0
     time_sc = double_vector(N_ds);
-    LISA_detector_time(orbit, costh, phi, time_ds, N_ds, time_sc);
+    LISA_spacecraft_to_barycenter_time(orbit, costh, phi, time_ds, time_sc, N_ds, -1);
     
     for(int i=0; i<N_ds; i++)
         phase_ds[i] = spline_interpolation(phase_ssb_spline, time_sc[i]);

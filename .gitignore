@@ -88,3 +88,12 @@ CMakeCache.txt
 CMakeScripts/
 CMakeTutorial.build/
 
+
+#contraband MBH waveforms
+mbh/src/IMRPhenomD_internals.c
+mbh/src/IMRPhenomD_internals.h
+mbh/src/IMRPhenomD.c
+mbh/src/IMRPhenomD.h
+mbh/src/IMRPhenomT.c
+mbh/src/IMRPhenomT.h
+

@@ -358,7 +358,19 @@ void LISA_detector_tensor(double L, double eplus[4][4], double ecross[4][4], dou
  */
 void LISA_polarization_tensor(double costh, double phi, double eplus[4][4], double ecross[4][4], double k[4]);
 
-void LISA_detector_time(struct Orbit *orbit, double costh, double phi, double *time, int N,  double *time_sc);
+/**
+ \brief convert between time at reference LISA S/C and solar system barycenter (SSB)
+ 
+ @param[in] orbit Orbit structure
+ @param[in] costh cosine ecliptic co-latitude
+ @param[in] phi ecliptic longitude
+ @param[in] time input time array
+ @param[in] time_shifted shifted time array
+ @param[in] N size of arrays
+ @param[in] flag direction of shift (-1: ssb -> s/c, +1 s/c -> ssb)
+ 
+ */
+void LISA_spacecraft_to_barycenter_time(struct Orbit *orbit, double costh, double phi, double *time, double *time_shifted, int N, int flag);
 
 /**
  \brief Convert noise-orthogonal AET channels from Michelson-like XYZ channels

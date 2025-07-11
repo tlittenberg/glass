@@ -190,18 +190,18 @@ void healpixl_decompose_xy(int64_t finehp,
     }
 }
 
-inline const double xy2ra(double x, double y) {
+const double xy2ra(double x, double y) {
 	double a = atan2(y, x);
 	if (a < 0)
 		a += 2.0 * M_PI;
 	return a;
 }
 
-inline const double z2dec(double z) {
+const double z2dec(double z) {
 	return asin(z);
 }
 
-inline void xyz2radec(double x, double y, double z, double *ra, double *dec) {
+void xyz2radec(double x, double y, double z, double *ra, double *dec) {
     if (ra)
     	*ra = xy2ra(x, y);
     if (dec) {
@@ -212,7 +212,7 @@ inline void xyz2radec(double x, double y, double z, double *ra, double *dec) {
     }
 }
 
-inline void xyzarr2radec(const double* xyz, double *ra, double *dec) {
+void xyzarr2radec(const double* xyz, double *ra, double *dec) {
 	xyz2radec(xyz[0], xyz[1], xyz[2], ra, dec);
 }
 

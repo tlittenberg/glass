@@ -709,7 +709,7 @@ void LISA_tdi_Sangria(double L, double fstar, double T, double ***d, double f0, 
     }
 }
 
-void LISA_detector_time(struct Orbit *orbit, double costh, double phi, double *time, int N,  double *time_sc)
+void LISA_spacecraft_to_barycenter_time(struct Orbit *orbit, double costh, double phi, double *time, double *time_shifted, int N, int flag)
 {
     // sky location of source
     double sinth, cosph, sinph;
@@ -736,10 +736,23 @@ void LISA_detector_time(struct Orbit *orbit, double costh, double phi, double *t
         double kdotr = 0.0;
         for(int i=0; i<3; i++) kdotr += k[i]*r[i];
         
-        // shift time reference to spacecraft 0
-        time_sc[n] = time[n] - kdotr;
+        // time shift
+        switch (flag)
+        {
+            case -1:
+                time_shifted[n] = time[n] - kdotr;
+                break;
+            case +1:
+                time_shifted[n] = time[n] + kdotr;
+                break;
+            default:
+                fprintf(stderr,"ERROR: unsupported value of flag=%i (line %d of file %s)\n",flag,__LINE__,__FILE__);
+                exit(1);
+                break;
+        }
     }
 }
+
 
 static void hplus_and_hcross(double t, double phase, double amp,  double Aplus, double Across, double cos2psi, double sin2psi,  double *hp, double *hc, double *hpf, double *hcf)
 {
@@ -763,7 +776,8 @@ static void LISA_TDI_spline(double *M, double *Mf, int a, int b, int c, double* 
     
     if(freq_spline) /* mbh */
     {
-        amp = spline_interpolation(amp_spline,  tarray[n]);
+        //For TDI we want the overall amplitude scaled out of the waveform as it passes through zero
+        amp = 1.0; //spline_interpolation(amp_spline,  tarray[n]);
         f   = spline_interpolation(freq_spline, tarray[n]);
     }
 

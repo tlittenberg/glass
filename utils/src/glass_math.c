@@ -23,10 +23,15 @@ struct CubicSpline* alloc_cubic_spline(int N)
     spline->N    = N;
     spline->nmin = 0;
     spline->nmax = 1;
-    spline->x    = malloc(spline->N*sizeof(double));
-    spline->y    = malloc(spline->N*sizeof(double));
-    spline->d2y  = malloc(spline->N*sizeof(double));
-    
+    spline->x    = double_vector(spline->N);
+    spline->y    = double_vector(spline->N);
+    spline->d2y  = double_vector(spline->N);
+
+    spline->y0   = double_vector(spline->N);
+    spline->y1   = double_vector(spline->N);
+    spline->y2   = double_vector(spline->N);
+    spline->y3   = double_vector(spline->N);
+
     return spline;
 }
 
@@ -51,9 +56,14 @@ void initialize_cubic_spline(struct CubicSpline *spline, double *x, double *y)
 
 void free_cubic_spline(struct CubicSpline *spline)
 {
-    free(spline->x);
-    free(spline->y);
-    free(spline->d2y);
+    free_double_vector(spline->x);
+    free_double_vector(spline->y);
+    free_double_vector(spline->d2y);
+
+    free_double_vector(spline->y0);
+    free_double_vector(spline->y1);
+    free_double_vector(spline->y2);
+    free_double_vector(spline->y3);
     
     free(spline);
 }
@@ -63,6 +73,7 @@ void spline_coefficients(struct CubicSpline *spline)
     int N = spline->N;
     double *x = spline->x;
     double *y = spline->y;
+    /* replace clever spline with brute force to make implementing deriviatives easier
     double *d2y = spline->d2y;
     
     double *temp = calloc(N,sizeof(double));
@@ -86,38 +97,62 @@ void spline_coefficients(struct CubicSpline *spline)
     for(int i=N-2; i>=0; i--) d2y[i] = d2y[i]*d2y[i+1] + temp[i];
 
     free(temp);
+    */
+    
+    //aliases for structure contents for readability
+    double *y0 = spline->y0;
+    double *y1 = spline->y1;
+    double *y2 = spline->y2;
+    double *y3 = spline->y3;
+
+    //work space (using calloc, everything is initialized to 0)
+    double *dx    = double_vector(N-1);
+    double *alpha = double_vector(N-1);
+    double *l     = double_vector(N);
+    double *z     = double_vector(N);
+    double *mu    = double_vector(N);
+        
+    dx[0] = x[1] - x[0];
+    for(int i=1; i<N-1; i++)
+    {
+        dx[i] = x[i+1] - x[i];
+        alpha[i] = 3.0 * ((y[i+1] - y[i])/dx[i] - (y[i] - y[i-1])/dx[i-1]);
+    }
+    
+    // boundary conditions
+    l[0]=l[N-1]=1.0;
+    
+    for(int i=1; i<N-1; i++)
+    {
+        l[i]  = 2.0*(x[i+1] - x[i-1]) - dx[i-1]*mu[i-1];
+        mu[i] = dx[i]/l[i];
+        z[i]  = (alpha[i] - dx[i-1]*z[i-1])/l[i];
+    }
+        
+    // Initialize the last spline segment
+    y0[N-1] = y[N-1];
+    y1[N-1] = 0.0;
+    y2[N-1] = 0.0;
+    y3[N-1] = 0.0;
+    
+    for(int i=N-2; i>=0; i--)
+    {
+        y0[i] = y[i];
+        y2[i] = z[i] - mu[i]*y2[i+1];
+        y1[i] = (y0[i+1] - y0[i])/dx[i] - dx[i]*(y2[i+1] + 2.0*y2[i])/3.0;
+        y3[i] = (y2[i+1] - y2[i])/(3.0*dx[i]);
+    }
+    
+    free_double_vector(dx);
+    free_double_vector(alpha);
+    free_double_vector(l);
+    free_double_vector(z);
+    free_double_vector(mu);
 }
 
 double spline_interpolation(struct CubicSpline *spline, double x)
 {
-    /* Caching nmin and nmax is not thread safe
-     // only search for which interval contains x if needed
-    if(x<spline->x[spline->nmin] || x > spline->x[spline->nmax] )
-    {
-        spline->nmin = binary_search(spline->x,0,spline->N,x);
-        spline->nmax = spline->nmin + 1;
-    }
-    
-    spline->nmin = binary_search(spline->x,0,spline->N,x);
-    spline->nmax = spline->nmin + 1;
-
-    if(spline->nmin<0 || spline->nmax>=spline->N)
-    {
-        printf("Error in spline interpolation: [nmin,nmax] =  [%i,%i] out of [0,%i]\n",spline->nmin, spline->nmax, spline->N);
-        printf("Error in spline interpolation: x is out of bounds.  %g -> [%g,%g]\n",x,spline->x[0],spline->x[spline->N-1]);
-        abort();
-    }
-
-    double x1 = spline->x[spline->nmin];
-    double x2 = spline->x[spline->nmax];
-    
-    double y1 = spline->y[spline->nmin];
-    double y2 = spline->y[spline->nmax];
-    
-    double d2y1 = spline->d2y[spline->nmin];
-    double d2y2 = spline->d2y[spline->nmax];
-     */
-    
+    /* replace clever spline with brute force to make implementing deriviatives easier
     int nmin = binary_search(spline->x,0,spline->N,x);
     int nmax = nmin + 1;
 
@@ -138,20 +173,27 @@ double spline_interpolation(struct CubicSpline *spline, double x)
     double d = (b*b*b - b)*(dx*dx)/6.0;
     
     return a*y1 + b*y2 + c*d2y1 + d*d2y2;
+    */
+    int n = binary_search(spline->x,0,spline->N,x);
+    double dx = x - spline->x[n];
+    
+    return spline->y0[n] + spline->y1[n]*dx + spline->y2[n]*dx*dx + spline->y3[n]*dx*dx*dx;
 }
 
 double spline_interpolation_deriv(struct CubicSpline *spline, double x)
 {
-    printf("ERROR: spline_interpolation_deriv() is undefined\n");
-    exit(1);
-    return 0.0;
+    int n = binary_search(spline->x,0,spline->N,x);
+    double dx = x - spline->x[n];
+    
+    return spline->y1[n] + 2*spline->y2[n]*dx + 3*spline->y3[n]*dx*dx;
 }
 
 double spline_interpolation_deriv2(struct CubicSpline *spline, double x)
 {
-    printf("ERROR: spline_interpolation_deriv() is undefined\n");
-    exit(1);
-    return 0.0;
+    int n = binary_search(spline->x,0,spline->N,x);
+    double dx = x - spline->x[n];
+    
+    return 2*spline->y2[n] + 6*spline->y3[n]*dx;
 }
 
 double spline_integration(struct CubicSpline *spline, double xi, double xf)

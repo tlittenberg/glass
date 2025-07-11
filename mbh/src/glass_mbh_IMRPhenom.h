@@ -34,6 +34,7 @@ double mbh_IMRPhenomT_angular_frequency_wrapper(double t, double eta, double Mto
 
 void mbh_IMRPhenomD_wrapper(double Mchirp, double Mtotal, double chi1, double chi2, double dL, double tc, double phic, double *f, double *t, double *Phase, double *Amp, int N);
 void mbh_IMRPhenomT_wrapper(double Mchirp, double Mtotal, double chi1, double chi2, double dL, double tc, double phic, double *omega, double *t, double *Phase, double *Amp, int N);
+void mbh_IMRPhenomT_wdm_transform_plan(double *params, double *time, double *omega, struct IMRPhenomT *IMRPT, double *setup);
 
 #endif /* glass_mbh_IMRPhenom_h */
 

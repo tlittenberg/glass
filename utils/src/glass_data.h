@@ -27,14 +27,14 @@
 #define MAXSTRINGSIZE 1024 //!<maximum number of characters for `path+filename` strings
 
 
-//#define WAVELET_DURATION 7680.0
-//#define WAVELET_BANDWIDTH 6.51041666666667e-5
+#define WAVELET_DURATION 7680.0
+#define WAVELET_BANDWIDTH 6.51041666666667e-5
 //#define WAVELET_DURATION 20480.0 //!<duration of wavelet pixels [s]
 //#define WAVELET_BANDWIDTH 2.44140625e-05 //!<bandwidth of wavelet pixels [Hz]
 //#define WAVELET_DURATION 40960.0 //!<duration of wavelet pixels [s]
 //#define WAVELET_BANDWIDTH 1.220703125e-05 //!<bandwidth of wavelet pixels [Hz]
-#define WAVELET_DURATION 81920.0 //!<duration of wavelet pixels [s]
-#define WAVELET_BANDWIDTH 6.103515625e-06 //!<bandwidth of wavelet pixels [Hz]
+//#define WAVELET_DURATION 81920.0 //!<duration of wavelet pixels [s]
+//#define WAVELET_BANDWIDTH 6.103515625e-06 //!<bandwidth of wavelet pixels [Hz]
 
 /*!
  * \brief Analaysis segment and meta data about size of segment, location in full data stream, and LISA observation parameters.

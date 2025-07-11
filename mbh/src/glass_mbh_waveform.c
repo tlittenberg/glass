@@ -17,6 +17,7 @@
 #include <glass_utils.h>
 #include "glass_mbh_IMRPhenom.h"
 #include "glass_mbh_waveform.h"
+#define NSETUP 7 //size of setup array for wdm trasnform
 
 double mbh_final_spin(double *params)
 {
@@ -55,22 +56,24 @@ void mbh_barycenter_waveform(double *params, int N, double *freq, double *time, 
     if(!strcmp("IMRPhenomT",model)) mbh_IMRPhenomT_wrapper(Mchirp, Mtotal, chi1, chi2, dL, tc, phic, freq, time, phase, amp, N);
 }
 
-static void unpack_mbh_tf_data(double *data, double *time, double *omega, int N)
+static void unpack_mbh_tf_data(double *data, double *time, double *omega, double *setup, int N)
 {
     for(int n=0; n<N; n++)
     {
         time[n]  = data[n];
         omega[n] = data[N+n];
     }
+    for(int n=0; n<NSETUP; n++) setup[n] = data[N+n];
 }
 
-static void pack_mbh_tf_data(double *data, double *time, double *omega, int N)
+static void pack_mbh_tf_data(double *data, double *time, double *omega, double *setup, int N)
 {
     for(int n=0; n<N; n++)
     {
         data[n]   = time[n];
         data[N+n] = omega[n];
     }
+    for(int n=0; n<NSETUP; n++) data[N+n] = setup[n];
 }
 
 static double * mbh_time_frequency_grid(double *params, int *N, int *Nc)
@@ -118,8 +121,11 @@ static double * mbh_time_frequency_grid(double *params, int *N, int *Nc)
     
     // start from merger and work backwards
     double t=0.0;
-    double dPhase = 0.5;    //TODO: what is this 0.5
-    double dt_max = 2.0e5;  // maximum time step for TDI extraction TODO: what is this?
+    double dPhase       = 0.5;         // TODO: what is this 0.5
+    double dPhase_fstar = 0.1;         // phase increment when passing through transfer frequency harmonics
+    double omega_star   = CLIGHT/LARM; // angular transfer frequency
+    double dt_max       = 2.0e5;       // maximum time step for TDI extraction TODO: what is this?
+    double dt_min       = 1.0;         // minimum time step for TDI extraction TODO: what is this?
     double dt;
     do
     {
@@ -128,8 +134,12 @@ static double * mbh_time_frequency_grid(double *params, int *N, int *Nc)
         time[Nwork]  = t + tc;
 
         //increment time
-        dt = dPhase/omega[Nwork];
+        if(fabs(remainder(omega[Nwork],omega_star)/omega[Nwork] ) < 5.0e-2) //close enough to transfer frequency to take small steps
+            dt = dPhase_fstar/omega[Nwork];
+        else
+            dt = dPhase/omega[Nwork];
         if(dt > dt_max) dt = dt_max;
+        if(dt < dt_min) dt = dt_min;
         t -= dt;
 
         //increase phase steps as we get into inspiral
@@ -159,8 +169,13 @@ static double * mbh_time_frequency_grid(double *params, int *N, int *Nc)
         time[Nwork]  = t + tc;
         
         //increment time
-        dt = dPhase/omega[Nwork];
-        if(dt > dt_max) dt = dt_max;
+        if(fabs(remainder(omega[Nwork],omega_star)/omega[Nwork] ) < 5.0e-2) //close enough to transfer frequency to take small steps
+            dt = dPhase_fstar/omega[Nwork];
+        else
+            dt = dPhase/omega[Nwork];        if(dt > dt_max) dt = dt_max;
+        if(dt < dt_min) dt = dt_min;
+        if(dt < dt_min) dt = dt_min;
+
         t += dt;
         
         //increase phase steps as we get into ringdown
@@ -169,39 +184,126 @@ static double * mbh_time_frequency_grid(double *params, int *N, int *Nc)
         Nwork++;
     } while (t-dt < tend);
 
+    //get metadata for wdm transforms
+    double *setup = double_vector(NSETUP);
+    mbh_IMRPhenomT_wdm_transform_plan(params, time, omega, IMRPT, setup);
+
     // package results and return
     *N = Nwork;
-    
 
     // double the size of data array to hold both time and omega
-    double *data = double_vector(Nwork*2);
-    pack_mbh_tf_data(data, time, omega, Nwork);
+    double *data = double_vector(Nwork*2+NSETUP);
+    pack_mbh_tf_data(data, time, omega, setup, Nwork);
+    
     
     free_double_vector(work);
     free_double_vector(time);
     free_double_vector(omega);
+    free_double_vector(setup);
     free_IMRPhenomT(IMRPT);
-    
+
     return data;
 }
 
-void mbh_td_waveform(struct Orbit *orbit, double Tobs, double t0, double *params, double *X, double *Y, double *Z)
+static void reconstruct_td_waveform(double Tobs, double t0, double *time_ssb, struct TDI *tdi_amp, struct TDI *tdi_phase, int Nspline)
+{
+    //set up time grid
+    int n;
+    int N = (int)(Tobs/LISA_CADENCE);
+    double *time = double_vector(N);
+    for(n=0; n<N; n++) time[n] = t0 + n*LISA_CADENCE;
+    
+    double Amp,Phase;
+    struct TDI *wave = malloc(sizeof(struct TDI));
+    alloc_tdi(wave,N,3);
+    
+    struct CubicSpline *amp_interpolant   = alloc_cubic_spline(Nspline);
+    struct CubicSpline *phase_interpolant = alloc_cubic_spline(Nspline);
+    
+    initialize_cubic_spline(amp_interpolant,   time_ssb, tdi_amp->X);
+    initialize_cubic_spline(phase_interpolant, time_ssb, tdi_phase->X);
+    
+    for(n=0; n<N; n++)
+    {
+        if(time[n] < time_ssb[Nspline-1])
+        {
+            Amp    = spline_interpolation(amp_interpolant, time[n]);
+            Phase  = spline_interpolation(phase_interpolant, time[n]);
+            
+            wave->X[n] = Amp*cos(Phase);
+        }
+    }
+    
+    initialize_cubic_spline(amp_interpolant,   time_ssb, tdi_amp->Y);
+    initialize_cubic_spline(phase_interpolant, time_ssb, tdi_phase->Y);
+    
+    for(n=0; n<N; n++)
+    {
+        if(time[n] < time_ssb[Nspline-1])
+        {
+            Amp    = spline_interpolation(amp_interpolant, time[n]);
+            Phase  = spline_interpolation(phase_interpolant, time[n]);
+            
+            wave->Y[n] = Amp*cos(Phase);
+        }
+    }
+    
+    initialize_cubic_spline(amp_interpolant,   time_ssb, tdi_amp->Z);
+    initialize_cubic_spline(phase_interpolant, time_ssb, tdi_phase->Z);
+    
+    for(n=0; n<N; n++)
+    {
+        if(time[n] < time_ssb[Nspline-1])
+        {
+            Amp    = spline_interpolation(amp_interpolant, time[n]);
+            Phase  = spline_interpolation(phase_interpolant, time[n]);
+            
+            wave->Z[n] = Amp*cos(Phase);
+        }
+    }
+    
+    
+    FILE *out = fopen("PhenomT_wave.dat","w");
+    for(n=0; n<N; n++)
+        fprintf(out,"%.15e %.15e %.15e %.15e\n", time[n], wave->X[n],wave->Y[n], wave->Z[n]);
+    fclose(out);
+    
+    free_double_vector(time);
+    
+    free_tdi(wave);
+    
+    free_cubic_spline(amp_interpolant);
+    free_cubic_spline(phase_interpolant);
+}
+
+void mbh_td_waveform(struct Orbit *orbit, struct Wavelets *wdm, double Tobs, double t0, double *params, int *wavelet_list, int *Nwavelet, double *X, double *Y, double *Z)
 {
     int n;
     
-    // get time and angular frequency grid
+    // get time and angular frequency grid at S/C 1
     int Nspline;
     int Nmerger;
     double *data = mbh_time_frequency_grid(params, &Nspline, &Nmerger);
      
     // extract time and angular frequency from packed data array
+    double *time_sc  = double_vector(Nspline);
+    double *omega_sc = double_vector(Nspline);
+    double *setup    = double_vector(NSETUP);
+    
+    unpack_mbh_tf_data(data, time_sc, omega_sc, setup, Nspline);
+    
+    // get time and angular frequency at SSB
     double *time_ssb  = double_vector(Nspline);
-    double *freq_ssb  = double_vector(Nspline);
-    double *amp_ssb   = double_vector(Nspline);
+    double *omega_ssb = double_vector(Nspline);
     double *phase_ssb = double_vector(Nspline);
-    unpack_mbh_tf_data(data, time_ssb, freq_ssb, Nspline);
-     
-    mbh_barycenter_waveform(params, Nspline, freq_ssb, time_ssb, phase_ssb, amp_ssb, "IMRPhenomT");
+    double *amp_ssb   = double_vector(Nspline);
+
+    double costh = sin(params[7]); // EclipticLatitude
+    double phi  = params[8];       // EclipticLongitude
+    LISA_spacecraft_to_barycenter_time(orbit, costh, phi, time_sc, time_ssb, Nspline, +1);
+
+    
+    mbh_barycenter_waveform(params, Nspline, omega_ssb, time_ssb, phase_ssb, amp_ssb, "IMRPhenomT");
         
     // phase shift to phic at merger
     double phic = params[4];
@@ -223,19 +325,11 @@ void mbh_td_waveform(struct Orbit *orbit, double Tobs, double t0, double *params
     do
     {
         n++;
-    } while (time_ssb[Nspline-1] - time_ssb[Nspline-n] < 2.*AU/CLIGHT);
+    } while (time_sc[Nspline-n] > time_ssb[Nspline-1]);
     Nspline -= n;
     
-    /*
-     Resample SSB phase to reference spacecraft
-     */
-    double *phase_sc = double_vector(Nspline);
-    double *time_sc  = double_vector(Nspline);
-    
-    // shift times from Barycenter to S/C 1 to get reference phase
-    double costh = sin(params[7]); // EclipticLatitude
-    double phi   = params[8];      // EclipticLongitude
-    LISA_detector_time(orbit, costh, phi, time_ssb, Nspline, time_sc);
+    // get phase sampled on both time grids
+    double *phase_sc  = double_vector(Nspline);
     
     // get signal phase at S/C 1
     for(int i=0; i< Nspline; i++)
@@ -274,90 +368,15 @@ void mbh_td_waveform(struct Orbit *orbit, double Tobs, double t0, double *params
     
     /*
     Interpolate amplitude and phase for instrument response of each TDI channel onto wavelet grid
-    
-    
-    //set up time grid
-    int N = (int)(Tobs/LISA_CADENCE);
-    double *time = double_vector(N);
-    for(n=0; n<N; n++) time[n] = t0 + n*LISA_CADENCE;
-    
-    double Amp,Phase;
-    struct TDI *wave = malloc(sizeof(struct TDI));
-    alloc_tdi(wave,N,3);
-
-    struct CubicSpline *amp_interpolant   = alloc_cubic_spline(Nspline);
-    struct CubicSpline *phase_interpolant = alloc_cubic_spline(Nspline);
-    
-    initialize_cubic_spline(amp_interpolant,   time_ssb, tdi_amp->X);
-    initialize_cubic_spline(phase_interpolant, time_ssb, tdi_phase->X);
-
-    for(n=0; n<N; n++)
-    {
-        if(time[n] < time_ssb[Nspline-1])
-        {
-            Amp    = spline_interpolation(amp_interpolant, time[n]);
-            Phase  = spline_interpolation(phase_interpolant, time[n]);
-            
-            wave->X[n] = Amp*cos(Phase);
-        }
-    }
-    
-    initialize_cubic_spline(amp_interpolant,   time_ssb, tdi_amp->Y);
-    initialize_cubic_spline(phase_interpolant, time_ssb, tdi_phase->Y);
-
-    for(n=0; n<N; n++)
-    {
-        if(time[n] < time_ssb[Nspline-1])
-        {
-            Amp    = spline_interpolation(amp_interpolant, time[n]);
-            Phase  = spline_interpolation(phase_interpolant, time[n]);
-            
-            wave->Y[n] = Amp*cos(Phase);
-        }
-    }
-
-    initialize_cubic_spline(amp_interpolant,   time_ssb, tdi_amp->Z);
-    initialize_cubic_spline(phase_interpolant, time_ssb, tdi_phase->Z);
-
-    for(n=0; n<N; n++)
-    {
-        if(time[n] < time_ssb[Nspline-1])
-        {
-            Amp    = spline_interpolation(amp_interpolant, time[n]);
-            Phase  = spline_interpolation(phase_interpolant, time[n]);
-            
-            wave->Z[n] = Amp*cos(Phase);
-        }
-    }
-     
-     for(n=0; n<N; n++)
-     {
-         X[n] = wave->X[n];
-         Y[n] = wave->Y[n];
-         Z[n] = wave->Z[n];
-     }
-
      */
-    /*
-    out = fopen("PhenomT_wave.dat","w");
-    for(n=0; n<N; n++)
-        fprintf(out,"%.15e %.15e %.15e %.15e\n", time[n], wave->X[n],wave->Y[n], wave->Z[n]);
-    fclose(out);
-     
-     free_double_vector(time);
-     
-     free_tdi(wave);
-     
-     free_cubic_spline(amp_interpolant);
-     free_cubic_spline(phase_interpolant);
-
-     */
+    reconstruct_td_waveform(Tobs, t0, time_ssb, tdi_amp, tdi_phase, Nspline);
     
     // clean your room
     free_double_vector(data);
+    free_double_vector(setup);
     
     free_double_vector(time_ssb);
-    free_double_vector(freq_ssb);
+    free_double_vector(omega_ssb);
     free_double_vector(amp_ssb);
     free_double_vector(phase_ssb);
     
@@ -509,13 +528,12 @@ static double * mbh_frequency_grid(double Tobs, double *params, int *Ngrid)
     
     // unpack params vector
     double Mchirp = exp(params[0]);
-    double Mtotal = exp(params[1]);
     double tc     = params[5];
     
     // pad the start so we have values to interpolate allowing for time delays
     double deltaT = 1.e5; //TODO: what is this 1e5?
-    double tstop  = tc + 1.0e4+deltaT; //TODO: is that 1e4 really doing anything?
-    double tstart = -1.0e4-deltaT; //TODO: what even is the 1e4?
+    double tstop  = tc + 1.0e4;//+deltaT; //TODO: is that 1e4 really doing anything?
+    double tstart = -1.0e4;//-deltaT; //TODO: what even is the 1e4? TODO: what happened to the deltaT?
     double fmin, fmax;
     mbh_frequency_bandwidth(params, tstart, tstop, &fmin, &fmax);
     
@@ -530,7 +548,7 @@ static double * mbh_frequency_grid(double Tobs, double *params, int *Ngrid)
     double fac = deltaT * pow(8.0*M_PI, 8.0/3.0) * 3.0/40.0*pow(Mchirp*TSUN,5.0/3.0);
     
     // get adaptive grid spacing based on chirp rate and time to merger
-    double f,df,t;
+    double f,df;
     work[0] = fmin;
     Nwork = 1;
     do
@@ -545,8 +563,8 @@ static double * mbh_frequency_grid(double Tobs, double *params, int *Ngrid)
          decrease step size near merger needed for
          interpolating the PhenomD phase and time.
          */
-        t = tc - post_newtonian_time(Mchirp, Mtotal, tc, f);
-        if(t < 2.0e6) df/=10; //TODO: what is this 2e6?
+        //t = tc - post_newtonian_time(Mchirp, Mtotal, tc, f); TODO: why did this get removed?
+        //if(t < 2.0e6) df/=10; //TODO: what is this 2e6?
         
         // keep df in range
         if(df < dfmin) df = dfmin;
@@ -580,65 +598,69 @@ static double * mbh_frequency_grid(double Tobs, double *params, int *Ngrid)
     return freq_grid;
 }
 
-void mbh_fd_waveform(struct Orbit *orbit, double Tobs, double t0, double *params, double *X, double *Y, double *Z)
+static struct TimeFrequencyTrack * wdm_time_frequency_pixels(struct Wavelets *wdm, int N, double *time, double *freq)
 {
+    struct TimeFrequencyTrack *track = malloc_time_frequency_track(wdm);
+                                              
+    // alias some pieces of the wdm structure
+    double HBW = wdm->BW/2.0; //half bandwidth of wavelet filter
+    double Tobs = wdm->NT*wdm->NF*wdm->cadence;
     
-    // get frequency grid
-    int Nspline; //number of grid points in frequency
-    double *freq_grid = mbh_frequency_grid(Tobs, params, &Nspline);    
+    // spline for t(f)
+    struct CubicSpline *tf_spline = alloc_cubic_spline(N);
+    initialize_cubic_spline(tf_spline, freq, time);
+        
+    // which frequency layers
+    track->min_layer = (int)floor((freq[0] - HBW)/WAVELET_BANDWIDTH);
+    track->max_layer = (int)floor(freq[N-1]/WAVELET_BANDWIDTH);
+        
+    if(track->min_layer < 1) track->min_layer = 1;
+    if(track->max_layer > wdm->NF-1) track->max_layer = wdm->NF-1;
     
-    //get time, phase, amplitude on the same grid
-    double *time_ssb  = double_vector(Nspline);
-    double *amp_ssb   = double_vector(Nspline);
-    double *phase_ssb = double_vector(Nspline);
-
-    mbh_barycenter_waveform(params, Nspline, freq_grid, time_ssb, phase_ssb, amp_ssb, "IMRPhenomD");
-    
-    /*
-     Get spline interpolant for frequency and amplitude on time grid
-     */
-    struct CubicSpline *amp_ssb_spline   = alloc_cubic_spline(Nspline);
-    struct CubicSpline *freq_ssb_spline  = alloc_cubic_spline(Nspline);
-    
-    initialize_cubic_spline(amp_ssb_spline,time_ssb,amp_ssb);
-    initialize_cubic_spline(freq_ssb_spline,time_ssb,freq_grid);
-    
-    /*
-     get reference phase
-     */
-    // reference is just exp(2 pi i f t)
-    double *phase_ref = double_vector(Nspline);
-    for(int i=0; i<Nspline; i++) phase_ref[i] = PI2 * freq_grid[i] * time_ssb[i];
-
-    /*
-     Get TDI reponse for signal's phase and amplitude on time grid
-     set by the frequency evolution
-     */
-    struct TDI *tdi_phase = malloc(sizeof(struct TDI));
-    struct TDI *tdi_amp = malloc(sizeof(struct TDI));
-    alloc_tdi(tdi_phase,Nspline,3);
-    alloc_tdi(tdi_amp,Nspline,3);
-
-    //extract extrinsic parameters from MBH parameter vector
-    double costh = sin(params[7]);
-    double phi   = params[8];
-    double cosi  = params[10];
-    double psi   = params[9];
-
-    LISA_spline_response(orbit, time_ssb, Nspline, costh, phi, cosi, psi, amp_ssb_spline, freq_ssb_spline, NULL, phase_ref, tdi_amp, tdi_phase);
-
-    // shift phase back while rectifying sign conventions w/ IMRPhenomD
-    for(int i=0; i<Nspline; i++)
+    //
+    for(int layer=track->min_layer; layer<track->max_layer; layer++)
     {
-        tdi_phase->X[i] = phase_ssb[i] - tdi_phase->X[i];
-        tdi_phase->Y[i] = phase_ssb[i] - tdi_phase->Y[i];
-        tdi_phase->Z[i] = phase_ssb[i] - tdi_phase->Z[i];
+        // bandwidth of frequency layer
+        double fmin = layer*WAVELET_BANDWIDTH - HBW;
+        double fmax = layer*WAVELET_BANDWIDTH + HBW;
+        
+        // duration that signal spends in layer
+        double tmin = 0.0;
+        double tmax = 0.0;
+        if(fmin>freq[0] && fmin<freq[N-1]) tmin = spline_interpolation(tf_spline, fmin);
+        if(fmax>freq[0] && fmax<freq[N-1]) tmax = spline_interpolation(tf_spline, fmax);
+        if(tmin<0.0)  tmin = 0.0;
+        if(tmax>Tobs) tmax = Tobs;
+
+        
+        // find number of time pixels in the duration, plus some padding, cast to the nearest 2^n
+        // TODO: is the 2^n just because you wanted to use a radix2 FFT?
+        int n  = (int)(ceil(tmax/WAVELET_DURATION) - floor(tmin/WAVELET_DURATION)) + 2.0*wdm->oversample - 1;
+        int n2 = (int)pow(2,floor(log2(n)));
+                
+        if(n2 < (n-2)) n2*=2; //willing to miss the two end pixels in time //TODO: huh?
+        track->segment_size[layer] = n2;
+
+        // find middle pixel relative to start of segment
+        int i_mid = 0.5*(tmin+tmax)/WAVELET_DURATION; //pixel in the middle of the band
+        if(i_mid%2 != 0)   i_mid--; //needs to be even so as to not mess up the transform //TODO: huh?
+        if(i_mid-n2/2 < 0) i_mid = n2/2; //TODO: huh??
+        track->segment_midpt[layer] = i_mid;
+
     }
     
+    free_cubic_spline(tf_spline);
+    
+    return track;
+    
+}
+
+static void reconstruct_fd_waveform(double Tobs, double *params, double *freq_grid, struct TDI *tdi_amp, struct TDI *tdi_phase, int Nspline)
+{
     /*
      Interpolate amplitude and phase for instrument response of each TDI channel onto frequency grid
-     
-
+     */
+    
     int N = (int)(Tobs/LISA_CADENCE);
     double tc = params[5];    // merger time
     double delta_t = Tobs + LISA_CADENCE - tc;
@@ -706,20 +728,227 @@ void mbh_fd_waveform(struct Orbit *orbit, double Tobs, double t0, double *params
             wave->Z[2*i+1] = Amp * sin(Phase);
         }
     }
+        
+    FILE *out = fopen("PhenomD_wave.dat","w");
+    for(int n=0; n<N/2; n++)
+        fprintf(out,"%.15e %.15e %.15e\n", n/Tobs, wave->X[2*n],wave->X[2*n+1]);
+    fclose(out);
+    
+    free_tdi(wave);
+    
+    free_cubic_spline(amp_interpolant);
+    free_cubic_spline(phase_interpolant);
+    
+}
 
-    for(int i=0; i<N; i++)
-    {
-        X[i] = wave->X[i];
-        Y[i] = wave->Y[i];
-        Z[i] = wave->Z[i];
-    }
-     
-     free_tdi(wave);
-     
-     free_cubic_spline(amp_interpolant);
-     free_cubic_spline(phase_interpolant);
 
+void mbh_fd_waveform(struct Orbit *orbit, struct Wavelets *wdm, double Tobs, double t0, double *params, int *wavelet_list, int *Nwavelet, double *X, double *Y, double *Z)
+{
+    
+    // get frequency grid
+    int Nspline; //number of grid points in frequency
+    double *freq_grid = mbh_frequency_grid(Tobs, params, &Nspline);    
+    
+    //get time, phase, amplitude on the same grid
+    double *time_ssb  = double_vector(Nspline);
+    double *amp_ssb   = double_vector(Nspline);
+    double *phase_ssb = double_vector(Nspline);
+
+    mbh_barycenter_waveform(params, Nspline, freq_grid, time_ssb, phase_ssb, amp_ssb, "IMRPhenomD");
+    
+    /*
+     Get spline interpolant for frequency and amplitude on time grid
      */
+    struct CubicSpline *amp_ssb_spline   = alloc_cubic_spline(Nspline);
+    struct CubicSpline *freq_ssb_spline  = alloc_cubic_spline(Nspline);
+    
+    initialize_cubic_spline(amp_ssb_spline,time_ssb,amp_ssb);
+    initialize_cubic_spline(freq_ssb_spline,time_ssb,freq_grid);
+    
+    /*
+     get reference phase
+     */
+    // reference is just exp(2 pi i f t)
+    double *phase_ref = double_vector(Nspline);
+    for(int i=0; i<Nspline; i++) phase_ref[i] = PI2 * freq_grid[i] * time_ssb[i];
+
+    /*
+     Get TDI reponse for signal's phase and amplitude on time grid
+     set by the frequency evolution
+     */
+    struct TDI *tdi_phase = malloc(sizeof(struct TDI));
+    struct TDI *tdi_amp = malloc(sizeof(struct TDI));
+    alloc_tdi(tdi_phase,Nspline,3);
+    alloc_tdi(tdi_amp,Nspline,3);
+
+    //extract extrinsic parameters from MBH parameter vector
+    double costh = sin(params[7]);
+    double phi   = params[8];
+    double cosi  = params[10];
+    double psi   = params[9];
+
+    LISA_spline_response(orbit, time_ssb, Nspline, costh, phi, cosi, psi, amp_ssb_spline, freq_ssb_spline, NULL, phase_ref, tdi_amp, tdi_phase);
+
+    
+    /* DEBUG
+    FILE *out = fopen("PhenomD_TDI.dat","w");
+    for (int i = 0; i < Nspline; ++i)
+    {
+        fprintf(out,"%.15e %.15e %.15e %.15e %.15e %.15e %.15e %.15e %.15e\n", freq_grid[i], phase_ssb[i], amp_ssb[i], tdi_phase->X[i], tdi_phase->Y[i], tdi_phase->Z[i], tdi_amp->X[i], tdi_amp->Y[i], tdi_amp->Z[i]);
+    }
+    fclose(out);*/
+    
+    // shift phase back while rectifying sign conventions w/ IMRPhenomD
+    for(int i=0; i<Nspline; i++)
+    {
+        tdi_phase->X[i] = phase_ssb[i] - tdi_phase->X[i];
+        tdi_phase->Y[i] = phase_ssb[i] - tdi_phase->Y[i];
+        tdi_phase->Z[i] = phase_ssb[i] - tdi_phase->Z[i];
+    }
+    
+    // dump fourier domain waveform
+    //reconstruct_fd_waveform(Tobs, params, freq_grid, tdi_amp,  tdi_phase, Nspline);
+    
+    // get time-frequency track through wavelet basis tiling of data
+    struct TimeFrequencyTrack *track = wdm_time_frequency_pixels(wdm, Nspline, time_ssb, freq_grid);
+
+    /*
+     Interpolate amplitude and phase for instrument response of each TDI channel onto TF track
+     */
+    double tc = params[5];    // merger time
+    
+    double Amp,AmpSSB,Phase;
+    struct TDI *wave = malloc(sizeof(struct TDI));
+    alloc_tdi(wave,wdm->NT*2,3); // we're going one layer at a time
+    
+
+    struct CubicSpline *amp_tdi_spline_X   = alloc_cubic_spline(Nspline);
+    struct CubicSpline *amp_tdi_spline_Y   = alloc_cubic_spline(Nspline);
+    struct CubicSpline *amp_tdi_spline_Z   = alloc_cubic_spline(Nspline);
+    struct CubicSpline *phase_tdi_spline_X = alloc_cubic_spline(Nspline);
+    struct CubicSpline *phase_tdi_spline_Y = alloc_cubic_spline(Nspline);
+    struct CubicSpline *phase_tdi_spline_Z = alloc_cubic_spline(Nspline);
+
+    initialize_cubic_spline(amp_tdi_spline_X,   freq_grid, tdi_amp->X);
+    initialize_cubic_spline(amp_tdi_spline_Y,   freq_grid, tdi_amp->Y);
+    initialize_cubic_spline(amp_tdi_spline_Z,   freq_grid, tdi_amp->Z);
+    initialize_cubic_spline(phase_tdi_spline_X, freq_grid, tdi_phase->X);
+    initialize_cubic_spline(phase_tdi_spline_Y, freq_grid, tdi_phase->Y);
+    initialize_cubic_spline(phase_tdi_spline_Z, freq_grid, tdi_phase->Z);
+
+    //also need SSB amplitude on the frequency grid (already allocated)
+    initialize_cubic_spline(amp_ssb_spline, freq_grid, amp_ssb);
+
+    
+    int N=0; //number of wavelet pixels
+    int k;   //wavelet pixel index
+    for(int layer=track->min_layer; layer<track->max_layer; layer++)
+    {
+        int Nsegment = track->segment_size[layer];
+        int nmid = track->segment_midpt[layer];
+        double delta_f = 1./(Nsegment*WAVELET_DURATION);
+        double delta_t = Tobs - tc + (nmid - Nsegment/2)*WAVELET_DURATION;
+                
+        wave->X[0] = 0.0;
+        wave->X[1] = 0.0;
+        wave->Y[0] = 0.0;
+        wave->Y[1] = 0.0;
+        wave->Z[0] = 0.0;
+        wave->Z[1] = 0.0;
+
+        for(int i=1; i<Nsegment; i++)
+        {
+            wave->X[2*i]   = 0.0;
+            wave->X[2*i+1] = 0.0;
+            wave->Y[2*i]   = 0.0;
+            wave->Y[2*i+1] = 0.0;
+            wave->Z[2*i]   = 0.0;
+            wave->Z[2*i+1] = 0.0;
+
+            double f = (double)(i - Nsegment/2)*delta_f + layer*WAVELET_BANDWIDTH;
+
+            if(f>freq_grid[0] && f<freq_grid[Nspline-1])
+            {
+                AmpSSB = spline_interpolation(amp_ssb_spline,f);
+                
+                Amp    = spline_interpolation(amp_tdi_spline_X,f)*AmpSSB;
+                Phase  = spline_interpolation(phase_tdi_spline_X,f);
+                Phase  = PI2 * f * delta_t - Phase;
+                
+                wave->X[2*i]   = Amp * cos(Phase);
+                wave->X[2*i+1] = Amp * sin(Phase);
+                
+                Amp    = spline_interpolation(amp_tdi_spline_Y,f)*AmpSSB;
+                Phase  = spline_interpolation(phase_tdi_spline_Y,f);
+                Phase  = PI2 * f * delta_t - Phase;
+                
+                wave->Y[2*i]   = Amp * cos(Phase);
+                wave->Y[2*i+1] = Amp * sin(Phase);
+
+                Amp    = spline_interpolation(amp_tdi_spline_Z,f)*AmpSSB;
+                Phase  = spline_interpolation(phase_tdi_spline_Z,f);
+                Phase  = PI2 * f * delta_t - Phase;
+                
+                wave->Z[2*i]   = Amp * cos(Phase);
+                wave->Z[2*i+1] = Amp * sin(Phase);
+
+            }
+
+        }
+        
+        //wavelet transfrom the piece of the track in this layer
+        wavelet_transform_segment(wdm, Nsegment, layer, wave->X);
+        wavelet_transform_segment(wdm, Nsegment, layer, wave->Y);
+        wavelet_transform_segment(wdm, Nsegment, layer, wave->Z);
+        
+        //map to full tf grid
+        for(int n=0; n<Nsegment; n++)
+        {
+            int i = n + nmid - Nsegment/2;
+            if(i>=0 && i<wdm->NT)
+            {
+                wavelet_pixel_to_index(wdm,i,layer,&k);
+                
+                //check that the pixel is in range
+                if(k>=wdm->kmin && k<wdm->kmax)
+                {
+                    wavelet_list[N] = k-wdm->kmin;
+                
+                    //insert non-zero wavelet pixels into correct indicies
+                    X[wavelet_list[N]] = wave->X[n];
+                    Y[wavelet_list[N]] = wave->Y[n];
+                    Z[wavelet_list[N]] = wave->Z[n];
+                    
+                    N++;
+                }
+            }
+        }
+        
+    }//end loop over layers
+    
+    
+    *Nwavelet = N;
+        
+    /* DEBUG
+    FILE *fptr=fopen("BinaryFast.dat","w");
+    for(int j=0; j<wdm->NF; j++)
+    {
+        for(int i=0; i<wdm->NT; i++)
+        {
+            int k;
+            wavelet_pixel_to_index(wdm, i, j, &k);
+            fprintf(fptr,"%.12g %.12g ",i*WAVELET_DURATION,j*WAVELET_BANDWIDTH + WAVELET_BANDWIDTH/2);
+            fprintf(fptr,"%.12g ",X[k]);
+            fprintf(fptr,"%.12g ",Y[k]);
+            fprintf(fptr,"%.12g ",Z[k]);
+            fprintf(fptr,"\n");
+        }
+        fprintf(fptr,"\n");
+    }
+    fclose(fptr);
+    */
+
+                     
     
     free_double_vector(freq_grid);
     free_double_vector(time_ssb);
@@ -730,6 +959,14 @@ void mbh_fd_waveform(struct Orbit *orbit, double Tobs, double t0, double *params
     free_cubic_spline(amp_ssb_spline);
     free_cubic_spline(freq_ssb_spline);
     
+    free_cubic_spline(amp_tdi_spline_X);
+    free_cubic_spline(amp_tdi_spline_Y);
+    free_cubic_spline(amp_tdi_spline_Z);
+    free_cubic_spline(phase_tdi_spline_X);
+    free_cubic_spline(phase_tdi_spline_Y);
+    free_cubic_spline(phase_tdi_spline_Z);
+
+    free_tdi(wave);
     free_tdi(tdi_phase);
     free_tdi(tdi_amp);
 }
